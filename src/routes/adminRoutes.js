@@ -684,5 +684,55 @@ router.get('/exports/coupons', adminController.exportCoupons); // 👈 صادر�
  */
 router.get('/exports/reviews', adminController.exportReviews); // 👈 صادرات نظرات
 
+/**
+ * @swagger
+ * /api/admin/exports/inventory:
+ *   get:
+ *     summary: Export all products stock data (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [json, csv, excel]
+ *         required: true
+ *         description: Desired export format
+ *         example: csv
+ *       - in: query
+ *         name: categoryId
+ *         schema:
+ *           type: integer
+ *         description: Filter inventory by category ID
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Successfully exported inventory data. Returns file download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *             example: Returns JSON data
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *             example: Returns CSV data
+ *           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+ *             schema:
+ *               type: string
+ *             example: Returns Excel (xlsx) data
+ *       400:
+ *         description: Invalid or missing format
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role)
+ *       500:
+ *         description: Server error
+ */
+router.get('/exports/inventory', adminController.exportInventory); // 👈 صادرات موجودی
 
 module.exports = router;

@@ -1259,3 +1259,108 @@ exports.exportReviews = async (req, res) => {
         }
     }
 };
+
+//تابع برای گزارش گیری موجودی محصولات
+exports.exportInventory = async (req, res) => {
+    const { format, categoryId } = req.query; // 👈 categoryId را اضافه کنید
+    const allowedFormats = ['json', 'csv', 'excel'];
+
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: json, csv, excel.' });
+    }
+
+    const filenameBase = `inventory_export_${Date.now()}`;
+    res.status(200);
+
+    const whereClause = {}; // 👈 whereClause را تعریف کنید
+    if (categoryId) { // 👈 اگر categoryId وجود داشت، فیلتر کنید
+        whereClause.category_id = categoryId;
+    }
+
+    try {
+        const inventoryData = await db.Product.findAll({
+            where: whereClause, // 👈 whereClause را به کوئری اضافه کنید
+            attributes: ['id', 'name', 'stock_quantity', 'sold_count', 'createdAt', 'updatedAt'],
+            include: [{
+                model: db.Category,
+                as: 'category',
+                attributes: ['name']
+            }],
+            order: [['name', 'ASC']]
+        });
+
+        const exportedData = inventoryData.map(prod => ({
+            id: prod.id,
+            name: prod.name,
+            stock_quantity: prod.stock_quantity,
+            sold_count: prod.sold_count,
+            category_name: prod.category ? prod.category.name : 'N/A',
+            createdAt: prod.createdAt.toISOString(),
+            updatedAt: prod.updatedAt.toISOString()
+        }));
+
+        switch (format.toLowerCase()) {
+            case 'json':
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.json`);
+                res.send(JSON.stringify(exportedData, null, 2));
+                break;
+
+            case 'csv':
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.csv`);
+
+                const csvStringifier = createCsvStringifier({
+                    header: [
+                        { id: 'id', title: 'Product ID' },
+                        { id: 'name', title: 'Product Name' },
+                        { id: 'stock_quantity', title: 'Stock Quantity' },
+                        { id: 'sold_count', title: 'Sold Count' },
+                        { id: 'category_name', title: 'Category' },
+                        { id: 'createdAt', title: 'Created At' },
+                        { id: 'updatedAt', title: 'Updated At' }
+                    ]
+                });
+
+                res.write(csvStringifier.getHeaderString());
+                exportedData.forEach(row => {
+                    res.write(csvStringifier.stringifyRecords([row]));
+                });
+                res.end();
+                logger.info(`CSV export completed for inventory.`);
+                break;
+
+            case 'excel':
+                res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.xlsx`);
+
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet('Inventory');
+
+                worksheet.columns = [
+                    { header: 'Product ID', key: 'id', width: 10 },
+                    { header: 'Product Name', key: 'name', width: 30 },
+                    { header: 'Stock Quantity', key: 'stock_quantity', width: 15 },
+                    { header: 'Sold Count', key: 'sold_count', width: 15 },
+                    { header: 'Category', key: 'category_name', width: 20 },
+                    { header: 'Created At', key: 'createdAt', width: 25 },
+                    { header: 'Updated At', key: 'updatedAt', width: 25 }
+                ];
+
+                worksheet.addRows(exportedData);
+                await workbook.xlsx.write(res);
+                logger.info(`Excel export completed for inventory.`);
+                break;
+
+            default:
+                return res.status(400).json({ message: 'Unsupported format.' });
+        }
+    } catch (error) {
+        logger.error(`Error exporting inventory: ${error.message}`, { stack: error.stack });
+        if (!res.headersSent) {
+            res.status(500).json({ message: 'Server error during export', error: error.message });
+        } else {
+            res.end();
+        }
+    }
+};

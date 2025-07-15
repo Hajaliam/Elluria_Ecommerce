@@ -1039,3 +1039,31 @@
 2025-07-15 09:51:30 INFO: HTTP GET /api/admin/exports/reviews?format=excel [32m200[39m 88ms
 2025-07-15 09:51:34 INFO: HTTP GET /api/admin/exports/reviews?format=csv [32m200[39m 6ms
 2025-07-15 09:51:34 INFO: CSV export completed for 3 reviews.
+2025-07-15 09:57:41 INFO: Server is running on port 3000
+2025-07-15 09:57:41 INFO: Environment: development
+2025-07-15 09:57:41 INFO: Database User: postgres
+2025-07-15 09:58:24 INFO: HTTP GET /api/admin/exports/inventory?format=json [32m200[39m 172ms
+2025-07-15 09:59:21 INFO: HTTP GET /api/admin/exports/inventory?format=csv [32m200[39m 65ms
+2025-07-15 09:59:21 INFO: CSV export completed for inventory.
+2025-07-15 09:59:26 INFO: HTTP GET /api-docs/ [36m304[39m 3ms
+2025-07-15 09:59:26 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-07-15 09:59:26 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 5ms
+2025-07-15 09:59:26 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 2ms
+2025-07-15 09:59:26 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-15 09:59:26 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 4ms
+2025-07-15 10:03:53 INFO: Server is running on port 3000
+2025-07-15 10:03:53 INFO: Environment: development
+2025-07-15 10:03:53 INFO: Database User: postgres
+2025-07-15 10:03:58 INFO: HTTP GET /api/admin/exports/inventory?format=csv [32m200[39m 292ms
+2025-07-15 10:03:58 INFO: CSV export completed for inventory.
+2025-07-15 10:04:10 INFO: HTTP GET /api/admin/exports/inventory?format=json [32m200[39m 65ms
+2025-07-15 10:04:51 INFO: HTTP GET /api-docs/ [36m304[39m 4ms
+2025-07-15 10:04:51 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-15 10:04:51 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 7ms
+2025-07-15 10:04:51 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 4ms
+2025-07-15 10:04:51 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 9ms
+2025-07-15 10:04:51 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-15 10:05:13 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=1 [32m200[39m 70ms
+2025-07-15 10:05:21 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=2 [32m200[39m 6ms
+2025-07-15 10:05:28 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=3 [32m200[39m 5ms
+2025-07-15 10:05:36 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=4 [32m200[39m 6ms
