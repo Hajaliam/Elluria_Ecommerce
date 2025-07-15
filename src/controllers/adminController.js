@@ -9,12 +9,20 @@ const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs/promises');
+const { parse } = require('csv-parse'); //  (برای واردات CSV)
+const multer = require('multer');
 const logger = require('../config/logger');
 const moment = require('moment');
+const { sanitizeString } = require('../utils/sanitizer');
 // روت تست ادمین
 exports.adminDashboard = (req, res) => {
     res.status(200).json({ message: 'Welcome to the Admin Dashboard, ' + req.user.username + '!' });
 };
+
+const upload = multer({
+    dest: 'temp/', // 👈 فایل‌های آپلودی موقتاً در پوشه temp ذخیره می‌شوند
+    limits: { fileSize: 1024 * 1024 * 10 } // حداکثر حجم فایل 10 مگابایت
+});
 
 // تابع برای دریافت همه کاربران (فقط ادمین)
 exports.getAllUsers = async (req, res) => {
@@ -1364,3 +1372,351 @@ exports.exportInventory = async (req, res) => {
         }
     }
 };
+
+
+/////توابع ایمپورتی
+
+//تابع برای ایمپورت دسته بندی ها
+exports.importCategories = async (req, res) => {
+    const file = req.file; // فایل آپلود شده توسط Multer
+    const { format } = req.body; // فرمت فایل (csv, excel)
+    const allowedFormats = ['csv', 'excel'];
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        // حذف فایل موقت اگر فرمت نامعتبر بود
+        await fs.unlink(file.path);
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+    }
+
+    const t = await db.sequelize.transaction(); // شروع یک تراکنش برای واردات
+
+    try {
+        let records = [];
+
+        if (format.toLowerCase() === 'csv') {
+            // خواندن و parse کردن فایل CSV
+            const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+            records = await new Promise((resolve, reject) => {
+                parse(fileContent, {
+                    columns: true, // فرض می‌کنیم ردیف اول هدر است
+                    skip_empty_lines: true
+                }, (err, records) => {
+                    if (err) reject(err);
+                    resolve(records);
+                });
+            });
+        } else if (format.toLowerCase() === 'excel') {
+            // خواندن و parse کردن فایل Excel
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(file.path);
+            const worksheet = workbook.getWorksheet(1); // گرفتن اولین ورک‌شیت
+
+            worksheet.eachRow((row, rowNumber) => {
+                if (rowNumber === 1) return; // ردیف هدر را رد می‌کنیم
+                const rowData = {
+                    id: row.getCell(1).value,
+                    name: row.getCell(2).value,
+                    description: row.getCell(3).value,
+                };
+                records.push(rowData);
+            });
+        }
+
+        let importedCount = 0;
+        let updatedCount = 0;
+        const errors = [];
+
+        for (const record of records) {
+            // 👈 پاکسازی ورودی‌ها برای جلوگیری از XSS
+            const sanitizedName = sanitizeString(record.name);
+            const sanitizedDescription = sanitizeString(record.description);
+
+            try {
+                // بررسی وجود دسته‌بندی بر اساس نام
+                const [category, created] = await db.Category.findOrCreate({
+                    where: { name: sanitizedName },
+                    defaults: { description: sanitizedDescription },
+                    transaction: t
+                });
+
+                if (created) {
+                    importedCount++;
+                } else {
+                    // اگر موجود بود، به‌روزرسانی کن
+                    category.description = sanitizedDescription;
+                    await category.save({ transaction: t });
+                    updatedCount++;
+                }
+            } catch (recordError) {
+                errors.push({ record: record, error: recordError.message });
+                logger.error(`Error importing category record: ${recordError.message}`, { record: record });
+            }
+        }
+
+        await t.commit(); // انجام تراکنش
+        res.status(200).json({
+            message: 'Categories imported successfully!',
+            importedCount: importedCount,
+            updatedCount: updatedCount,
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        await t.rollback(); // برگرداندن تراکنش در صورت خطا
+        logger.error(`Error importing categories: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Server error during import', error: error.message });
+    } finally {
+        // حذف فایل موقت آپلود شده در نهایت
+        if (file) {
+            try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+        }
+    }
+};
+
+//  تابع برای واردات محصولات
+exports.importProducts = async (req, res) => {
+    const file = req.file;
+    const { format } = req.body;
+    const allowedFormats = ['csv', 'excel'];
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        await fs.unlink(file.path);
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+    }
+
+    const t = await db.sequelize.transaction();
+
+    try {
+        let records = [];
+
+        if (format.toLowerCase() === 'csv') {
+            const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+            records = await new Promise((resolve, reject) => {
+                parse(fileContent, { columns: true, skip_empty_lines: true }, (err, records) => {
+                    if (err) reject(err);
+                    resolve(records);
+                });
+            });
+        } else if (format.toLowerCase() === 'excel') {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(file.path);
+            const worksheet = workbook.getWorksheet(1);
+
+            worksheet.eachRow((row, rowNumber) => {
+                if (rowNumber === 1) return; // Skip header row
+                const rowData = {
+                    name: row.getCell(1).value,
+                    description: row.getCell(2).value,
+                    price: row.getCell(3).value,
+                    stock_quantity: row.getCell(4).value,
+                    category_name: row.getCell(5).value, // فرض می‌کنیم نام دسته‌بندی است
+                    slug: row.getCell(6).value,
+                };
+                records.push(rowData);
+            });
+        }
+
+        let importedCount = 0;
+        let updatedCount = 0;
+        const errors = [];
+
+        for (const record of records) {
+            const sanitizedName = sanitizeString(record.name);
+            const sanitizedDescription = sanitizeString(record.description);
+            const sanitizedSlug = sanitizeString(record.slug);
+
+            try {
+                // یافتن ID دسته‌بندی از روی نام آن
+                const category = await db.Category.findOne({
+                    where: { name: record.category_name },
+                    attributes: ['id'],
+                    transaction: t
+                });
+
+                if (!category) {
+                    errors.push({ record: record, error: `Category '${record.category_name}' not found.` });
+                    continue; // اگر دسته‌بندی پیدا نشد، این رکورد را رد کن
+                }
+
+                // استفاده از findOrCreate برای جلوگیری از تکرار
+                const [product, created] = await db.Product.findOrCreate({
+                    where: { slug: sanitizedSlug },
+                    defaults: {
+                        name: sanitizedName,
+                        description: sanitizedDescription,
+                        price: record.price,
+                        stock_quantity: record.stock_quantity,
+                        category_id: category.id,
+                        slug: sanitizedSlug
+                    },
+                    transaction: t
+                });
+
+                if (created) {
+                    importedCount++;
+                } else {
+                    // اگر محصول موجود بود، به‌روزرسانی کن
+                    product.name = sanitizedName;
+                    product.description = sanitizedDescription;
+                    product.price = record.price;
+                    product.stock_quantity = record.stock_quantity;
+                    product.category_id = category.id;
+                    await product.save({ transaction: t });
+                    updatedCount++;
+                }
+            } catch (recordError) {
+                errors.push({ record: record, error: recordError.message });
+                logger.error(`Error importing product record: ${recordError.message}`, { record: record });
+            }
+        }
+
+        await t.commit();
+        res.status(200).json({
+            message: 'Products imported successfully!',
+            importedCount: importedCount,
+            updatedCount: updatedCount,
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        await t.rollback();
+        logger.error(`Error importing products: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Server error during import', error: error.message });
+    } finally {
+        if (file) {
+            try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+        }
+    }
+};
+
+//تابغ برای واردات کاربران
+exports.importUsers = async (req, res) => {
+    const file = req.file;
+    const { format } = req.body;
+    const allowedFormats = ['csv', 'excel'];
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        await fs.unlink(file.path);
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+    }
+
+    const t = await db.sequelize.transaction();
+
+    try {
+        let records = [];
+
+        if (format.toLowerCase() === 'csv') {
+            const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+            records = await new Promise((resolve, reject) => {
+                parse(fileContent, { columns: true, skip_empty_lines: true }, (err, records) => {
+                    if (err) reject(err);
+                    resolve(records);
+                });
+            });
+        } else if (format.toLowerCase() === 'excel') {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(file.path);
+            const worksheet = workbook.getWorksheet(1);
+
+            worksheet.eachRow((row, rowNumber) => {
+                if (rowNumber === 1) return; // Skip header row
+                const rowData = {
+                    username: row.getCell(1).value,
+                    email: row.getCell(2).value,
+                    password: row.getCell(3).value,
+                    first_name: row.getCell(4).value,
+                    last_name: row.getCell(5).value,
+                    phone_number: row.getCell(6).value,
+                    role_name: row.getCell(7).value,
+                };
+                records.push(rowData);
+            });
+        }
+
+        let importedCount = 0;
+        let updatedCount = 0;
+        const errors = [];
+
+        const customerRole = await db.Role.findOne({ where: { name: 'customer' }, transaction: t });
+        if (!customerRole) {
+            await t.rollback();
+            return res.status(500).json({ message: 'Customer role not found. Cannot import users.' });
+        }
+
+        for (const record of records) {
+            const sanitizedUsername = sanitizeString(record.username);
+            const sanitizedEmail = sanitizeString(record.email);
+            const sanitizedFirstName = sanitizeString(record.first_name);
+            const sanitizedLastName = sanitizeString(record.last_name);
+            const sanitizedPhoneNumber = sanitizeString(record.phone_number);
+            const sanitizedRoleName = record.role_name ? sanitizeString(record.role_name) : 'customer';
+
+            try {
+                const role = await db.Role.findOne({
+                    where: { name: sanitizedRoleName },
+                    transaction: t
+                });
+                const roleId = role ? role.id : customerRole.id; // اگر نقش پیدا نشد، نقش پیش‌فرض 'customer'
+
+                // هش کردن پسورد
+                const hashedPassword = await bcrypt.hash(record.password, 10);
+
+                // استفاده از findOrCreate برای جلوگیری از تکرار بر اساس ایمیل یا نام کاربری
+                const [user, created] = await db.User.findOrCreate({
+                    where: { [db.Sequelize.Op.or]: [{ username: sanitizedUsername }, { email: sanitizedEmail }] },
+                    defaults: {
+                        username: sanitizedUsername,
+                        email: sanitizedEmail,
+                        password: hashedPassword,
+                        first_name: sanitizedFirstName,
+                        last_name: sanitizedLastName,
+                        phone_number: sanitizedPhoneNumber,
+                        role_id: roleId
+                    },
+                    transaction: t
+                });
+
+                if (created) {
+                    importedCount++;
+                } else {
+                    // اگر کاربر موجود بود، به‌روزرسانی کن
+                    user.first_name = sanitizedFirstName;
+                    user.last_name = sanitizedLastName;
+                    user.phone_number = sanitizedPhoneNumber;
+                    user.role_id = roleId;
+                    await user.save({ transaction: t });
+                    updatedCount++;
+                }
+            } catch (recordError) {
+                errors.push({ record: record, error: recordError.message });
+                logger.error(`Error importing user record: ${recordError.message}`, { record: record });
+            }
+        }
+
+        await t.commit();
+        res.status(200).json({
+            message: 'Users imported successfully!',
+            importedCount: importedCount,
+            updatedCount: updatedCount,
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        await t.rollback();
+        logger.error(`Error importing users: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Server error during import', error: error.message });
+    } finally {
+        if (file) {
+            try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+        }
+    }
+};
+
+// Multer middleware برای استفاده در روت‌ها (برای واردات)
+exports.uploadImport = upload;

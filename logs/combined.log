@@ -1067,3 +1067,44 @@
 2025-07-15 10:05:21 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=2 [32m200[39m 6ms
 2025-07-15 10:05:28 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=3 [32m200[39m 5ms
 2025-07-15 10:05:36 INFO: HTTP GET /api/admin/exports/inventory?format=json&categoryId=4 [32m200[39m 6ms
+2025-07-15 10:17:17 INFO: Server is running on port 3000
+2025-07-15 10:17:17 INFO: Environment: development
+2025-07-15 10:17:17 INFO: Database User: postgres
+2025-07-15 10:19:44 ERROR: Error importing categories: sanitizeString is not defined
+2025-07-15 10:19:44 INFO: HTTP POST /api/admin/imports/categories [31m500[39m 296ms
+2025-07-15 10:22:16 INFO: Server is running on port 3000
+2025-07-15 10:22:16 INFO: Environment: development
+2025-07-15 10:22:16 INFO: Database User: postgres
+2025-07-15 10:22:20 INFO: HTTP POST /api/admin/imports/categories [32m200[39m 231ms
+2025-07-15 10:25:49 ERROR: Error importing categories: Invalid Record Length: columns length is 2, got 1 on line 2
+2025-07-15 10:25:49 INFO: HTTP POST /api/admin/imports/categories [31m500[39m 78ms
+2025-07-15 10:26:15 INFO: HTTP POST /api/admin/exports/categories [33m404[39m 62ms
+2025-07-15 10:26:19 INFO: HTTP GET /api/admin/exports/categories [33m400[39m 3ms
+2025-07-15 10:26:38 INFO: Excel export completed for 5 categories.
+2025-07-15 10:26:38 INFO: HTTP GET /api/admin/exports/categories?format=excel [32m200[39m 123ms
+2025-07-15 10:29:01 INFO: HTTP POST /api/admin/import/categories [33m404[39m 61ms
+2025-07-15 10:29:11 ERROR: Error importing categories: Invalid Opening Quote: a quote is found on field 0 at line 1, value is "PK\u0003\u0004\u0014\u0000\u0006\u0000\b\u0000\u0000\u0000!\u0000b�h^\u0001\u0000\u0000�\u0004\u0000\u0000\u0013\u0000\b\u0002[Content_Types].xml �\u0004\u0002(�\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���N�0\u0010E�H�C�-Jܲ@\b5��\u0012*Q>�ēƪc[�ii����\u0010B�\u0015j7�\u0012��{2��h�nm���ƻR\f����U^\u001b7/���%�\u0017\u0019�rZY�\u0014\u001b@1\u0019__�f�\u0000�q��R4D�AJ�\u001ah\u0015\u0016>����V\u0011�ƹ\f�Z�9����NV�\u00118ʩ�\u0010��\u0013�ji){^��-I\u0004�"
+2025-07-15 10:29:11 INFO: HTTP POST /api/admin/imports/categories [31m500[39m 67ms
+2025-07-15 10:29:51 ERROR: Error importing categories: Invalid Record Length: columns length is 2, got 1 on line 2
+2025-07-15 10:29:51 INFO: HTTP POST /api/admin/imports/categories [31m500[39m 64ms
+2025-07-15 10:31:03 INFO: HTTP POST /api/admin/imports/categories [32m200[39m 138ms
+2025-07-15 10:33:51 INFO: Server is running on port 3000
+2025-07-15 10:33:51 INFO: Environment: development
+2025-07-15 10:33:51 INFO: Database User: postgres
+2025-07-15 10:36:19 INFO: HTTP POST /api/admin/imports/products [32m200[39m 229ms
+2025-07-15 10:42:34 INFO: Server is running on port 3000
+2025-07-15 10:42:34 INFO: Environment: development
+2025-07-15 10:42:34 INFO: Database User: postgres
+2025-07-15 10:43:58 ERROR: Error importing user record: Assignment to constant variable.
+2025-07-15 10:43:58 ERROR: Error importing user record: Assignment to constant variable.
+2025-07-15 10:43:58 INFO: HTTP POST /api/admin/imports/users [32m200[39m 368ms
+2025-07-15 10:45:48 INFO: Server is running on port 3000
+2025-07-15 10:45:48 INFO: Environment: development
+2025-07-15 10:45:48 INFO: Database User: postgres
+2025-07-15 10:45:56 INFO: HTTP POST /api/admin/imports/users [32m200[39m 3801ms
+2025-07-15 10:46:46 INFO: HTTP GET /api-docs/ [36m304[39m 3ms
+2025-07-15 10:46:46 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-07-15 10:46:46 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 3ms
+2025-07-15 10:46:46 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-15 10:46:46 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 4ms
+2025-07-15 10:46:46 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms

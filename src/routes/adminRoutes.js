@@ -735,4 +735,193 @@ router.get('/exports/reviews', adminController.exportReviews); // 👈 صادر�
  */
 router.get('/exports/inventory', adminController.exportInventory); // 👈 صادرات موجودی
 
+/**
+ * @swagger
+ * /api/admin/imports/categories:
+ *   post:
+ *     summary: Import categories from CSV or Excel file (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *               - format
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file containing categories data
+ *               format:
+ *                 type: string
+ *                 enum: [csv, excel]
+ *                 description: Format of the uploaded file
+ *                 example: csv
+ *     responses:
+ *       200:
+ *         description: Categories imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 importedCount:
+ *                   type: integer
+ *                 updatedCount:
+ *                   type: integer
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       record:
+ *                         type: object
+ *                       error:
+ *                         type: string
+ *       400:
+ *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       500:
+ *         description: Server error
+ */
+router.post('/imports/categories', adminController.uploadImport.single('file'), adminController.importCategories);
+
+/**
+ * @swagger
+ * /api/admin/imports/products:
+ *   post:
+ *     summary: Import products from CSV or Excel file (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *               - format
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file containing products data
+ *               format:
+ *                 type: string
+ *                 enum: [csv, excel]
+ *                 description: Format of the uploaded file
+ *                 example: csv
+ *     responses:
+ *       200:
+ *         description: Products imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 importedCount:
+ *                   type: integer
+ *                 updatedCount:
+ *                   type: integer
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       record:
+ *                         type: object
+ *                       error:
+ *                         type: string
+ *       400:
+ *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       500:
+ *         description: Server error
+ */
+router.post('/imports/products', adminController.uploadImport.single('file'), adminController.importProducts);
+
+/**
+ * @swagger
+ * /api/admin/imports/users:
+ *   post:
+ *     summary: Import users from CSV or Excel file (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *               - format
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file containing users data
+ *               format:
+ *                 type: string
+ *                 enum: [csv, excel]
+ *                 description: Format of the uploaded file
+ *                 example: csv
+ *     responses:
+ *       200:
+ *         description: Users imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 importedCount:
+ *                   type: integer
+ *                 updatedCount:
+ *                   type: integer
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       record:
+ *                         type: object
+ *                       error:
+ *                         type: string
+ *       400:
+ *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       500:
+ *         description: Server error
+ */
+router.post('/imports/users', adminController.uploadImport.single('file'), adminController.importUsers);
+
 module.exports = router;
