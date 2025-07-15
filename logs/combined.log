@@ -1,0 +1,974 @@
+2025-07-12 19:51:56 INFO: Server is running on port 3000
+2025-07-12 19:51:56 INFO: Environment: development
+2025-07-12 19:51:56 INFO: Database User: postgres
+2025-07-12 19:53:52 ERROR: HTTP Error POST /users/login 200 invalid csrf token
+2025-07-12 19:53:52 ERROR: Unhandled error: invalid csrf token
+2025-07-12 19:53:52 INFO: HTTP POST /users/login [33m403[39m 12ms
+2025-07-12 19:55:50 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-12 19:56:51 INFO: HTTP POST /api/users/login [32m200[39m 581ms
+2025-07-12 19:58:02 INFO: HTTP GET /api/products [32m200[39m 110ms
+2025-07-12 19:59:02 INFO: HTTP POST /api/reviews [32m201[39m 98ms
+2025-07-12 20:00:01 INFO: HTTP POST /api/reviews [33m409[39m 172ms
+2025-07-12 20:00:36 INFO: HTTP GET /api/reviews/product/1%20 [32m200[39m 65ms
+2025-07-12 20:00:41 INFO: HTTP GET /api/reviews/product/1 [32m200[39m 5ms
+2025-07-12 20:00:45 INFO: HTTP GET /api/reviews/product/5 [32m200[39m 5ms
+2025-07-12 20:01:44 INFO: HTTP PUT /api/reviews/1%20 [32m200[39m 75ms
+2025-07-12 20:01:59 INFO: HTTP DELETE /api/reviews/1%20 [32m200[39m 61ms
+2025-07-12 20:02:11 INFO: HTTP GET /api/reviews/product/5 [32m200[39m 61ms
+2025-07-12 20:10:23 INFO: Server is running on port 3000
+2025-07-12 20:10:23 INFO: Environment: development
+2025-07-12 20:10:23 INFO: Database User: postgres
+2025-07-12 20:13:08 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-12 20:13:08 ERROR: Unhandled error: invalid csrf token
+2025-07-12 20:13:08 INFO: HTTP POST /api/users/register [33m403[39m 10ms
+2025-07-12 20:14:02 INFO: HTTP POST /api/users/register [32m201[39m 311ms
+2025-07-12 20:18:18 INFO: Server is running on port 3000
+2025-07-12 20:18:18 INFO: Environment: development
+2025-07-12 20:18:18 INFO: Database User: postgres
+2025-07-12 20:18:40 INFO: A user connected via WebSocket: 0ePI_6cVWk56EJ0eAAAB
+2025-07-12 20:19:36 INFO: Received advice message from 1: Hello AI, I'm looking for a smartphone
+2025-07-12 20:19:37 ERROR: Error processing or saving advice message/response: notNull Violation: OnlineShoppingAdvice.user_id cannot be null
+2025-07-12 20:33:42 INFO: Server is running on port 3000
+2025-07-12 20:33:42 INFO: Environment: development
+2025-07-12 20:33:42 INFO: Database User: postgres
+2025-07-12 20:33:43 INFO: A user connected via WebSocket: AOC3MXXRiqjyWW22AAAB
+2025-07-12 20:33:50 INFO: User disconnected from WebSocket: AOC3MXXRiqjyWW22AAAB
+2025-07-12 20:33:50 INFO: A user connected via WebSocket: 7WZ-uoKHEhwmAY-JAAAD
+2025-07-12 20:34:21 INFO: Received advice message from User ID: 1: Hi. I want to buy a smartphone
+2025-07-12 20:34:21 INFO: User message saved: ID 1
+2025-07-12 20:34:21 INFO: AI response saved: ID 2
+2025-07-13 01:09:33 INFO: Server is running on port 3000
+2025-07-13 01:09:33 INFO: Environment: development
+2025-07-13 01:09:33 INFO: Database User: postgres
+2025-07-13 01:12:57 INFO: Server is running on port 3000
+2025-07-13 01:12:57 INFO: Environment: development
+2025-07-13 01:12:57 INFO: Database User: postgres
+2025-07-13 01:14:03 INFO: Server is running on port 3000
+2025-07-13 01:14:03 INFO: Environment: development
+2025-07-13 01:14:03 INFO: Database User: postgres
+2025-07-13 01:14:36 INFO: HTTP GET /api-docs [36m301[39m 7ms
+2025-07-13 01:14:36 INFO: HTTP GET /api-docs/ [32m200[39m 6ms
+2025-07-13 01:14:36 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 01:14:36 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 17ms
+2025-07-13 01:14:36 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 20ms
+2025-07-13 01:14:36 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 33ms
+2025-07-13 01:14:37 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 3ms
+2025-07-13 01:20:29 INFO: Server is running on port 3000
+2025-07-13 01:20:29 INFO: Environment: development
+2025-07-13 01:20:29 INFO: Database User: postgres
+2025-07-13 01:20:34 INFO: HTTP GET /api-docs/ [36m304[39m 8ms
+2025-07-13 01:20:34 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 0ms
+2025-07-13 01:20:34 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 9ms
+2025-07-13 01:20:34 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 9ms
+2025-07-13 01:20:34 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 9ms
+2025-07-13 01:20:34 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-13 01:22:09 INFO: HTTP GET /.well-known/appspecific/com.chrome.devtools.json [33m404[39m 2ms
+2025-07-13 01:22:09 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 6ms
+2025-07-13 01:22:10 INFO: HTTP GET /api-docs/swagger-ui.css.map [32m200[39m 9ms
+2025-07-13 01:31:35 INFO: Server is running on port 3000
+2025-07-13 01:31:35 INFO: Environment: development
+2025-07-13 01:31:35 INFO: Database User: postgres
+2025-07-13 01:31:39 INFO: HTTP GET /api-docs/ [36m304[39m 10ms
+2025-07-13 01:31:39 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-13 01:31:39 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 5ms
+2025-07-13 01:31:39 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 01:31:39 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 10ms
+2025-07-13 01:31:39 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-13 01:53:02 INFO: Server is running on port 3000
+2025-07-13 01:53:02 INFO: Environment: development
+2025-07-13 01:53:02 INFO: Database User: postgres
+2025-07-13 01:53:09 INFO: HTTP GET /api-docs/ [36m304[39m 8ms
+2025-07-13 01:53:09 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 1ms
+2025-07-13 01:53:09 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 01:53:09 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 11ms
+2025-07-13 01:53:09 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 1ms
+2025-07-13 01:53:10 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-13 01:54:12 INFO: HTTP GET /api-docs/ [36m304[39m 1ms
+2025-07-13 01:54:12 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-07-13 01:54:12 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 5ms
+2025-07-13 01:54:12 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 2ms
+2025-07-13 01:54:12 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 11ms
+2025-07-13 01:54:12 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-13 01:56:38 INFO: Server is running on port 3000
+2025-07-13 01:56:38 INFO: Environment: development
+2025-07-13 01:56:38 INFO: Database User: postgres
+2025-07-13 01:56:47 INFO: HTTP GET /api-docs/ [36m304[39m 7ms
+2025-07-13 01:56:47 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-07-13 01:56:47 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 4ms
+2025-07-13 01:56:47 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 01:56:47 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 7ms
+2025-07-13 01:56:48 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 0ms
+2025-07-13 02:03:16 INFO: Server is running on port 3000
+2025-07-13 02:03:16 INFO: Environment: development
+2025-07-13 02:03:16 INFO: Database User: postgres
+2025-07-13 02:03:20 INFO: HTTP GET /api-docs/ [36m304[39m 11ms
+2025-07-13 02:03:20 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-13 02:03:20 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 24ms
+2025-07-13 02:03:20 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 8ms
+2025-07-13 02:03:20 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 02:03:21 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 0ms
+2025-07-13 02:04:47 INFO: HTTP GET /api-docs/ [36m304[39m 1ms
+2025-07-13 02:04:47 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 1ms
+2025-07-13 02:04:47 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 8ms
+2025-07-13 02:04:47 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 9ms
+2025-07-13 02:04:47 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 9ms
+2025-07-13 02:04:47 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 0ms
+2025-07-13 02:05:13 INFO: HTTP GET /api-docs/ [32m200[39m 3ms
+2025-07-13 02:05:13 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 02:05:13 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 16ms
+2025-07-13 02:05:13 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 23ms
+2025-07-13 02:05:13 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 34ms
+2025-07-13 02:05:14 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 5ms
+2025-07-13 02:07:10 INFO: Server is running on port 3000
+2025-07-13 02:07:10 INFO: Environment: development
+2025-07-13 02:07:10 INFO: Database User: postgres
+2025-07-13 02:07:18 INFO: HTTP GET /api-docs/ [36m304[39m 7ms
+2025-07-13 02:07:18 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-13 02:07:18 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 5ms
+2025-07-13 02:07:18 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 2ms
+2025-07-13 02:07:18 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 5ms
+2025-07-13 15:23:44 INFO: Server is running on port 3000
+2025-07-13 15:23:44 INFO: Environment: development
+2025-07-13 15:23:44 INFO: Database User: postgres
+2025-07-13 15:26:45 INFO: Server is running on port 3000
+2025-07-13 15:26:45 INFO: Environment: development
+2025-07-13 15:26:45 INFO: Database User: postgres
+2025-07-13 15:32:17 INFO: Server is running on port 3000
+2025-07-13 15:32:17 INFO: Environment: development
+2025-07-13 15:32:17 INFO: Database User: postgres
+2025-07-13 15:35:44 INFO: Server is running on port 3000
+2025-07-13 15:35:44 INFO: Environment: development
+2025-07-13 15:35:44 INFO: Database User: postgres
+2025-07-13 15:36:49 INFO: HTTP GET /api-docs/ [36m304[39m 8ms
+2025-07-13 15:36:49 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-07-13 15:36:49 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 15:36:49 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 2ms
+2025-07-13 15:36:49 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 5ms
+2025-07-13 15:42:35 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-13 15:42:35 ERROR: Unhandled error: invalid csrf token
+2025-07-13 15:42:35 INFO: HTTP POST /api/users/register [33m403[39m 8ms
+2025-07-13 15:42:48 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-13 15:42:48 ERROR: Unhandled error: invalid csrf token
+2025-07-13 15:42:48 INFO: HTTP POST /api/users/register [33m403[39m 1ms
+2025-07-13 15:45:19 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-13 15:45:42 INFO: HTTP POST /api/users/register [32m201[39m 251ms
+2025-07-13 15:47:36 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 15:47:36 ERROR: Unhandled error: invalid csrf token
+2025-07-13 15:47:36 INFO: HTTP POST /api/users/forgot-password [33m403[39m 3ms
+2025-07-13 15:49:38 INFO: HTTP POST /api/users/forgot-password [33m400[39m 0ms
+2025-07-13 15:50:00 INFO: HTTP POST /api/users/forgot-password [33m400[39m 1ms
+2025-07-13 15:50:32 INFO: HTTP POST /api/users/forgot-password [33m400[39m 0ms
+2025-07-13 15:51:16 INFO: HTTP POST /api/users/forgot-password [33m400[39m 0ms
+2025-07-13 15:52:05 ERROR: HTTP Error POST /api/users/forgot-password 200 Cannot destructure property 'identifier' of 'req.body' as it is undefined.
+2025-07-13 15:52:05 ERROR: Unhandled error: Cannot destructure property 'identifier' of 'req.body' as it is undefined.
+2025-07-13 15:52:05 INFO: HTTP POST /api/users/forgot-password [31m500[39m 2ms
+2025-07-13 15:58:04 INFO: Server is running on port 3000
+2025-07-13 15:58:04 INFO: Environment: development
+2025-07-13 15:58:04 INFO: Database User: postgres
+2025-07-13 15:58:35 INFO: HTTP POST /api/users/forgot-password [33m400[39m 5ms
+2025-07-13 16:00:07 ERROR: HTTP Error POST /api/users/forgot-password 200 validator is not defined
+2025-07-13 16:00:07 ERROR: Unhandled error: validator is not defined
+2025-07-13 16:00:07 INFO: HTTP POST /api/users/forgot-password [31m500[39m 9ms
+2025-07-13 16:02:43 INFO: Server is running on port 3000
+2025-07-13 16:02:43 INFO: Environment: development
+2025-07-13 16:02:43 INFO: Database User: postgres
+2025-07-13 16:02:51 ERROR: HTTP Error POST /api/users/forgot-password 200 validator is not defined
+2025-07-13 16:02:51 ERROR: Unhandled error: validator is not defined
+2025-07-13 16:02:51 INFO: HTTP POST /api/users/forgot-password [31m500[39m 31ms
+2025-07-13 16:05:23 INFO: Server is running on port 3000
+2025-07-13 16:05:23 INFO: Environment: development
+2025-07-13 16:05:23 INFO: Database User: postgres
+2025-07-13 16:05:31 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:05:31 INFO: HTTP POST /api/users/forgot-password [31m500[39m 579ms
+2025-07-13 16:06:43 INFO: HTTP GET /api-docs/ [36m304[39m 2ms
+2025-07-13 16:06:43 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-07-13 16:06:43 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 3ms
+2025-07-13 16:06:43 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 1ms
+2025-07-13 16:06:43 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 5ms
+2025-07-13 16:06:44 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-13 16:10:42 INFO: HTTP GET /api/users/ [33m404[39m 1ms
+2025-07-13 16:11:29 INFO: HTTP POST /api/users/ [33m404[39m 1ms
+2025-07-13 16:11:42 INFO: HTTP POST /api/users/register [32m201[39m 141ms
+2025-07-13 16:12:09 INFO: ایمیل بازنشانی رمز عبور به Yegane82as@gmail.com ارسال شد
+2025-07-13 16:12:09 INFO: HTTP POST /api/users/forgot-password [32m200[39m 3454ms
+2025-07-13 16:15:15 INFO: Server is running on port 3000
+2025-07-13 16:15:15 INFO: Environment: development
+2025-07-13 16:15:15 INFO: Database User: postgres
+2025-07-13 16:15:34 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:15:34 INFO: HTTP POST /api/users/forgot-password [31m500[39m 1404ms
+2025-07-13 16:20:24 INFO: Server is running on port 3000
+2025-07-13 16:20:24 INFO: Environment: development
+2025-07-13 16:20:24 INFO: Database User: postgres
+2025-07-13 16:20:29 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:20:29 INFO: HTTP POST /api/users/forgot-password [31m500[39m 651ms
+2025-07-13 16:25:26 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:25:26 INFO: HTTP POST /api/users/forgot-password [31m500[39m 391ms
+2025-07-13 16:25:36 INFO: Server is running on port 3000
+2025-07-13 16:25:36 INFO: Environment: development
+2025-07-13 16:25:36 INFO: Database User: postgres
+2025-07-13 16:26:58 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 16:26:58 ERROR: Unhandled error: invalid csrf token
+2025-07-13 16:26:58 INFO: HTTP POST /api/users/forgot-password [33m403[39m 9ms
+2025-07-13 16:27:08 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-13 16:27:24 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:27:24 INFO: HTTP POST /api/users/forgot-password [31m500[39m 691ms
+2025-07-13 16:37:09 INFO: Server is running on port 3000
+2025-07-13 16:37:09 INFO: Environment: development
+2025-07-13 16:37:09 INFO: Database User: postgres
+2025-07-13 16:37:16 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:37:16 INFO: HTTP POST /api/users/forgot-password [31m500[39m 562ms
+2025-07-13 16:38:37 INFO: Server is running on port 3000
+2025-07-13 16:38:37 INFO: Environment: development
+2025-07-13 16:38:37 INFO: Database User: postgres
+2025-07-13 16:38:41 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:38:41 INFO: HTTP POST /api/users/forgot-password [31m500[39m 539ms
+2025-07-13 16:47:13 INFO: Server is running on port 3000
+2025-07-13 16:47:13 INFO: Environment: development
+2025-07-13 16:47:13 INFO: Database User: postgres
+2025-07-13 16:47:21 ERROR: خطا در ارسال پیامک: api is not defined
+2025-07-13 16:47:21 INFO: HTTP POST /api/users/forgot-password [31m500[39m 154ms
+2025-07-13 16:48:19 INFO: Server is running on port 3000
+2025-07-13 16:48:19 INFO: Environment: development
+2025-07-13 16:48:19 INFO: Database User: postgres
+2025-07-13 16:48:26 ERROR: خطا در ارسال پیامک: ارسال پیامک ناموفق بود. وضعیت: 501
+2025-07-13 16:48:26 INFO: HTTP POST /api/users/forgot-password [31m500[39m 2454ms
+2025-07-13 16:54:06 INFO: Server is running on port 3000
+2025-07-13 16:54:06 INFO: Environment: development
+2025-07-13 16:54:06 INFO: Database User: postgres
+2025-07-13 16:54:17 ERROR: خطا در ارسال پیامک: ارسال پیامک ناموفق بود. وضعیت: 501
+2025-07-13 16:54:17 INFO: HTTP POST /api/users/forgot-password [31m500[39m 1417ms
+2025-07-13 16:57:32 INFO: Server is running on port 3000
+2025-07-13 16:57:32 INFO: Environment: development
+2025-07-13 16:57:32 INFO: Database User: postgres
+2025-07-13 16:57:47 ERROR: خطا در ارسال پیامک: api is not defined
+2025-07-13 16:57:47 INFO: HTTP POST /api/users/forgot-password [31m500[39m 259ms
+2025-07-13 16:58:29 INFO: Server is running on port 3000
+2025-07-13 16:58:29 INFO: Environment: development
+2025-07-13 16:58:29 INFO: Database User: postgres
+2025-07-13 16:58:33 INFO: پیامک بازنشانی رمز عبور به 09226494251 ارسال شد
+2025-07-13 16:58:33 INFO: HTTP POST /api/users/forgot-password [32m200[39m 208ms
+2025-07-13 17:04:41 INFO: Server is running on port 3000
+2025-07-13 17:04:41 INFO: Environment: development
+2025-07-13 17:04:41 INFO: Database User: postgres
+2025-07-13 17:04:47 INFO: پیامک بازنشانی رمز عبور به 09226494251 ارسال شد
+2025-07-13 17:04:47 INFO: HTTP POST /api/users/forgot-password [32m200[39m 236ms
+2025-07-13 17:09:58 INFO: Server is running on port 3000
+2025-07-13 17:09:58 INFO: Environment: development
+2025-07-13 17:09:58 INFO: Database User: postgres
+2025-07-13 17:10:04 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:10:04 INFO: HTTP POST /api/users/forgot-password [31m500[39m 1932ms
+2025-07-13 17:10:44 INFO: HTTP GET /api-docs/ [36m304[39m 3ms
+2025-07-13 17:10:44 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 1ms
+2025-07-13 17:10:44 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 1ms
+2025-07-13 17:10:44 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 1ms
+2025-07-13 17:10:44 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 2ms
+2025-07-13 17:10:45 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-13 17:16:46 INFO: Server is running on port 3000
+2025-07-13 17:16:46 INFO: Environment: development
+2025-07-13 17:16:46 INFO: Database User: postgres
+2025-07-13 17:16:51 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:16:51 INFO: HTTP POST /api/users/forgot-password [31m500[39m 1626ms
+2025-07-13 17:19:42 INFO: Server is running on port 3000
+2025-07-13 17:19:42 INFO: Environment: development
+2025-07-13 17:19:42 INFO: Database User: postgres
+2025-07-13 17:19:49 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:19:49 INFO: HTTP POST /api/users/forgot-password [31m500[39m 2182ms
+2025-07-13 17:21:22 INFO: Server is running on port 3000
+2025-07-13 17:21:22 INFO: Environment: development
+2025-07-13 17:21:22 INFO: Database User: postgres
+2025-07-13 17:21:25 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:21:25 INFO: HTTP POST /api/users/forgot-password [31m500[39m 1329ms
+2025-07-13 17:21:28 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:21:28 INFO: HTTP POST /api/users/forgot-password [31m500[39m 230ms
+2025-07-13 17:22:20 INFO: Server is running on port 3000
+2025-07-13 17:22:20 INFO: Environment: development
+2025-07-13 17:22:20 INFO: Database User: postgres
+2025-07-13 17:22:28 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:22:28 INFO: HTTP POST /api/users/forgot-password [31m500[39m 2668ms
+2025-07-13 17:27:44 INFO: Server is running on port 3000
+2025-07-13 17:27:44 INFO: Environment: development
+2025-07-13 17:27:44 INFO: Database User: postgres
+2025-07-13 17:27:56 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:27:56 INFO: HTTP POST /api/users/forgot-password [31m500[39m 2041ms
+2025-07-13 17:30:05 INFO: Server is running on port 3000
+2025-07-13 17:30:05 INFO: Environment: development
+2025-07-13 17:30:05 INFO: Database User: postgres
+2025-07-13 17:30:11 INFO: پیامک بازنشانی رمز عبور به 09226494251 ارسال شد
+2025-07-13 17:30:11 INFO: HTTP POST /api/users/forgot-password [32m200[39m 2418ms
+2025-07-13 17:47:38 INFO: Server is running on port 3000
+2025-07-13 17:47:38 INFO: Environment: development
+2025-07-13 17:47:38 INFO: Database User: postgres
+2025-07-13 17:47:47 WARN: درخواست بازیابی رمز عبور برای کاربر ناموجود: 09193447890
+2025-07-13 17:47:47 INFO: HTTP POST /api/users/forgot-password [32m200[39m 256ms
+2025-07-13 17:49:02 WARN: درخواست بازیابی رمز عبور برای کاربر ناموجود: 09193447890
+2025-07-13 17:49:02 INFO: HTTP POST /api/users/forgot-password [32m200[39m 65ms
+2025-07-13 17:49:35 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:49:35 INFO: HTTP POST /api/users/forgot-password [31m500[39m 614ms
+2025-07-13 17:49:43 WARN: درخواست بازیابی رمز عبور برای کاربر ناموجود: 09193447890
+2025-07-13 17:49:43 INFO: HTTP POST /api/users/forgot-password [32m200[39m 3ms
+2025-07-13 17:50:40 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-13 17:50:40 ERROR: Unhandled error: invalid csrf token
+2025-07-13 17:50:40 INFO: HTTP POST /api/users/register [33m403[39m 8ms
+2025-07-13 17:50:50 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-13 17:51:02 INFO: HTTP POST /api/users/register [32m201[39m 188ms
+2025-07-13 17:51:09 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:51:09 INFO: HTTP POST /api/users/forgot-password [31m500[39m 439ms
+2025-07-13 17:51:24 INFO: Server is running on port 3000
+2025-07-13 17:51:24 INFO: Environment: development
+2025-07-13 17:51:24 INFO: Database User: postgres
+2025-07-13 17:51:30 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:51:30 INFO: HTTP POST /api/users/forgot-password [31m500[39m 1804ms
+2025-07-13 17:52:26 INFO: Server is running on port 3000
+2025-07-13 17:52:26 INFO: Environment: development
+2025-07-13 17:52:26 INFO: Database User: postgres
+2025-07-13 17:52:29 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:52:29 INFO: HTTP POST /api/users/forgot-password [31m500[39m 559ms
+2025-07-13 17:52:56 INFO: Server is running on port 3000
+2025-07-13 17:52:56 INFO: Environment: development
+2025-07-13 17:52:56 INFO: Database User: postgres
+2025-07-13 17:53:00 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:53:00 INFO: HTTP POST /api/users/forgot-password [31m500[39m 578ms
+2025-07-13 17:54:49 INFO: Server is running on port 3000
+2025-07-13 17:54:49 INFO: Environment: development
+2025-07-13 17:54:49 INFO: Database User: postgres
+2025-07-13 17:55:03 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:55:03 INFO: HTTP POST /api/users/forgot-password [31m500[39m 668ms
+2025-07-13 17:55:51 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:55:51 INFO: HTTP POST /api/users/forgot-password [31m500[39m 486ms
+2025-07-13 17:56:50 INFO: Server is running on port 3000
+2025-07-13 17:56:50 INFO: Environment: development
+2025-07-13 17:56:50 INFO: Database User: postgres
+2025-07-13 17:56:59 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:56:59 INFO: HTTP POST /api/users/forgot-password [31m500[39m 563ms
+2025-07-13 18:09:53 INFO: Server is running on port 3000
+2025-07-13 18:09:53 INFO: Environment: development
+2025-07-13 18:09:53 INFO: Database User: postgres
+2025-07-13 18:09:57 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 18:09:57 INFO: HTTP POST /api/users/forgot-password [31m500[39m 703ms
+2025-07-13 18:11:12 INFO: Server is running on port 3000
+2025-07-13 18:11:12 INFO: Environment: development
+2025-07-13 18:11:12 INFO: Database User: postgres
+2025-07-13 18:11:17 INFO: پیامک بازنشانی رمز عبور به 09193447890 ارسال شد
+2025-07-13 18:11:17 INFO: HTTP POST /api/users/forgot-password [32m200[39m 880ms
+2025-07-13 18:12:07 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 18:12:07 INFO: HTTP POST /api/users/forgot-password [31m500[39m 403ms
+2025-07-13 18:21:35 INFO: Server is running on port 3000
+2025-07-13 18:21:35 INFO: Environment: development
+2025-07-13 18:21:35 INFO: Database User: postgres
+2025-07-13 18:21:47 INFO: پیامک بازنشانی رمز عبور به 09193447890 ارسال شد
+2025-07-13 18:21:47 INFO: HTTP POST /api/users/forgot-password [32m200[39m 1287ms
+2025-07-13 18:21:52 INFO: HTTP POST /api/users/forgot-password [33m429[39m 0ms
+2025-07-13 18:26:20 INFO: Server is running on port 3000
+2025-07-13 18:26:20 INFO: Environment: development
+2025-07-13 18:26:20 INFO: Database User: postgres
+2025-07-13 18:26:24 INFO: پیامک بازنشانی رمز عبور به 09193447890 ارسال شد
+2025-07-13 18:26:24 INFO: HTTP POST /api/users/forgot-password [32m200[39m 590ms
+2025-07-13 18:38:40 INFO: Server is running on port 3000
+2025-07-13 18:38:40 INFO: Environment: development
+2025-07-13 18:38:40 INFO: Database User: postgres
+2025-07-13 18:45:49 INFO: Server is running on port 3000
+2025-07-13 18:45:49 INFO: Environment: development
+2025-07-13 18:45:49 INFO: Database User: postgres
+2025-07-13 18:46:16 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:46:16 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:46:16 INFO: HTTP POST /api/users/forgot-password [33m403[39m 12ms
+2025-07-13 18:46:32 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:46:32 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:46:32 INFO: HTTP POST /api/users/forgot-password [33m403[39m 2ms
+2025-07-13 18:46:52 INFO: HTTP GET /api-docs/ [33m404[39m 3ms
+2025-07-13 18:46:56 INFO: HTTP GET /api-docs/ [33m404[39m 0ms
+2025-07-13 18:47:06 INFO: Server is running on port 3000
+2025-07-13 18:47:06 INFO: Environment: development
+2025-07-13 18:47:06 INFO: Database User: postgres
+2025-07-13 18:47:11 INFO: HTTP GET /api-docs/ [33m404[39m 3ms
+2025-07-13 18:47:11 INFO: HTTP GET /api-docs/ [33m404[39m 1ms
+2025-07-13 18:47:12 INFO: HTTP GET /api-docs/ [33m404[39m 1ms
+2025-07-13 18:49:43 INFO: Server is running on port 3000
+2025-07-13 18:49:43 INFO: Environment: development
+2025-07-13 18:49:43 INFO: Database User: postgres
+2025-07-13 18:49:49 INFO: HTTP GET /api-docs/ [32m200[39m 6ms
+2025-07-13 18:49:49 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-07-13 18:49:49 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 3ms
+2025-07-13 18:49:49 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 1ms
+2025-07-13 18:49:49 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 8ms
+2025-07-13 18:49:50 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-13 18:50:15 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:50:15 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:50:15 INFO: HTTP POST /api/users/forgot-password [33m403[39m 5ms
+2025-07-13 18:50:50 INFO: HTTP POST /api/api/users/forgot-password [33m404[39m 1ms
+2025-07-13 18:51:42 INFO: HTTP POST /api/api/users/forgot-password [33m404[39m 0ms
+2025-07-13 18:52:13 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:52:13 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:52:13 INFO: HTTP POST /api/users/forgot-password [33m403[39m 10ms
+2025-07-13 19:22:13 INFO: Server is running on port 3000
+2025-07-13 19:22:13 INFO: Environment: development
+2025-07-13 19:22:13 INFO: Database User: postgres
+2025-07-13 19:22:16 INFO: HTTP GET /api-docs/ [36m304[39m 6ms
+2025-07-13 19:22:16 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 1ms
+2025-07-13 19:22:16 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 6ms
+2025-07-13 19:22:16 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 7ms
+2025-07-13 19:22:16 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 13ms
+2025-07-13 19:22:17 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms
+2025-07-13 19:22:40 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:22:40 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:22:40 INFO: HTTP POST /api/users/forgot-password [33m403[39m 5ms
+2025-07-13 19:27:45 INFO: Server is running on port 3000
+2025-07-13 19:27:45 INFO: Environment: development
+2025-07-13 19:27:45 INFO: Database User: postgres
+2025-07-13 19:27:52 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:27:52 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:27:52 INFO: HTTP POST /api/users/forgot-password [33m403[39m 10ms
+2025-07-13 19:31:36 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:31:36 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:31:36 INFO: HTTP POST /api/users/forgot-password [33m403[39m 52ms
+2025-07-13 19:31:39 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:31:39 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:31:39 INFO: HTTP POST /api/users/forgot-password [33m403[39m 6ms
+2025-07-13 19:31:49 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-13 19:32:02 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 19:32:02 INFO: HTTP POST /api/users/forgot-password [31m500[39m 753ms
+2025-07-13 19:32:06 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:32:06 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:32:06 INFO: HTTP POST /api/users/forgot-password [33m403[39m 2ms
+2025-07-13 19:38:52 INFO: Server is running on port 3000
+2025-07-13 19:38:52 INFO: Environment: development
+2025-07-13 19:38:52 INFO: Database User: postgres
+2025-07-13 19:38:58 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 19:38:58 INFO: HTTP POST /api/users/forgot-password [31m500[39m 533ms
+2025-07-13 19:39:23 INFO: HTTP POST /api/users/forgot-password [33m429[39m 2ms
+2025-07-13 19:44:06 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 19:44:06 INFO: HTTP POST /api/users/forgot-password [31m500[39m 426ms
+2025-07-13 19:44:13 INFO: HTTP POST /api/users/forgot-password [33m429[39m 1ms
+2025-07-13 19:54:29 INFO: Server is running on port 3000
+2025-07-13 19:54:29 INFO: Environment: development
+2025-07-13 19:54:29 INFO: Database User: postgres
+2025-07-13 19:54:38 INFO: HTTP GET /api-docs/ [36m304[39m 7ms
+2025-07-13 19:54:38 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-07-13 19:54:38 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 5ms
+2025-07-13 19:54:38 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 19:54:38 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 9ms
+2025-07-13 19:54:39 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms
+2025-07-13 20:01:17 INFO: Server is running on port 3000
+2025-07-13 20:01:17 INFO: Environment: development
+2025-07-13 20:01:17 INFO: Database User: postgres
+2025-07-13 20:01:20 INFO: HTTP GET /api-docs/ [36m304[39m 6ms
+2025-07-13 20:01:20 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-07-13 20:01:20 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-13 20:01:20 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 8ms
+2025-07-13 20:01:20 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 10ms
+2025-07-13 20:01:20 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-13 20:05:09 INFO: Server is running on port 3000
+2025-07-13 20:05:09 INFO: Environment: development
+2025-07-13 20:05:09 INFO: Database User: postgres
+2025-07-13 20:05:10 INFO: A user connected via WebSocket: gd1PsLiClfdrT_ttAAAB
+2025-07-13 20:05:20 INFO: User disconnected from WebSocket: gd1PsLiClfdrT_ttAAAB
+2025-07-13 20:05:20 INFO: A user connected via WebSocket: X9Tp6EteH7Z9CqZyAAAD
+2025-07-13 20:05:46 INFO: Received advice message from User ID: 1: سلام من یه کرم برای صورتم میخوام ، صورتم زیاد جوش میزنه 
+2025-07-13 20:05:46 INFO: User message saved: ID 1
+2025-07-13 20:05:46 INFO: AI response saved: ID 2
+2025-07-13 20:28:07 INFO: Server is running on port 3000
+2025-07-13 20:28:07 INFO: Environment: development
+2025-07-13 20:28:07 INFO: Database User: postgres
+2025-07-13 20:30:54 INFO: HTTP GET /api/csrf-token [32m200[39m 3ms
+2025-07-13 20:32:39 INFO: HTTP POST /api/users/login [32m200[39m 321ms
+2025-07-13 20:33:36 INFO: HTTP GET /api/users/me [32m200[39m 71ms
+2025-07-13 20:36:28 INFO: HTTP PUT /api/users/me [32m200[39m 91ms
+2025-07-13 20:36:36 INFO: HTTP GET /api/users/me [32m200[39m 8ms
+2025-07-13 20:37:47 INFO: HTTP PUT /api/users/me [33m409[39m 158ms
+2025-07-13 20:37:57 INFO: HTTP GET /api/users/me [32m200[39m 65ms
+2025-07-13 20:48:22 INFO: Server is running on port 3000
+2025-07-13 20:48:22 INFO: Environment: development
+2025-07-13 20:48:22 INFO: Database User: postgres
+2025-07-13 20:48:56 INFO: A user connected via WebSocket: TLDlCBE5HYuR6c2xAAAB
+2025-07-13 20:49:13 INFO: Received advice message from User ID: 1: سلام، من یک گوشی موبایل خوب با قیمت مناسب برای عکاسی می‌خواهم. چه مدلی را پیشنهاد می‌دهید؟
+2025-07-13 20:49:13 INFO: User message saved: ID 3
+2025-07-13 20:49:13 INFO: AI response saved: ID 4
+2025-07-13 20:51:14 INFO: Server is running on port 3000
+2025-07-13 20:51:14 INFO: Environment: development
+2025-07-13 20:51:14 INFO: Database User: postgres
+2025-07-13 20:51:16 INFO: A user connected via WebSocket: rPIifvDbYnSEvnjAAAAB
+2025-07-13 20:51:18 INFO: User disconnected from WebSocket: rPIifvDbYnSEvnjAAAAB
+2025-07-13 20:54:35 INFO: Server is running on port 3000
+2025-07-13 20:54:35 INFO: Environment: development
+2025-07-13 20:54:35 INFO: Database User: postgres
+2025-07-13 21:08:00 INFO: Server is running on port 3000
+2025-07-13 21:08:00 INFO: Environment: development
+2025-07-13 21:08:00 INFO: Database User: postgres
+2025-07-13 21:09:44 INFO: Server is running on port 3000
+2025-07-13 21:09:44 INFO: Environment: development
+2025-07-13 21:09:44 INFO: Database User: postgres
+2025-07-13 21:11:13 INFO: Server is running on port 3000
+2025-07-13 21:11:13 INFO: Environment: development
+2025-07-13 21:11:13 INFO: Database User: postgres
+2025-07-13 21:23:11 INFO: Server is running on port 3000
+2025-07-13 21:23:11 INFO: Environment: development
+2025-07-13 21:23:11 INFO: Database User: postgres
+2025-07-13 21:24:09 INFO: A user connected via WebSocket: OFlGMUey3mqeh6vjAAAG
+2025-07-13 21:30:13 INFO: Server is running on port 3000
+2025-07-13 21:30:13 INFO: Environment: development
+2025-07-13 21:30:13 INFO: Database User: postgres
+2025-07-13 21:30:16 INFO: A user connected via WebSocket: 3sRpB8YF7-MtUyrhAAAB
+2025-07-13 21:30:21 INFO: User disconnected from WebSocket: 3sRpB8YF7-MtUyrhAAAB
+2025-07-13 21:30:23 INFO: A user connected via WebSocket: M5mVoJBnjOGW9GDgAAAD
+2025-07-13 21:40:49 INFO: Server is running on port 3000
+2025-07-13 21:40:49 INFO: Environment: development
+2025-07-13 21:40:49 INFO: Database User: postgres
+2025-07-13 21:41:11 INFO: A user connected via WebSocket: fQEShjIfSHv1spG_AAAB
+2025-07-13 21:41:20 INFO: Received advice message from Session ID: undefined: سلام گوشی میخواستم
+2025-07-13 21:41:20 WARN: Neither User ID nor Session ID found for advice message. Rejecting message and prompting client to refresh.
+2025-07-13 21:41:27 INFO: User disconnected from WebSocket: fQEShjIfSHv1spG_AAAB
+2025-07-13 21:41:36 INFO: A user connected via WebSocket: IIaKuSJ1XwSM0eS-AAAD
+2025-07-13 21:41:45 INFO: Received advice message from Session ID: undefined: آیا هدفون موجود دارید؟
+2025-07-13 21:41:45 WARN: Neither User ID nor Session ID found for advice message. Rejecting message and prompting client to refresh.
+2025-07-13 21:47:00 INFO: Server is running on port 3000
+2025-07-13 21:47:00 INFO: Environment: development
+2025-07-13 21:47:00 INFO: Database User: postgres
+2025-07-13 21:47:00 INFO: A user connected via WebSocket: bbTRdtYCUTKHVUDHAAAB
+2025-07-13 21:47:13 INFO: User disconnected from WebSocket: bbTRdtYCUTKHVUDHAAAB
+2025-07-13 21:47:29 INFO: A user connected via WebSocket: nB8rBjyIJkegvlGaAAAD
+2025-07-13 21:56:52 INFO: Server is running on port 3000
+2025-07-13 21:56:52 INFO: Environment: development
+2025-07-13 21:56:52 INFO: Database User: postgres
+2025-07-13 21:57:19 INFO: A user connected via WebSocket: 6NHzOXU03zIuDyHNAAAB
+2025-07-13 22:03:49 INFO: Server is running on port 3000
+2025-07-13 22:03:49 INFO: Environment: development
+2025-07-13 22:03:49 INFO: Database User: postgres
+2025-07-13 22:03:55 INFO: A user connected via WebSocket: HqGdlnutO0NL_OCTAAAB
+2025-07-13 22:04:01 INFO: User disconnected from WebSocket: HqGdlnutO0NL_OCTAAAB
+2025-07-13 22:04:03 INFO: A user connected via WebSocket: fWmBbjnaxhfwgQhgAAAD
+2025-07-13 22:04:26 INFO: Received advice message from Session ID: null: یا هدفون موجود دارید؟
+2025-07-13 22:04:26 WARN: Neither User ID nor Session ID found for advice message. Rejecting message and prompting client to refresh.
+2025-07-13 22:06:30 INFO: Server is running on port 3000
+2025-07-13 22:06:30 INFO: Environment: development
+2025-07-13 22:06:30 INFO: Database User: postgres
+2025-07-13 22:06:30 INFO: A user connected via WebSocket: j0h7TFzJ-8kS1HPEAAAB
+2025-07-13 22:06:36 INFO: User disconnected from WebSocket: j0h7TFzJ-8kS1HPEAAAB
+2025-07-13 22:06:40 INFO: A user connected via WebSocket: VQ2ruAj-_QARqSjIAAAD
+2025-07-13 22:06:47 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید؟
+2025-07-13 22:06:47 INFO: User message saved: ID 5
+2025-07-13 22:06:48 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:06:48 INFO: AI response saved: ID 6
+2025-07-13 22:08:17 INFO: Server is running on port 3000
+2025-07-13 22:08:17 INFO: Environment: development
+2025-07-13 22:08:17 INFO: Database User: postgres
+2025-07-13 22:08:20 INFO: A user connected via WebSocket: z77M7HVpfjRK9AU3AAAB
+2025-07-13 22:08:24 INFO: User disconnected from WebSocket: z77M7HVpfjRK9AU3AAAB
+2025-07-13 22:08:24 INFO: A user connected via WebSocket: lucxmTvuTbFYsBFzAAAD
+2025-07-13 22:08:40 INFO: Received advice message from User ID: 1: یک گوشی خوب برای عکاسی پیشنهاد بدید؟
+2025-07-13 22:08:40 INFO: User message saved: ID 7
+2025-07-13 22:08:40 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:08:40 INFO: AI response saved: ID 8
+2025-07-13 22:15:34 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید؟
+2025-07-13 22:15:34 INFO: User message saved: ID 9
+2025-07-13 22:15:35 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:15:35 INFO: AI response saved: ID 10
+2025-07-13 22:22:04 INFO: User disconnected from WebSocket: lucxmTvuTbFYsBFzAAAD
+2025-07-13 22:22:04 INFO: A user connected via WebSocket: ZGa_cpXISsj5IKiUAAAF
+2025-07-13 22:22:15 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید
+2025-07-13 22:22:15 INFO: User message saved: ID 11
+2025-07-13 22:22:16 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:22:16 INFO: AI response saved: ID 12
+2025-07-13 22:22:27 INFO: Server is running on port 3000
+2025-07-13 22:22:27 INFO: Environment: development
+2025-07-13 22:22:27 INFO: Database User: postgres
+2025-07-13 22:22:28 INFO: A user connected via WebSocket: A-fr9v-r7bFqYrzzAAAB
+2025-07-13 22:22:48 INFO: Received advice message from User ID: 1: سلام ، موبایل موجود دارید ؟
+2025-07-13 22:22:48 INFO: User message saved: ID 13
+2025-07-13 22:22:48 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:22:48 INFO: AI response saved: ID 14
+2025-07-13 22:25:13 INFO: Server is running on port 3000
+2025-07-13 22:25:13 INFO: Environment: development
+2025-07-13 22:25:13 INFO: Database User: postgres
+2025-07-13 22:25:16 INFO: A user connected via WebSocket: Umlyftp2CvdwIFPiAAAB
+2025-07-13 22:25:28 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید
+2025-07-13 22:25:28 INFO: User message saved: ID 15
+2025-07-13 22:25:29 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-flash:generateContent: [403 Forbidden] 
+2025-07-13 22:25:29 INFO: AI response saved: ID 16
+2025-07-13 22:41:46 INFO: User disconnected from WebSocket: Umlyftp2CvdwIFPiAAAB
+2025-07-13 22:41:47 INFO: A user connected via WebSocket: nv8SdGxhOJ94SMbbAAAD
+2025-07-13 22:41:52 INFO: Received advice message from User ID: 1: گوشی دارید ؟
+2025-07-13 22:41:52 INFO: User message saved: ID 17
+2025-07-13 22:41:53 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-flash:generateContent: [403 Forbidden] 
+2025-07-13 22:41:53 INFO: AI response saved: ID 18
+2025-07-13 23:34:07 INFO: Server is running on port 3000
+2025-07-13 23:34:07 INFO: Environment: development
+2025-07-13 23:34:07 INFO: Database User: postgres
+2025-07-13 23:34:07 INFO: A user connected via WebSocket: yvRPRoRrgDGZFjKqAAAB
+2025-07-13 23:34:15 INFO: User disconnected from WebSocket: yvRPRoRrgDGZFjKqAAAB
+2025-07-13 23:34:15 INFO: A user connected via WebSocket: WJaSLccsIE_rO4tMAAAD
+2025-07-13 23:34:26 INFO: Received advice message from User ID: 1: هدفون موجود دارید؟
+2025-07-13 23:34:26 INFO: User message saved: ID 19
+2025-07-13 23:34:27 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent: [403 Forbidden] 
+2025-07-13 23:34:27 INFO: AI response saved: ID 20
+2025-07-13 23:47:43 INFO: Server is running on port 3000
+2025-07-13 23:47:43 INFO: Environment: development
+2025-07-13 23:47:43 INFO: Database User: postgres
+2025-07-13 23:48:05 INFO: A user connected via WebSocket: ozPHwaiod2_ymQD0AAAB
+2025-07-13 23:48:16 INFO: Received advice message from User ID: 1: سلام
+2025-07-13 23:48:17 INFO: User message saved: ID 52
+2025-07-13 23:48:18 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent: [403 Forbidden] 
+2025-07-13 23:48:18 INFO: AI response saved: ID 53
+2025-07-13 23:59:12 INFO: Server is running on port 3000
+2025-07-13 23:59:12 INFO: Environment: development
+2025-07-13 23:59:12 INFO: Database User: postgres
+2025-07-13 23:59:13 INFO: A user connected via WebSocket: UQlJ1XiJB6LN7NQ1AAAB
+2025-07-13 23:59:28 INFO: Received advice message from User ID: 1: هدفون موجود دارید
+2025-07-13 23:59:29 INFO: User message saved: ID 54
+2025-07-13 23:59:30 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent: [403 Forbidden] 
+2025-07-13 23:59:30 INFO: AI response saved: ID 55
+2025-07-14 00:10:51 INFO: Server is running on port 3000
+2025-07-14 00:10:51 INFO: Environment: development
+2025-07-14 00:10:51 INFO: Database User: postgres
+2025-07-14 00:10:52 INFO: A user connected via WebSocket: 54SdVSXLbWDVd2tDAAAB
+2025-07-14 00:10:57 INFO: User disconnected from WebSocket: 54SdVSXLbWDVd2tDAAAB
+2025-07-14 00:10:59 INFO: A user connected via WebSocket: m5RM9SXWPZh2wkrJAAAD
+2025-07-14 00:11:13 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید؟
+2025-07-14 00:11:13 INFO: User message saved: ID 56
+2025-07-14 00:11:17 ERROR: Error communicating with OpenAI API: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+2025-07-14 00:11:17 INFO: AI response saved: ID 57
+2025-07-14 00:13:39 INFO: Server is running on port 3000
+2025-07-14 00:13:39 INFO: Environment: development
+2025-07-14 00:13:39 INFO: Database User: postgres
+2025-07-14 00:13:39 INFO: A user connected via WebSocket: jx3wBKF_YbG7O1uyAAAB
+2025-07-14 00:13:49 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید؟
+2025-07-14 00:13:49 INFO: User message saved: ID 58
+2025-07-14 00:13:50 ERROR: Error communicating with OpenAI API: 401 Incorrect API key provided: sk-1234q*******************************qrst. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-14 00:13:50 INFO: AI response saved: ID 59
+2025-07-14 00:54:51 INFO: Server is running on port 3000
+2025-07-14 00:54:51 INFO: Environment: development
+2025-07-14 00:54:51 INFO: Database User: postgres
+2025-07-14 00:54:53 INFO: A user connected via WebSocket: DS0gUIzb5Q_02piOAAAB
+2025-07-14 00:54:56 INFO: User disconnected from WebSocket: DS0gUIzb5Q_02piOAAAB
+2025-07-14 00:55:13 INFO: A user connected via WebSocket: q06D26VbMSjQ19dFAAAD
+2025-07-14 00:55:23 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید
+2025-07-14 00:55:23 INFO: User message saved: ID 60
+2025-07-14 00:55:24 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 00:55:24 INFO: AI response saved: ID 61
+2025-07-14 00:58:16 INFO: Server is running on port 3000
+2025-07-14 00:58:16 INFO: Environment: development
+2025-07-14 00:58:16 INFO: Database User: postgres
+2025-07-14 00:58:16 INFO: A user connected via WebSocket: vW6hNMMH-G8Fz8DLAAAB
+2025-07-14 00:58:31 INFO: Received advice message from User ID: 1: سلام یه گوشی میخواستم
+2025-07-14 00:58:31 INFO: User message saved: ID 62
+2025-07-14 00:58:32 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 00:58:32 INFO: AI response saved: ID 63
+2025-07-14 00:59:59 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 00:59:59 INFO: User message saved: ID 64
+2025-07-14 01:00:00 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:00:00 INFO: AI response saved: ID 65
+2025-07-14 01:00:04 INFO: Received advice message from User ID: 1: الئ
+2025-07-14 01:00:04 INFO: User message saved: ID 66
+2025-07-14 01:00:04 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:00:04 INFO: AI response saved: ID 67
+2025-07-14 01:05:32 INFO: Server is running on port 3000
+2025-07-14 01:05:32 INFO: Environment: development
+2025-07-14 01:05:32 INFO: Database User: postgres
+2025-07-14 01:05:33 INFO: A user connected via WebSocket: 3i4fKpc9Bt0KprzsAAAB
+2025-07-14 01:05:40 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 01:05:40 INFO: User message saved: ID 68
+2025-07-14 01:05:40 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:05:40 INFO: AI response saved: ID 69
+2025-07-14 01:09:50 INFO: Server is running on port 3000
+2025-07-14 01:09:50 INFO: Environment: development
+2025-07-14 01:09:50 INFO: Database User: postgres
+2025-07-14 01:09:50 INFO: A user connected via WebSocket: -p52ZZ_nsRSHELV9AAAB
+2025-07-14 01:10:04 INFO: Received advice message from User ID: 1: هدفون میخوام
+2025-07-14 01:10:04 INFO: User message saved: ID 70
+2025-07-14 01:10:05 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:10:05 INFO: AI response saved: ID 71
+2025-07-14 01:24:20 INFO: Server is running on port 3000
+2025-07-14 01:24:20 INFO: Environment: development
+2025-07-14 01:24:20 INFO: Database User: postgres
+2025-07-14 01:24:20 INFO: A user connected via WebSocket: 5gm8ET-09WE-t4yuAAAB
+2025-07-14 01:24:35 INFO: Received advice message from User ID: 1: آیا هدفون موجود دارید؟
+2025-07-14 01:24:35 INFO: User message saved: ID 72
+2025-07-14 01:24:36 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 01:24:36 INFO: AI response saved: ID 73
+2025-07-14 01:25:12 INFO: Server is running on port 3000
+2025-07-14 01:25:12 INFO: Environment: development
+2025-07-14 01:25:12 INFO: Database User: postgres
+2025-07-14 01:25:13 INFO: A user connected via WebSocket: wVm-8Mmt9DRltCZXAAAB
+2025-07-14 01:25:23 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 01:25:23 INFO: User message saved: ID 74
+2025-07-14 01:25:24 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 01:25:24 INFO: AI response saved: ID 75
+2025-07-14 15:16:03 INFO: Server is running on port 3000
+2025-07-14 15:16:03 INFO: Environment: development
+2025-07-14 15:16:03 INFO: Database User: postgres
+2025-07-14 15:16:38 INFO: A user connected via WebSocket: IDZrlS5unnOySmtdAAAB
+2025-07-14 15:16:49 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 15:16:49 INFO: User message saved: ID 76
+2025-07-14 15:16:50 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:16:50 INFO: AI response saved: ID 77
+2025-07-14 15:16:57 INFO: Received advice message from User ID: 1: الو
+2025-07-14 15:16:57 INFO: User message saved: ID 78
+2025-07-14 15:16:58 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:16:58 INFO: AI response saved: ID 79
+2025-07-14 15:16:59 INFO: Received advice message from User ID: 1: س
+2025-07-14 15:16:59 INFO: User message saved: ID 80
+2025-07-14 15:17:00 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:17:00 INFO: AI response saved: ID 81
+2025-07-14 15:17:01 INFO: Received advice message from User ID: 1: شسزشسزشس
+2025-07-14 15:17:01 INFO: User message saved: ID 82
+2025-07-14 15:17:02 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:17:02 INFO: AI response saved: ID 83
+2025-07-14 15:18:15 INFO: Server is running on port 3000
+2025-07-14 15:18:15 INFO: Environment: development
+2025-07-14 15:18:15 INFO: Database User: postgres
+2025-07-14 15:18:17 INFO: A user connected via WebSocket: k38pvCDs4fPRNB2IAAAB
+2025-07-14 15:18:18 INFO: User disconnected from WebSocket: k38pvCDs4fPRNB2IAAAB
+2025-07-14 15:18:18 INFO: A user connected via WebSocket: 7Iwzdxu_BGRhaOkZAAAD
+2025-07-14 15:18:23 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 15:18:23 INFO: User message saved: ID 84
+2025-07-14 15:18:24 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:18:24 INFO: AI response saved: ID 85
+2025-07-14 15:19:13 INFO: User disconnected from WebSocket: 7Iwzdxu_BGRhaOkZAAAD
+2025-07-14 15:42:37 INFO: Server is running on port 3000
+2025-07-14 15:42:37 INFO: Environment: development
+2025-07-14 15:42:37 INFO: Database User: postgres
+2025-07-14 15:42:50 INFO: A user connected via WebSocket: 7dfVZvcsmBACQhfQAAAB
+2025-07-14 15:42:58 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 15:42:58 INFO: User message saved: ID 86
+2025-07-14 15:42:59 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:42:59 INFO: AI response saved: ID 87
+2025-07-14 15:43:08 INFO: Received advice message from User ID: 1: هدفون موجود دارید ؟
+2025-07-14 15:43:08 INFO: User message saved: ID 88
+2025-07-14 15:43:08 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:43:08 INFO: AI response saved: ID 89
+2025-07-14 15:47:49 INFO: Server is running on port 3000
+2025-07-14 15:47:49 INFO: Environment: development
+2025-07-14 15:47:49 INFO: Database User: postgres
+2025-07-14 15:47:51 INFO: A user connected via WebSocket: PPXNK-5o8rNg8tJUAAAB
+2025-07-14 15:47:57 INFO: User disconnected from WebSocket: PPXNK-5o8rNg8tJUAAAB
+2025-07-14 15:47:57 INFO: A user connected via WebSocket: fZ7CnDK9qPSTSKexAAAD
+2025-07-14 15:48:03 INFO: Received advice message from User ID: 1: سلام
+2025-07-14 15:48:03 INFO: User message saved: ID 90
+2025-07-14 15:48:04 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:48:04 INFO: AI response saved: ID 91
+2025-07-14 20:09:19 INFO: Server is running on port 3000
+2025-07-14 20:09:19 INFO: Environment: development
+2025-07-14 20:09:19 INFO: Database User: postgres
+2025-07-14 20:12:38 INFO: Server is running on port 3000
+2025-07-14 20:12:38 INFO: Environment: development
+2025-07-14 20:12:38 INFO: Database User: postgres
+2025-07-14 20:14:06 INFO: New session_id generated and set: f5fe07cc-e06d-45ed-b7c1-dc0677beeda9
+2025-07-14 20:14:06 INFO: HTTP GET /api/csrf-token [32m200[39m 5ms
+2025-07-14 20:15:02 INFO: HTTP POST /api/users/register [32m201[39m 303ms
+2025-07-14 20:16:55 ERROR: Error requesting OTP: kavenegarApi is not defined
+2025-07-14 20:16:55 INFO: HTTP POST /api/users/request-otp [31m500[39m 69ms
+2025-07-14 20:18:33 INFO: Server is running on port 3000
+2025-07-14 20:18:33 INFO: Environment: development
+2025-07-14 20:18:33 INFO: Database User: postgres
+2025-07-14 20:18:40 ERROR: Error requesting OTP: kavenegarApi is not defined
+2025-07-14 20:18:40 INFO: HTTP POST /api/users/request-otp [31m500[39m 205ms
+2025-07-14 20:21:00 INFO: Server is running on port 3000
+2025-07-14 20:21:00 INFO: Environment: development
+2025-07-14 20:21:00 INFO: Database User: postgres
+2025-07-14 20:21:05 INFO: OTP sent to 09193447890: 338835
+2025-07-14 20:21:05 INFO: HTTP POST /api/users/request-otp [32m200[39m 214ms
+2025-07-14 20:22:03 INFO: HTTP POST /api/users/verify-otp [32m200[39m 70ms
+2025-07-14 20:40:20 INFO: Server is running on port 3000
+2025-07-14 20:40:20 INFO: Environment: development
+2025-07-14 20:40:20 INFO: Database User: postgres
+2025-07-14 20:47:29 INFO: Server is running on port 3000
+2025-07-14 20:47:29 INFO: Environment: development
+2025-07-14 20:47:29 INFO: Database User: postgres
+2025-07-14 20:47:33 INFO: HTTP POST /api/users/login [32m200[39m 256ms
+2025-07-14 20:48:00 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-14 20:48:52 INFO: HTTP GET /api/admin/exports/categories?format=json [32m200[39m 59ms
+2025-07-14 20:49:22 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 71ms
+2025-07-14 20:50:27 INFO: HTTP GET /api/admin/exports/categories?format=excel [32m200[39m 129ms
+2025-07-14 20:50:42 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 69ms
+2025-07-14 20:52:26 INFO: New session_id generated and set: d4d3914b-31ca-496d-a198-525dfe4ff971
+2025-07-14 20:52:26 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 2ms
+2025-07-14 20:52:27 INFO: HTTP GET /favicon.ico [33m404[39m 2ms
+2025-07-14 20:53:37 INFO: Server is running on port 3000
+2025-07-14 20:53:37 INFO: Environment: development
+2025-07-14 20:53:37 INFO: Database User: postgres
+2025-07-14 20:54:51 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 173ms
+2025-07-14 20:55:18 INFO: HTTP GET /api/admin/exports/categories?format=exel [33m400[39m 67ms
+2025-07-14 20:55:30 INFO: HTTP GET /api/admin/exports/categories?format=excel [32m200[39m 108ms
+2025-07-14 20:55:39 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 9ms
+2025-07-14 21:01:44 INFO: Server is running on port 3000
+2025-07-14 21:01:44 INFO: Environment: development
+2025-07-14 21:01:44 INFO: Database User: postgres
+2025-07-14 21:01:50 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 192ms
+2025-07-14 21:05:27 INFO: Server is running on port 3000
+2025-07-14 21:05:27 INFO: Environment: development
+2025-07-14 21:05:27 INFO: Database User: postgres
+2025-07-14 21:05:35 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 289ms
+2025-07-14 21:06:57 INFO: Server is running on port 3000
+2025-07-14 21:06:57 INFO: Environment: development
+2025-07-14 21:06:57 INFO: Database User: postgres
+2025-07-14 21:07:02 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 285ms
+2025-07-14 21:13:15 INFO: Server is running on port 3000
+2025-07-14 21:13:15 INFO: Environment: development
+2025-07-14 21:13:15 INFO: Database User: postgres
+2025-07-14 21:13:19 INFO: HTTP GET /api/admin/exports/categories [33m400[39m 235ms
+2025-07-14 21:30:35 INFO: Server is running on port 3000
+2025-07-14 21:30:35 INFO: Environment: development
+2025-07-14 21:30:35 INFO: Database User: postgres
+2025-07-14 21:30:54 INFO: HTTP GET /api/admin/exports/categories?format=json [32m200[39m 223ms
+2025-07-14 21:31:01 ERROR: HTTP Error GET /api/admin/exports/categories?format=csv 200 logger is not defined
+2025-07-14 21:31:01 ERROR: Unhandled error: logger is not defined
+2025-07-14 21:31:01 INFO: HTTP GET /api/admin/exports/categories?format=csv [31m500[39m 14ms
+2025-07-14 21:33:10 INFO: Server is running on port 3000
+2025-07-14 21:33:10 INFO: Environment: development
+2025-07-14 21:33:10 INFO: Database User: postgres
+2025-07-14 21:33:27 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 301ms
+2025-07-14 21:34:10 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 2ms
+2025-07-14 21:34:55 INFO: Server is running on port 3000
+2025-07-14 21:34:55 INFO: Environment: development
+2025-07-14 21:34:55 INFO: Database User: postgres
+2025-07-14 21:35:09 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 4ms
+2025-07-14 21:35:12 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 1ms
+2025-07-14 21:35:12 INFO: HTTP GET /favicon.ico [33m404[39m 3ms
+2025-07-14 21:35:14 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 1ms
+2025-07-14 21:35:14 INFO: HTTP GET /favicon.ico [33m404[39m 1ms
+2025-07-14 21:35:15 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 1ms
+2025-07-14 21:35:15 INFO: HTTP GET /favicon.ico [33m404[39m 1ms
+2025-07-14 21:35:15 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 0ms
+2025-07-14 21:35:15 INFO: HTTP GET /favicon.ico [33m404[39m 1ms
+2025-07-14 21:35:15 INFO: HTTP GET /api/admin/exports/categories?format=csv [33m403[39m 0ms
+2025-07-14 21:35:15 INFO: HTTP GET /favicon.ico [33m404[39m 0ms
+2025-07-14 21:37:44 INFO: Server is running on port 3000
+2025-07-14 21:37:44 INFO: Environment: development
+2025-07-14 21:37:44 INFO: Database User: postgres
+2025-07-14 21:37:50 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 155ms
+2025-07-14 21:40:13 INFO: Server is running on port 3000
+2025-07-14 21:40:13 INFO: Environment: development
+2025-07-14 21:40:13 INFO: Database User: postgres
+2025-07-14 21:40:26 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 162ms
+2025-07-14 21:40:26 INFO: CSV export completed for 3 categories.
+2025-07-14 21:40:39 INFO: HTTP GET /api/admin/exports/categories?format=excel [32m200[39m 122ms
+2025-07-14 21:40:39 INFO: Excel export completed for 3 categories.
+2025-07-14 21:40:46 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 4ms
+2025-07-14 21:40:46 INFO: CSV export completed for 3 categories.
+2025-07-14 21:42:35 INFO: Server is running on port 3000
+2025-07-14 21:42:35 INFO: Environment: development
+2025-07-14 21:42:35 INFO: Database User: postgres
+2025-07-14 21:42:40 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 159ms
+2025-07-14 21:42:40 INFO: CSV export completed for 3 categories.
+2025-07-14 21:43:24 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 56ms
+2025-07-14 21:43:24 INFO: CSV export completed for 3 categories.
+2025-07-14 22:18:01 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 64ms
+2025-07-14 22:18:01 INFO: CSV export completed for 3 categories.
+2025-07-14 22:20:04 INFO: Server is running on port 3000
+2025-07-14 22:20:04 INFO: Environment: development
+2025-07-14 22:20:04 INFO: Database User: postgres
+2025-07-14 22:20:13 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 166ms
+2025-07-14 22:20:13 INFO: CSV export completed for 3 categories.
+2025-07-14 22:20:23 INFO: HTTP GET /api/admin/exports/categories?format=exce; [33m400[39m 3ms
+2025-07-14 22:20:33 INFO: HTTP GET /api/admin/exports/categories?format=excel; [33m400[39m 0ms
+2025-07-14 22:20:37 INFO: Excel export completed for 3 categories.
+2025-07-14 22:20:37 INFO: HTTP GET /api/admin/exports/categories?format=excel [32m200[39m 112ms
+2025-07-14 22:21:01 INFO: HTTP GET /api/admin/exports/categories?format=csv [32m200[39m 59ms
+2025-07-14 22:21:01 INFO: CSV export completed for 3 categories.
+2025-07-14 22:29:54 INFO: Server is running on port 3000
+2025-07-14 22:29:54 INFO: Environment: development
+2025-07-14 22:29:54 INFO: Database User: postgres
+2025-07-14 22:30:02 INFO: HTTP GET /api-docs [36m301[39m 4ms
+2025-07-14 22:30:02 INFO: HTTP GET /api-docs/ [32m200[39m 5ms
+2025-07-14 22:30:02 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 9ms
+2025-07-14 22:30:02 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-14 22:30:02 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 12ms
+2025-07-14 22:30:02 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 25ms
+2025-07-14 22:31:00 INFO: HTTP GET /api-docs/ [32m200[39m 4ms
+2025-07-14 22:31:00 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 0ms
+2025-07-14 22:31:00 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 9ms
+2025-07-14 22:31:00 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 15ms
+2025-07-14 22:31:00 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 26ms
+2025-07-14 22:31:01 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 2ms
+2025-07-14 22:33:20 INFO: HTTP GET /api/admin/exports/products?format=json [32m200[39m 158ms
+2025-07-14 22:33:54 INFO: HTTP GET /api/admin/exports/products?format=csv [32m200[39m 67ms
+2025-07-14 22:33:54 INFO: CSV export completed for 5 products.
+2025-07-14 22:34:10 INFO: Excel export completed for 5 products.
+2025-07-14 22:34:10 INFO: HTTP GET /api/admin/exports/products?format=excel [32m200[39m 150ms
+2025-07-14 22:40:03 INFO: Server is running on port 3000
+2025-07-14 22:40:03 INFO: Environment: development
+2025-07-14 22:40:03 INFO: Database User: postgres
+2025-07-14 22:40:13 INFO: HTTP GET /api/admin/exports/users?format=json [32m200[39m 170ms
+2025-07-14 22:40:35 INFO: HTTP GET /api/admin/exports/users?format=csv [32m200[39m 65ms
+2025-07-14 22:40:35 INFO: CSV export completed for 2 users.
+2025-07-14 22:40:42 INFO: Excel export completed for 2 users.
+2025-07-14 22:40:42 INFO: HTTP GET /api/admin/exports/users?format=excel [32m200[39m 70ms
+2025-07-14 22:40:50 INFO: HTTP GET /api/admin/exports/users?format=csv [32m200[39m 5ms
+2025-07-14 22:40:50 INFO: CSV export completed for 2 users.
+2025-07-14 22:48:04 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=json&startDate=2025-07-01&endDate=2025-07-31 [33m404[39m 64ms
+2025-07-14 22:48:13 INFO: Server is running on port 3000
+2025-07-14 22:48:13 INFO: Environment: development
+2025-07-14 22:48:13 INFO: Database User: postgres
+2025-07-14 22:48:18 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=json&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 690ms
+2025-07-14 22:48:43 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=csv&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 64ms
+2025-07-14 22:48:43 INFO: CSV export completed for sales report.
+2025-07-14 22:48:52 INFO: Excel export completed for sales report.
+2025-07-14 22:48:52 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=excel&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 80ms
+2025-07-14 22:49:00 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=csv&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 6ms
+2025-07-14 22:49:00 INFO: CSV export completed for sales report.
+2025-07-14 22:49:21 INFO: HTTP GET /api/admin/exports/reports?reportType=low_stock&format=csv&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 65ms
+2025-07-14 22:49:21 INFO: CSV export completed for low_stock report.
+2025-07-14 22:49:29 INFO: HTTP GET /api/admin/exports/reports?reportType=low_stock&format=json&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 7ms
+2025-07-14 23:04:22 INFO: Server is running on port 3000
+2025-07-14 23:04:22 INFO: Environment: development
+2025-07-14 23:04:22 INFO: Database User: postgres
+2025-07-14 23:05:21 INFO: HTTP GET /api/admin/exports/orders?format=json [32m200[39m 208ms
+2025-07-14 23:06:16 INFO: HTTP GET /api/admin/exports/orders?format=json&startDate=2025-07-01&endDate=2025-07-31&status=delivered [32m200[39m 180ms
+2025-07-14 23:06:28 INFO: HTTP GET /api/admin/exports/orders?format=json&startDate=2025-07-01&endDate=2025-07-31&status=delivered [32m200[39m 65ms
+2025-07-14 23:06:59 INFO: HTTP GET /api/admin/exports/orders?format=json&startDate=2025-07-01&endDate=2025-07-31 [32m200[39m 230ms
+2025-07-14 23:07:04 INFO: HTTP GET /api/admin/exports/orders?format=json&startDate=2025-07-01&endDate=2025-07-31&status=delivered [32m200[39m 13ms
+2025-07-14 23:07:30 INFO: HTTP GET /api/admin/exports/orders?format=csv&startDate=2025-07-01&endDate=2025-07-31&status=delivered [32m200[39m 64ms
+2025-07-14 23:07:30 INFO: CSV export completed for 1 orders.
+2025-07-14 23:07:55 INFO: HTTP GET /api/admin/exports/orders?format=csv [32m200[39m 60ms
+2025-07-14 23:07:55 INFO: CSV export completed for 2 orders.
+2025-07-14 23:08:12 INFO: Excel export completed for 2 orders.
+2025-07-14 23:08:12 INFO: HTTP GET /api/admin/exports/orders?format=excel [32m200[39m 242ms
+2025-07-14 23:08:19 INFO: HTTP GET /api/admin/exports/orders?format=json [32m200[39m 9ms
+2025-07-14 23:08:55 INFO: HTTP GET /api-docs/ [36m304[39m 4ms
+2025-07-14 23:08:55 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-07-14 23:08:55 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-14 23:08:55 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 7ms
+2025-07-14 23:08:55 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 7ms
+2025-07-14 23:09:23 INFO: HTTP GET /api/admin/exports/reports [33m400[39m 66ms
+2025-07-14 23:10:46 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format%20=json [33m400[39m 62ms
+2025-07-14 23:11:10 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=json [32m200[39m 59ms
+2025-07-14 23:14:41 INFO: HTTP GET /api/admin/exports/orders?format=json&status=paid [32m200[39m 67ms
+2025-07-14 23:18:26 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType%20=sales&format%20=json [33m400[39m 63ms
+2025-07-14 23:18:37 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType%20=sales&format%20=json [33m400[39m 51ms
+2025-07-14 23:18:43 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType%20=sales&format=json [33m400[39m 3ms
+2025-07-14 23:18:49 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 7ms
+2025-07-14 23:18:55 INFO: HTTP GET /api/admin/exports/reports?reportType=sales&format=json [32m200[39m 5ms
+2025-07-14 23:23:48 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 156ms
+2025-07-14 23:25:14 INFO: Server is running on port 3000
+2025-07-14 23:25:14 INFO: Environment: development
+2025-07-14 23:25:14 INFO: Database User: postgres
+2025-07-14 23:25:18 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 422ms
+2025-07-14 23:29:18 INFO: Server is running on port 3000
+2025-07-14 23:29:18 INFO: Environment: development
+2025-07-14 23:29:18 INFO: Database User: postgres
+2025-07-14 23:29:23 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 296ms
+2025-07-14 23:33:01 INFO: Server is running on port 3000
+2025-07-14 23:33:01 INFO: Environment: development
+2025-07-14 23:33:01 INFO: Database User: postgres
+2025-07-14 23:33:05 ERROR: Error exporting sales report: column Order.ASC does not exist
+2025-07-14 23:33:05 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [31m500[39m 257ms
+2025-07-14 23:33:09 ERROR: Error exporting sales report: column Order.ASC does not exist
+2025-07-14 23:33:09 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [31m500[39m 10ms
+2025-07-14 23:33:48 INFO: Server is running on port 3000
+2025-07-14 23:33:48 INFO: Environment: development
+2025-07-14 23:33:48 INFO: Database User: postgres
+2025-07-14 23:34:06 ERROR: Error exporting sales report: column Order.ASC does not exist
+2025-07-14 23:34:06 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [31m500[39m 184ms
+2025-07-14 23:36:19 INFO: Server is running on port 3000
+2025-07-14 23:36:19 INFO: Environment: development
+2025-07-14 23:36:19 INFO: Database User: postgres
+2025-07-14 23:36:23 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 315ms
+2025-07-14 23:41:47 INFO: Server is running on port 3000
+2025-07-14 23:41:47 INFO: Environment: development
+2025-07-14 23:41:47 INFO: Database User: postgres
+2025-07-14 23:42:04 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 160ms
+2025-07-14 23:46:04 INFO: Server is running on port 3000
+2025-07-14 23:46:04 INFO: Environment: development
+2025-07-14 23:46:04 INFO: Database User: postgres
+2025-07-14 23:46:09 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=sales&format=json [32m200[39m 155ms
+2025-07-14 23:48:28 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=low-stack&format=json [33m400[39m 75ms
+2025-07-14 23:48:37 INFO: HTTP GET /api/admin/exports/reports?startDate=2025-07-01&endDate=2025-07-31&reportType=low_stock&format=json [32m200[39m 9ms

@@ -1,0 +1,105 @@
+2025-07-12 19:53:52 ERROR: HTTP Error POST /users/login 200 invalid csrf token
+2025-07-12 19:53:52 ERROR: Unhandled error: invalid csrf token
+2025-07-12 20:13:08 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-12 20:13:08 ERROR: Unhandled error: invalid csrf token
+2025-07-12 20:19:37 ERROR: Error processing or saving advice message/response: notNull Violation: OnlineShoppingAdvice.user_id cannot be null
+2025-07-13 15:42:35 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-13 15:42:35 ERROR: Unhandled error: invalid csrf token
+2025-07-13 15:42:48 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-13 15:42:48 ERROR: Unhandled error: invalid csrf token
+2025-07-13 15:47:36 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 15:47:36 ERROR: Unhandled error: invalid csrf token
+2025-07-13 15:52:05 ERROR: HTTP Error POST /api/users/forgot-password 200 Cannot destructure property 'identifier' of 'req.body' as it is undefined.
+2025-07-13 15:52:05 ERROR: Unhandled error: Cannot destructure property 'identifier' of 'req.body' as it is undefined.
+2025-07-13 16:00:07 ERROR: HTTP Error POST /api/users/forgot-password 200 validator is not defined
+2025-07-13 16:00:07 ERROR: Unhandled error: validator is not defined
+2025-07-13 16:02:51 ERROR: HTTP Error POST /api/users/forgot-password 200 validator is not defined
+2025-07-13 16:02:51 ERROR: Unhandled error: validator is not defined
+2025-07-13 16:05:31 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:15:34 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:20:29 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:25:26 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:26:58 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 16:26:58 ERROR: Unhandled error: invalid csrf token
+2025-07-13 16:27:24 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:37:16 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:38:41 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 16:47:21 ERROR: خطا در ارسال پیامک: api is not defined
+2025-07-13 16:48:26 ERROR: خطا در ارسال پیامک: ارسال پیامک ناموفق بود. وضعیت: 501
+2025-07-13 16:54:17 ERROR: خطا در ارسال پیامک: ارسال پیامک ناموفق بود. وضعیت: 501
+2025-07-13 16:57:47 ERROR: خطا در ارسال پیامک: api is not defined
+2025-07-13 17:10:04 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:16:51 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:19:49 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:21:25 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:21:28 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:22:28 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:27:56 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:49:35 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:50:40 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-13 17:50:40 ERROR: Unhandled error: invalid csrf token
+2025-07-13 17:51:09 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:51:30 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:52:29 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:53:00 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:55:03 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:55:51 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 17:56:59 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 18:09:57 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 18:12:07 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 18:46:16 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:46:16 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:46:32 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:46:32 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:50:15 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:50:15 ERROR: Unhandled error: invalid csrf token
+2025-07-13 18:52:13 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 18:52:13 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:22:40 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:22:40 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:27:52 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:27:52 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:31:36 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:31:36 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:31:39 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:31:39 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:32:02 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 19:32:06 ERROR: HTTP Error POST /api/users/forgot-password 200 invalid csrf token
+2025-07-13 19:32:06 ERROR: Unhandled error: invalid csrf token
+2025-07-13 19:38:58 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 19:44:06 ERROR: خطا در forgotPassword: ارسال پیامک ناموفق بود.
+2025-07-13 22:06:48 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:08:40 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:15:35 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:22:16 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:22:48 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-13 22:25:29 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-flash:generateContent: [403 Forbidden] 
+2025-07-13 22:41:53 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-flash:generateContent: [403 Forbidden] 
+2025-07-13 23:34:27 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent: [403 Forbidden] 
+2025-07-13 23:48:18 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent: [403 Forbidden] 
+2025-07-13 23:59:30 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent: [403 Forbidden] 
+2025-07-14 00:11:17 ERROR: Error communicating with OpenAI API: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+2025-07-14 00:13:50 ERROR: Error communicating with OpenAI API: 401 Incorrect API key provided: sk-1234q*******************************qrst. You can find your API key at https://platform.openai.com/account/api-keys.
+2025-07-14 00:55:24 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 00:58:32 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:00:00 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:00:04 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:05:40 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:10:05 ERROR: Error communicating with Groq API: 404 {"error":{"message":"Not Found"}}
+2025-07-14 01:24:36 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 01:25:24 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:16:50 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:16:58 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:17:00 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:17:02 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:18:24 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:42:59 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:43:08 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 15:48:04 ERROR: Error communicating with Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [403 Forbidden] 
+2025-07-14 20:16:55 ERROR: Error requesting OTP: kavenegarApi is not defined
+2025-07-14 20:18:40 ERROR: Error requesting OTP: kavenegarApi is not defined
+2025-07-14 21:31:01 ERROR: HTTP Error GET /api/admin/exports/categories?format=csv 200 logger is not defined
+2025-07-14 21:31:01 ERROR: Unhandled error: logger is not defined
+2025-07-14 23:33:05 ERROR: Error exporting sales report: column Order.ASC does not exist
+2025-07-14 23:33:09 ERROR: Error exporting sales report: column Order.ASC does not exist
+2025-07-14 23:34:06 ERROR: Error exporting sales report: column Order.ASC does not exist
