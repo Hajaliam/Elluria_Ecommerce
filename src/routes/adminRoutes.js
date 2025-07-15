@@ -487,5 +487,202 @@ router.get('/exports/reports', adminController.exportReports);
  */
 router.get('/exports/orders', adminController.exportOrders); // 👈 صادرات سفارش‌ها
 
+/**
+ * @swagger
+ * /api/admin/exports/payments:
+ *   get:
+ *     summary: Export payments data in various formats (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [json, csv, excel]
+ *         required: true
+ *         description: Desired export format
+ *         example: csv
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Filter payments by date from (YYYY-MM-DD)
+ *         example: 2025-01-01
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Filter payments by date to (YYYY-MM-DD)
+ *         example: 2025-12-31
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *         description: Filter payments by status (e.g., success, failed)
+ *         example: success
+ *       - in: query
+ *         name: method
+ *         schema:
+ *           type: string
+ *         description: Filter payments by method (e.g., Zarinpal, CreditCard)
+ *         example: Zarinpal
+ *     responses:
+ *       200:
+ *         description: Successfully exported payments. Returns file download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *             example: Returns JSON data
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *             example: Returns CSV data
+ *           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+ *             schema:
+ *               type: string
+ *             example: Returns Excel (xlsx) data
+ *       400:
+ *         description: Invalid or missing parameters/format
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role)
+ *       500:
+ *         description: Server error
+ */
+router.get('/exports/payments', adminController.exportPayments);
+
+/**
+ * @swagger
+ * /api/admin/exports/coupons:
+ *   get:
+ *     summary: Export coupons data in various formats (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [json, csv, excel]
+ *         required: true
+ *         description: Desired export format
+ *         example: csv
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *         description: Filter by status (e.g., true for active, false for inactive)
+ *         example: true
+ *       - in: query
+ *         name: min_amount
+ *         schema:
+ *           type: number
+ *         description: Filter by minimum order amount (min_amount)
+ *         example: 50
+ *       - in: query
+ *         name: discount_type
+ *         schema:
+ *           type: string
+ *         description: Filter by discount type (e.g., percentage, fixed_amount)
+ *         example: percentage
+ *     responses:
+ *       200:
+ *         description: Successfully exported coupons. Returns file download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *             example: Returns JSON data
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *             example: Returns CSV data
+ *           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+ *             schema:
+ *               type: string
+ *             example: Returns Excel (xlsx) data
+ *       400:
+ *         description: Invalid or missing parameters/format
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role)
+ *       500:
+ *         description: Server error
+ */
+router.get('/exports/coupons', adminController.exportCoupons); // 👈 صادرات کوپن‌ها
+
+/**
+ * @swagger
+ * /api/admin/exports/reviews:
+ *   get:
+ *     summary: Export product reviews and ratings (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [json, csv, excel]
+ *         required: true
+ *         description: Desired export format
+ *         example: csv
+ *       - in: query
+ *         name: productId
+ *         schema:
+ *           type: integer
+ *         description: Filter reviews by product ID
+ *         example: 1
+ *       - in: query
+ *         name: minRating
+ *         schema:
+ *           type: integer
+ *         description: Filter reviews with a minimum rating
+ *         example: 4
+ *       - in: query
+ *         name: maxRating
+ *         schema:
+ *           type: integer
+ *         description: Filter reviews with a maximum rating
+ *         example: 5
+ *     responses:
+ *       200:
+ *         description: Successfully exported reviews. Returns file download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *             example: Returns JSON data
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *             example: Returns CSV data
+ *           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+ *             schema:
+ *               type: string
+ *             example: Returns Excel (xlsx) data
+ *       400:
+ *         description: Invalid or missing parameters/format
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role)
+ *       500:
+ *         description: Server error
+ */
+router.get('/exports/reviews', adminController.exportReviews); // 👈 صادرات نظرات
+
 
 module.exports = router;

@@ -103,3 +103,6 @@
 2025-07-14 23:33:05 ERROR: Error exporting sales report: column Order.ASC does not exist
 2025-07-14 23:33:09 ERROR: Error exporting sales report: column Order.ASC does not exist
 2025-07-14 23:34:06 ERROR: Error exporting sales report: column Order.ASC does not exist
+2025-07-15 09:38:48 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
+2025-07-15 09:38:48 ERROR: Unhandled error: invalid csrf token
+2025-07-15 09:41:30 ERROR: Error exporting coupons: coupon.expiry_date.toISOString is not a function

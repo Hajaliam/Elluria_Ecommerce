@@ -893,4 +893,369 @@ exports.exportOrders = async (req, res) => {
     }
 };
 
+//تابع برای صادرات تراکنش‌ها (Payments) در فرمت‌های مختلف
+exports.exportPayments = async (req, res) => {
+    const { format, startDate, endDate, status, method } = req.query; // فیلترها
+    const allowedFormats = ['json', 'csv', 'excel'];
 
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: json, csv, excel.' });
+    }
+
+    const filenameBase = `payments_export_${Date.now()}`;
+    res.status(200);
+
+    const whereClause = {};
+    if (startDate) {
+        whereClause.payment_date = { [db.Sequelize.Op.gte]: new Date(startDate) };
+    }
+    if (endDate) {
+        whereClause.payment_date = { ...whereClause.payment_date, [db.Sequelize.Op.lte]: new Date(endDate) };
+    }
+    if (status) {
+        whereClause.status = status;
+    }
+    if (method) {
+        whereClause.method = method;
+    }
+
+    try {
+        const payments = await db.Payment.findAll({
+            where: whereClause,
+            include: [
+                {
+                    model: db.Order,
+                    as: 'order',
+                    attributes: ['id', 'user_id', 'total_amount', 'status'],
+                    include: [{ model: db.User, as: 'user', attributes: ['username', 'email'] }]
+                }
+            ],
+            order: [['payment_date', 'DESC']]
+        });
+
+        // مسطح کردن داده‌های تراکنش برای CSV/Excel
+        const paymentsData = payments.map(payment => ({
+            id: payment.id,
+            transaction_id: payment.transaction_id,
+            order_id: payment.order.id,
+            customer_username: payment.order.user ? payment.order.user.username : 'N/A',
+            customer_email: payment.order.user ? payment.order.user.email : 'N/A',
+            amount: parseFloat(payment.amount),
+            method: payment.method,
+            status: payment.status,
+            payment_date: payment.payment_date.toISOString(),
+            refunded: payment.refunded,
+            refund_reason: payment.refund_reason,
+            createdAt: payment.createdAt.toISOString(),
+            updatedAt: payment.updatedAt.toISOString()
+        }));
+
+        switch (format.toLowerCase()) {
+            case 'json':
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.json`);
+                res.send(JSON.stringify(payments, null, 2)); // برای JSON، کل آبجکت payment را می‌دهیم
+                break;
+
+            case 'csv':
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.csv`);
+
+                const csvStringifier = createCsvStringifier({
+                    header: [
+                        { id: 'id', title: 'ID' },
+                        { id: 'transaction_id', title: 'Transaction ID' },
+                        { id: 'order_id', title: 'Order ID' },
+                        { id: 'customer_username', title: 'Customer Username' },
+                        { id: 'customer_email', title: 'Customer Email' },
+                        { id: 'amount', title: 'Amount' },
+                        { id: 'method', title: 'Payment Method' },
+                        { id: 'status', title: 'Status' },
+                        { id: 'payment_date', title: 'Payment Date' },
+                        { id: 'refunded', title: 'Refunded' },
+                        { id: 'refund_reason', title: 'Refund Reason' },
+                        { id: 'createdAt', title: 'Created At' },
+                        { id: 'updatedAt', title: 'Updated At' }
+                    ]
+                });
+
+                res.write(csvStringifier.getHeaderString());
+                paymentsData.forEach(row => {
+                    res.write(csvStringifier.stringifyRecords([row]));
+                });
+                res.end();
+                logger.info(`CSV export completed for ${paymentsData.length} payments.`);
+                break;
+
+            case 'excel':
+                res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.xlsx`);
+
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet('Payments');
+
+                worksheet.columns = [
+                    { header: 'ID', key: 'id', width: 10 },
+                    { header: 'Transaction ID', key: 'transaction_id', width: 30 },
+                    { header: 'Order ID', key: 'order_id', width: 15 },
+                    { header: 'Customer Username', key: 'customer_username', width: 20 },
+                    { header: 'Customer Email', key: 'customer_email', width: 30 },
+                    { header: 'Amount', key: 'amount', width: 15 },
+                    { header: 'Payment Method', key: 'method', width: 15 },
+                    { header: 'Status', key: 'status', width: 15 },
+                    { header: 'Payment Date', key: 'payment_date', width: 25 },
+                    { header: 'Refunded', key: 'refunded', width: 10 },
+                    { header: 'Refund Reason', key: 'refund_reason', width: 30 },
+                    { header: 'Created At', key: 'createdAt', width: 25 },
+                    { header: 'Updated At', key: 'updatedAt', width: 25 }
+                ];
+
+                worksheet.addRows(paymentsData);
+                await workbook.xlsx.write(res);
+                logger.info(`Excel export completed for ${paymentsData.length} payments.`);
+                break;
+
+            default:
+                return res.status(400).json({ message: 'Unsupported format.' });
+        }
+    } catch (error) {
+        logger.error(`Error exporting payments: ${error.message}`, { stack: error.stack });
+        if (!res.headersSent) {
+            res.status(500).json({ message: 'Server error during export', error: error.message });
+        } else {
+            res.end();
+        }
+    }
+};
+
+//تابع برای صادرات کوپن ها و تخفیف ها
+exports.exportCoupons = async (req, res) => {
+    const { format, status, min_amount, discount_type } = req.query; // فیلترها
+    const allowedFormats = ['json', 'csv', 'excel'];
+
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: json, csv, excel.' });
+    }
+
+    const filenameBase = `coupons_export_${Date.now()}`;
+    res.status(200);
+
+    const whereClause = {};
+    if (status) {
+        whereClause.isActive = status.toLowerCase() === 'true';
+    }
+    if (min_amount) {
+        whereClause.min_amount = { [db.Sequelize.Op.gte]: min_amount };
+    }
+    if (discount_type) {
+        whereClause.discount_type = discount_type;
+    }
+
+    try {
+        const coupons = await db.Coupon.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']]
+        });
+
+        const couponsData = coupons.map(coupon => ({
+            id: coupon.id,
+            code: coupon.code,
+            discount_type: coupon.discount_type,
+            discount_value: parseFloat(coupon.discount_value),
+            min_amount: parseFloat(coupon.min_amount),
+            usage_limit: coupon.usage_limit,
+            used_count: coupon.used_count,
+            expiry_date: coupon.expiry_date || 'N/A', // 👈 **اینجا اصلاح شد!** از مقدار رشته‌ای مستقیم استفاده می‌کنیم
+            isActive: coupon.isActive,
+            createdAt: coupon.createdAt.toISOString(),
+            updatedAt: coupon.updatedAt.toISOString()
+        }));
+
+        switch (format.toLowerCase()) {
+            case 'json':
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.json`);
+                res.send(JSON.stringify(coupons, null, 2));
+                break;
+
+            case 'csv':
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.csv`);
+
+                const csvStringifier = createCsvStringifier({
+                    header: [
+                        { id: 'id', title: 'ID' },
+                        { id: 'code', title: 'Code' },
+                        { id: 'discount_type', title: 'Discount Type' },
+                        { id: 'discount_value', title: 'Discount Value' },
+                        { id: 'min_amount', title: 'Min Amount' },
+                        { id: 'usage_limit', title: 'Usage Limit' },
+                        { id: 'used_count', title: 'Used Count' },
+                        { id: 'expiry_date', title: 'Expiry Date' },
+                        { id: 'isActive', title: 'Is Active' },
+                        { id: 'createdAt', title: 'Created At' },
+                        { id: 'updatedAt', title: 'Updated At' }
+                    ]
+                });
+
+                res.write(csvStringifier.getHeaderString());
+                couponsData.forEach(row => {
+                    res.write(csvStringifier.stringifyRecords([row]));
+                });
+                res.end();
+                logger.info(`CSV export completed for ${couponsData.length} coupons.`);
+                break;
+
+            case 'excel':
+                res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.xlsx`);
+
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet('Coupons');
+
+                worksheet.columns = [
+                    { header: 'ID', key: 'id', width: 10 },
+                    { header: 'Code', key: 'code', width: 20 },
+                    { header: 'Discount Type', key: 'discount_type', width: 15 },
+                    { header: 'Discount Value', key: 'discount_value', width: 15 },
+                    { header: 'Min Amount', key: 'min_amount', width: 15 },
+                    { header: 'Usage Limit', key: 'usage_limit', width: 15 },
+                    { header: 'Used Count', key: 'used_count', width: 15 },
+                    { header: 'Expiry Date', key: 'expiry_date', width: 15 },
+                    { header: 'Is Active', key: 'isActive', width: 10 },
+                    { header: 'Created At', key: 'createdAt', width: 25 },
+                    { header: 'Updated At', key: 'updatedAt', width: 25 }
+                ];
+
+                worksheet.addRows(couponsData);
+                await workbook.xlsx.write(res);
+                logger.info(`Excel export completed for ${couponsData.length} coupons.`);
+                break;
+
+            default:
+                return res.status(400).json({ message: 'Unsupported format.' });
+        }
+    } catch (error) {
+        logger.error(`Error exporting coupons: ${error.message}`, { stack: error.stack });
+        if (!res.headersSent) {
+            res.status(500).json({ message: 'Server error during export', error: error.message });
+        } else {
+            res.end();
+        }
+    }
+};
+
+//تابع برای صادرات نظرات محصولات
+exports.exportReviews = async (req, res) => {
+    const { format, productId, minRating, maxRating } = req.query; // فیلترها
+    const allowedFormats = ['json', 'csv', 'excel'];
+
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: json, csv, excel.' });
+    }
+
+    const filenameBase = `reviews_export_${Date.now()}`;
+    res.status(200);
+
+    const whereClause = {};
+    if (productId) {
+        whereClause.product_id = productId;
+    }
+    if (minRating) {
+        whereClause.rating = { [db.Sequelize.Op.gte]: minRating };
+    }
+    if (maxRating) {
+        whereClause.rating = { ...whereClause.rating, [db.Sequelize.Op.lte]: maxRating };
+    }
+
+    try {
+        const reviews = await db.Review.findAll({
+            where: whereClause,
+            include: [
+                { model: db.User, as: 'user', attributes: ['username', 'email', 'first_name', 'last_name'] },
+                { model: db.Product, as: 'product', attributes: ['name', 'slug'] }
+            ],
+            order: [['createdAt', 'DESC']]
+        });
+
+        const reviewsData = reviews.map(review => ({
+            id: review.id,
+            rating: review.rating,
+            comment: review.comment,
+            product_name: review.product ? review.product.name : 'N/A',
+            product_slug: review.product ? review.product.slug : 'N/A',
+            username: review.user ? review.user.username : 'N/A',
+            user_email: review.user ? review.user.email : 'N/A',
+            createdAt: review.createdAt.toISOString(),
+            updatedAt: review.updatedAt.toISOString()
+        }));
+
+        switch (format.toLowerCase()) {
+            case 'json':
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.json`);
+                res.send(JSON.stringify(reviews, null, 2));
+                break;
+
+            case 'csv':
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.csv`);
+
+                const csvStringifier = createCsvStringifier({
+                    header: [
+                        { id: 'id', title: 'ID' },
+                        { id: 'rating', title: 'Rating' },
+                        { id: 'comment', title: 'Comment' },
+                        { id: 'product_name', title: 'Product Name' },
+                        { id: 'product_slug', title: 'Product Slug' },
+                        { id: 'username', title: 'Username' },
+                        { id: 'user_email', title: 'User Email' },
+                        { id: 'createdAt', title: 'Created At' },
+                        { id: 'updatedAt', title: 'Updated At' }
+                    ]
+                });
+
+                res.write(csvStringifier.getHeaderString());
+                reviewsData.forEach(row => {
+                    res.write(csvStringifier.stringifyRecords([row]));
+                });
+                res.end();
+                logger.info(`CSV export completed for ${reviewsData.length} reviews.`);
+                break;
+
+            case 'excel':
+                res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.xlsx`);
+
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet('Reviews');
+
+                worksheet.columns = [
+                    { header: 'ID', key: 'id', width: 10 },
+                    { header: 'Rating', key: 'rating', width: 10 },
+                    { header: 'Comment', key: 'comment', width: 50 },
+                    { header: 'Product Name', key: 'product_name', width: 30 },
+                    { header: 'Product Slug', key: 'product_slug', width: 25 },
+                    { header: 'Username', key: 'username', width: 20 },
+                    { header: 'User Email', key: 'user_email', width: 30 },
+                    { header: 'Created At', key: 'createdAt', width: 25 },
+                    { header: 'Updated At', key: 'updatedAt', width: 25 }
+                ];
+
+                worksheet.addRows(reviewsData);
+                await workbook.xlsx.write(res);
+                logger.info(`Excel export completed for ${reviewsData.length} reviews.`);
+                break;
+
+            default:
+                return res.status(400).json({ message: 'Unsupported format.' });
+        }
+    } catch (error) {
+        logger.error(`Error exporting reviews: ${error.message}`, { stack: error.stack });
+        if (!res.headersSent) {
+            res.status(500).json({ message: 'Server error during export', error: error.message });
+        } else {
+            res.end();
+        }
+    }
+};
