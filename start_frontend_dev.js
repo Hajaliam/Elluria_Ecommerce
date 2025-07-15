@@ -8,5 +8,7 @@ const port = 3001; // پورت جداگانه برای سرور فرانت‌ا�
 app.use(express.static(path.join(__dirname, './'))); // فایل‌ها را از ریشه پروژه سرویس می‌دهد
 
 app.listen(port, () => {
-    console.log(`Development frontend server running at http://localhost:${port}/ws_test.html`);
+  console.log(
+    `Development frontend server running at http://localhost:${port}/ws_test.html`,
+  );
 });

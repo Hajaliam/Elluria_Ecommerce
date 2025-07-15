@@ -3,11 +3,10 @@ const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const rateLimitMiddleware = require('../middlewares/rateLimitMiddleware');
 const db = require('../../models');
-const csrf = require("csurf");
+const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
 const router = express.Router();
-
 
 /**
  * @swagger
@@ -93,7 +92,12 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/register', csrfProtection,rateLimitMiddleware.authLimiter, userController.register);
+router.post(
+  '/register',
+  csrfProtection,
+  rateLimitMiddleware.authLimiter,
+  userController.register,
+);
 
 /**
  * @swagger
@@ -153,7 +157,12 @@ router.post('/register', csrfProtection,rateLimitMiddleware.authLimiter, userCon
  *       500:
  *         description: Server error
  */
-router.post('/login', csrfProtection,rateLimitMiddleware.authLimiter, userController.login);
+router.post(
+  '/login',
+  csrfProtection,
+  rateLimitMiddleware.authLimiter,
+  userController.login,
+);
 
 /**
  * @swagger
@@ -206,27 +215,48 @@ router.post('/login', csrfProtection,rateLimitMiddleware.authLimiter, userContro
  *       500:
  *         description: Server error
  */
-router.get('/profile', csrfProtection,authMiddleware.authenticateToken, async (req, res) => {
+router.get(
+  '/profile',
+  csrfProtection,
+  authMiddleware.authenticateToken,
+  async (req, res) => {
     try {
-        const user = await db.User.findByPk(req.user.id, {
-            attributes: ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number'],
-            include: [{
-                model: db.Role,
-                as: 'role',
-                attributes: ['name']
-            }]
-        });
+      const user = await db.User.findByPk(req.user.id, {
+        attributes: [
+          'id',
+          'username',
+          'email',
+          'first_name',
+          'last_name',
+          'phone_number',
+        ],
+        include: [
+          {
+            model: db.Role,
+            as: 'role',
+            attributes: ['name'],
+          },
+        ],
+      });
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found.' });
-        }
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
 
-        res.status(200).json({ message: 'User profile accessed successfully!', user: user });
+      res
+        .status(200)
+        .json({ message: 'User profile accessed successfully!', user: user });
     } catch (error) {
-        console.error('Error fetching user profile:', error);
-        res.status(500).json({ message: 'Server error fetching profile.', error: error.message });
+      console.error('Error fetching user profile:', error);
+      res
+        .status(500)
+        .json({
+          message: 'Server error fetching profile.',
+          error: error.message,
+        });
     }
-});
+  },
+);
 
 /**
  * @swagger
@@ -289,16 +319,27 @@ router.get('/profile', csrfProtection,authMiddleware.authenticateToken, async (r
  *       500:
  *         description: Server error
  */
-router.post('/:userId/addresses', csrfProtection,authMiddleware.authenticateToken, async (req, res, next) => {
+router.post(
+  '/:userId/addresses',
+  csrfProtection,
+  authMiddleware.authenticateToken,
+  async (req, res, next) => {
     const userIdFromParam = parseInt(req.params.userId, 10);
     const userIdFromToken = req.user.id;
     const userRole = await db.Role.findByPk(req.user.role_id);
 
     if (userIdFromParam !== userIdFromToken && userRole.name !== 'admin') {
-        return res.status(403).json({ message: 'Access Denied: You can only add addresses for your own account.' });
+      return res
+        .status(403)
+        .json({
+          message:
+            'Access Denied: You can only add addresses for your own account.',
+        });
     }
     next();
-}, userController.createAddress);
+  },
+  userController.createAddress,
+);
 
 /**
  * @swagger
@@ -337,7 +378,11 @@ router.post('/:userId/addresses', csrfProtection,authMiddleware.authenticateToke
  *       500:
  *         description: Server error
  */
-router.post('/forgot-password', authMiddleware.bypassCsrf ,userController.forgotPassword);
+router.post(
+  '/forgot-password',
+  authMiddleware.bypassCsrf,
+  userController.forgotPassword,
+);
 
 /**
  * @swagger
@@ -376,7 +421,11 @@ router.post('/forgot-password', authMiddleware.bypassCsrf ,userController.forgot
  *                 example: newStrongPassword123!
  */
 
-router.post('/reset-password/:token', authMiddleware.bypassCsrf,userController.resetPassword);
+router.post(
+  '/reset-password/:token',
+  authMiddleware.bypassCsrf,
+  userController.resetPassword,
+);
 
 /**
  * @swagger
@@ -436,7 +485,12 @@ router.post('/reset-password/:token', authMiddleware.bypassCsrf,userController.r
  *         description: Server error
  */
 
-router.get('/me',csrfProtection, authMiddleware.authenticateToken, userController.getUserProfile);
+router.get(
+  '/me',
+  csrfProtection,
+  authMiddleware.authenticateToken,
+  userController.getUserProfile,
+);
 
 /**
  * @swagger
@@ -521,7 +575,12 @@ router.get('/me',csrfProtection, authMiddleware.authenticateToken, userControlle
  *         description: Server error
  */
 
-router.put('/me', csrfProtection, authMiddleware.authenticateToken, userController.updateUserProfile);
+router.put(
+  '/me',
+  csrfProtection,
+  authMiddleware.authenticateToken,
+  userController.updateUserProfile,
+);
 
 /**
  * @swagger
@@ -553,7 +612,11 @@ router.put('/me', csrfProtection, authMiddleware.authenticateToken, userControll
  *       500:
  *         description: Server error
  */
-router.post('/request-otp', authMiddleware.bypassCsrf, userController.requestOtp);
+router.post(
+  '/request-otp',
+  authMiddleware.bypassCsrf,
+  userController.requestOtp,
+);
 
 /**
  * @swagger
@@ -624,6 +687,11 @@ router.post('/request-otp', authMiddleware.bypassCsrf, userController.requestOtp
  *         description: Server error
  */
 
-router.post('/verify-otp', authMiddleware.bypassCsrf, rateLimitMiddleware.verifyOTPlimitter,userController.verifyOtpAndLogin);
+router.post(
+  '/verify-otp',
+  authMiddleware.bypassCsrf,
+  rateLimitMiddleware.verifyOTPlimitter,
+  userController.verifyOtpAndLogin,
+);
 
 module.exports = router;

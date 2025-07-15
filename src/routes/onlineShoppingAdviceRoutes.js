@@ -84,10 +84,10 @@ const router = express.Router();
  *         description: Server error
  */
 router.get(
-    '/',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    onlineShoppingAdviceController.getAllAdvice
+  '/',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  onlineShoppingAdviceController.getAllAdvice,
 );
 
 /**
@@ -123,9 +123,9 @@ router.get(
  *         description: Server error
  */
 router.get(
-    '/:id',
-    authMiddleware.authenticateToken,
-    onlineShoppingAdviceController.getAdviceById
+  '/:id',
+  authMiddleware.authenticateToken,
+  onlineShoppingAdviceController.getAdviceById,
 );
 
 /**
@@ -175,10 +175,10 @@ router.get(
  *         description: Server error
  */
 router.put(
-    '/:id',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    onlineShoppingAdviceController.updateAdvice
+  '/:id',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  onlineShoppingAdviceController.updateAdvice,
 );
 
 /**
@@ -210,10 +210,10 @@ router.put(
  *         description: Server error
  */
 router.delete(
-    '/:id',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    onlineShoppingAdviceController.deleteAdvice
+  '/:id',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  onlineShoppingAdviceController.deleteAdvice,
 );
 
 module.exports = router;

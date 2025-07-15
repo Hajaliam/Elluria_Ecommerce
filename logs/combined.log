@@ -1108,3 +1108,90 @@
 2025-07-15 10:46:46 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
 2025-07-15 10:46:46 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 4ms
 2025-07-15 10:46:46 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms
+2025-07-15 12:34:57 INFO: Server is running on port 3000
+2025-07-15 12:34:57 INFO: Environment: development
+2025-07-15 12:34:57 INFO: Database User: postgres
+2025-07-15 12:36:09 ERROR: HTTP Error POST /api/admin/imports/orders 200 invalid csrf token
+2025-07-15 12:36:09 ERROR: Unhandled error: invalid csrf token
+2025-07-15 12:36:09 INFO: HTTP POST /api/admin/imports/orders [33m403[39m 42ms
+2025-07-15 12:36:16 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-15 12:36:27 INFO: HTTP POST /api/admin/imports/orders [33m400[39m 220ms
+2025-07-15 12:36:44 INFO: HTTP POST /api/admin/imports/orders [32m200[39m 130ms
+2025-07-15 12:36:59 INFO: HTTP GET /api/orders [33m403[39m 1ms
+2025-07-15 12:37:23 INFO: HTTP GET /api/orders [32m200[39m 81ms
+2025-07-15 12:38:06 INFO: HTTP GET /api/orders?status=paid [32m200[39m 174ms
+2025-07-15 12:38:24 INFO: HTTP GET /api/orders?payment_status=paid [32m200[39m 173ms
+2025-07-15 12:39:20 INFO: HTTP GET /api-docs/ [36m304[39m 4ms
+2025-07-15 12:39:20 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-07-15 12:39:20 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-15 12:39:20 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 3ms
+2025-07-15 12:39:20 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 7ms
+2025-07-15 12:50:42 INFO: Server is running on port 3000
+2025-07-15 12:50:42 INFO: Environment: development
+2025-07-15 12:50:42 INFO: Database User: postgres
+2025-07-15 12:50:47 INFO: HTTP GET /api/orders?payment_status=paid [32m200[39m 177ms
+2025-07-15 12:51:53 INFO: HTTP GET /api/orders?payment_status=unpaid&status=pending [32m200[39m 97ms
+2025-07-15 12:53:19 INFO: HTTP GET /api-docs/ [36m304[39m 3ms
+2025-07-15 12:53:19 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-15 12:53:19 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 9ms
+2025-07-15 12:53:19 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 11ms
+2025-07-15 12:53:19 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 15ms
+2025-07-15 12:53:20 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-15 12:56:07 INFO: Server is running on port 3000
+2025-07-15 12:56:07 INFO: Environment: development
+2025-07-15 12:56:07 INFO: Database User: postgres
+2025-07-15 12:57:46 ERROR: Error importing payment record: Validation error
+2025-07-15 12:57:46 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 12:57:46 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 214ms
+2025-07-15 13:09:33 INFO: Server is running on port 3000
+2025-07-15 13:09:34 INFO: Environment: development
+2025-07-15 13:09:34 INFO: Database User: postgres
+2025-07-15 13:09:37 ERROR: Error importing payment record: Validation error
+2025-07-15 13:09:37 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:09:37 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 222ms
+2025-07-15 13:11:46 INFO: HTTP GET /api-docs/ [36m304[39m 4ms
+2025-07-15 13:11:46 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-15 13:11:46 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 4ms
+2025-07-15 13:11:46 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-15 13:11:46 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 6ms
+2025-07-15 13:11:47 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms
+2025-07-15 13:15:58 INFO: Server is running on port 3000
+2025-07-15 13:15:58 INFO: Environment: development
+2025-07-15 13:15:58 INFO: Database User: postgres
+2025-07-15 13:16:03 ERROR: Error importing payment record: Validation error
+2025-07-15 13:16:03 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:16:03 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 511ms
+2025-07-15 13:25:16 INFO: Server is running on port 3000
+2025-07-15 13:25:16 INFO: Environment: development
+2025-07-15 13:25:16 INFO: Database User: postgres
+2025-07-15 13:25:23 INFO: Processing file: temp\bb875ef079dcd4298d09f7dee1272754, format: csv
+2025-07-15 13:25:23 ERROR: Error importing payments: csv is not defined
+2025-07-15 13:25:23 INFO: HTTP POST /api/admin/imports/payments [31m500[39m 330ms
+2025-07-15 13:29:18 INFO: Server is running on port 3000
+2025-07-15 13:29:18 INFO: Environment: development
+2025-07-15 13:29:18 INFO: Database User: postgres
+2025-07-15 13:29:26 INFO: Processing file: temp\448586102cffd50c7614e3511c2a2931, format: csv
+2025-07-15 13:29:26 ERROR: Error importing payments: parse.parse is not a function
+2025-07-15 13:29:27 INFO: HTTP POST /api/admin/imports/payments [31m500[39m 848ms
+2025-07-15 13:29:59 INFO: Server is running on port 3000
+2025-07-15 13:29:59 INFO: Environment: development
+2025-07-15 13:29:59 INFO: Database User: postgres
+2025-07-15 13:30:06 INFO: Processing file: temp\27cff07b611df422befafb2b4613b03e, format: csv
+2025-07-15 13:30:06 ERROR: Error importing payment record: Validation error
+2025-07-15 13:30:06 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:30:06 INFO: HTTP POST /api/admin/imports/payments [33m400[39m 1389ms
+2025-07-15 13:30:51 INFO: Server is running on port 3000
+2025-07-15 13:30:51 INFO: Environment: development
+2025-07-15 13:30:51 INFO: Database User: postgres
+2025-07-15 13:30:59 ERROR: Error importing payment record: Validation error
+2025-07-15 13:30:59 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:30:59 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 1332ms
+2025-07-15 13:34:13 INFO: Server is running on port 3000
+2025-07-15 13:34:13 INFO: Environment: development
+2025-07-15 13:34:13 INFO: Database User: postgres
+2025-07-15 13:34:24 ERROR: Error importing payment record: Validation error
+2025-07-15 13:34:25 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:34:25 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 3458ms
+2025-07-15 13:36:08 INFO: HTTP GET /api/orders [32m200[39m 88ms
+2025-07-15 13:37:33 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 83ms
+2025-07-15 13:38:05 INFO: HTTP POST /api/admin/imports/payments [32m200[39m 81ms

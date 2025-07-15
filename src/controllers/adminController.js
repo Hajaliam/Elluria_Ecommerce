@@ -14,6 +14,12 @@ const multer = require('multer');
 const logger = require('../config/logger');
 const moment = require('moment');
 const { sanitizeString } = require('../utils/sanitizer');
+// تابع برای اعتبارسنجی تاریخ
+const parseDate = (dateStr) => {
+    if (!dateStr) return new Date();
+    const date = new Date(dateStr);
+    return isNaN(date) ? new Date() : date;
+};
 // روت تست ادمین
 exports.adminDashboard = (req, res) => {
     res.status(200).json({ message: 'Welcome to the Admin Dashboard, ' + req.user.username + '!' });
@@ -1717,6 +1723,238 @@ exports.importUsers = async (req, res) => {
         }
     }
 };
+
+//تابع برای ایمپورت سفارشات
+exports.importOrders = async (req, res) => {
+    const file = req.file;
+    const { format } = req.body;
+    const allowedFormats = ['csv', 'excel'];
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        await fs.unlink(file.path);
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+    }
+
+    const t = await db.sequelize.transaction();
+
+    try {
+        let records = [];
+
+        if (format.toLowerCase() === 'csv') {
+            const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+            records = await new Promise((resolve, reject) => {
+                parse(fileContent, { columns: true, skip_empty_lines: true }, (err, records) => {
+                    if (err) reject(err);
+                    resolve(records);
+                });
+            });
+        } else if (format.toLowerCase() === 'excel') {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(file.path);
+            const worksheet = workbook.getWorksheet(1);
+
+            worksheet.eachRow((row, rowNumber) => {
+                if (rowNumber === 1) return; // Skip header row
+                const rowData = {
+                    customer_email: row.getCell(1).value,
+                    shipping_street: row.getCell(2).value,
+                    shipping_city: row.getCell(3).value,
+                    total_amount: row.getCell(4).value,
+                    status: row.getCell(5).value,
+                    payment_status: row.getCell(6).value,
+                    product_slug: row.getCell(7).value,
+                    quantity: row.getCell(8).value,
+                    // و ... فیلدهای دیگر
+                };
+                records.push(rowData);
+            });
+        }
+
+        let importedCount = 0;
+        const errors = [];
+
+        for (const record of records) {
+            const { customer_email, shipping_street, shipping_city, total_amount, status, payment_status, product_slug, quantity } = record;
+            const sanitizedEmail = sanitizeString(customer_email);
+
+            try {
+                // اعتبارسنجی: وجود مشتری (کاربر)
+                const user = await db.User.findOne({ where: { email: sanitizedEmail }, transaction: t });
+                if (!user) {
+                    errors.push({ record: record, error: `Customer with email '${sanitizedEmail}' not found.` });
+                    continue;
+                }
+
+                // اعتبارسنجی: وجود محصول
+                const product = await db.Product.findOne({ where: { slug: product_slug }, transaction: t });
+                if (!product) {
+                    errors.push({ record: record, error: `Product with slug '${product_slug}' not found.` });
+                    continue;
+                }
+
+                // اعتبارسنجی: وجود آدرس (فرض می‌کنیم آدرس پیش‌فرض مشتری است)
+                const shippingAddress = await db.Address.findOne({ where: { user_id: user.id, is_default: true }, transaction: t });
+                if (!shippingAddress) {
+                    errors.push({ record: record, error: `Default shipping address for user '${user.username}' not found.` });
+                    continue;
+                }
+
+                // ایجاد یا به‌روزرسانی سفارش (اگر شماره سفارش در فایل باشد)
+                // در این مثال، فرض می‌کنیم سفارشات جدید وارد می‌کنیم
+                const newOrder = await db.Order.create({
+                    user_id: user.id,
+                    total_amount: parseFloat(total_amount),
+                    status: sanitizeString(status),
+                    shipping_address_id: shippingAddress.id,
+                    payment_status: sanitizeString(payment_status),
+                    coupon_id: null, // فرض می‌کنیم فعلاً کوپن نداریم
+                }, { transaction: t });
+                importedCount++;
+
+                // ایجاد آیتم‌های سفارش
+                await db.OrderItem.create({
+                    order_id: newOrder.id,
+                    product_id: product.id,
+                    quantity: parseInt(quantity),
+                    price_at_purchase: parseFloat(product.price),
+                }, { transaction: t });
+
+            } catch (recordError) {
+                errors.push({ record: record, error: recordError.message });
+                logger.error(`Error importing order record: ${recordError.message}`, { record: record });
+            }
+        }
+
+        await t.commit();
+        res.status(200).json({
+            message: 'Orders imported successfully!',
+            importedCount: importedCount,
+            updatedCount: 0, // در این مثال فقط واردات جدید داریم
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        await t.rollback();
+        logger.error(`Error importing orders: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Server error during import', error: error.message });
+    } finally {
+        if (file) {
+            try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+        }
+    }
+};
+
+// 👈 تابع برای واردات تراکنش‌ها
+exports.importPayments = async (req, res) => {
+    const file = req.file;
+    const { format } = req.body;
+    const allowedFormats = ['csv', 'excel'];
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        await fs.unlink(file.path);
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+    }
+
+    const t = await db.sequelize.transaction();
+
+    try {
+        let records = [];
+
+        if (format.toLowerCase() === 'csv') {
+            const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+            records = await new Promise((resolve, reject) => {
+                parse(fileContent, { columns: true, skip_empty_lines: true }, (err, records) => {
+                    if (err) reject(err);
+                    resolve(records);
+                });
+            });
+        } else if (format.toLowerCase() === 'excel') {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(file.path);
+            const worksheet = workbook.getWorksheet(1);
+
+            worksheet.eachRow((row, rowNumber) => {
+                if (rowNumber === 1) return; // Skip header row
+                const rowData = {
+                    order_id: row.getCell(1).value,
+                    transaction_id: row.getCell(2).value,
+                    amount: row.getCell(3).value,
+                    method: row.getCell(4).value,
+                    status: row.getCell(5).value,
+                    payment_date: row.getCell(6).value,
+                    refunded: row.getCell(7).value,
+                    refund_reason: row.getCell(8).value
+                };
+                records.push(rowData);
+            });
+        }
+
+        let importedCount = 0;
+        const errors = [];
+
+        for (const record of records) {
+            const { order_id, transaction_id, amount, method, status, payment_date, refunded, refund_reason } = record;
+
+            try {
+                // اعتبارسنجی: وجود سفارش
+                const order = await db.Order.findByPk(order_id, { transaction: t });
+                if (!order) {
+                    errors.push({ record: record, error: `Order with ID '${order_id}' not found.` });
+                    continue;
+                }
+
+                // اعتبارسنجی: عدم تکرار transaction_id
+                const existingPayment = await db.Payment.findOne({ where: { transaction_id: transaction_id }, transaction: t });
+                if (existingPayment) {
+                    errors.push({ record: record, error: `Payment with transaction ID '${transaction_id}' already exists.` });
+                    continue;
+                }
+
+                // 👈 **مهم:** تبدیل رشته‌های refunded و payment_date به نوع درست
+                const isRefunded = refunded && refunded.toLowerCase() === 'true';
+                const paymentDate = payment_date ? new Date(payment_date) : new Date();
+
+                await db.Payment.create({
+                    order_id: order_id,
+                    transaction_id: sanitizeString(transaction_id),
+                    amount: parseFloat(amount),
+                    method: sanitizeString(method),
+                    status: sanitizeString(status),
+                    payment_date: paymentDate, // 👈 استفاده از شیء تاریخ
+                    refunded: isRefunded, // 👈 استفاده از مقدار boolean
+                    refund_reason: sanitizeString(refund_reason)
+                }, { transaction: t });
+                importedCount++;
+
+            } catch (recordError) {
+                errors.push({ record: record, error: recordError.message });
+                logger.error(`Error importing payment record: ${recordError.message}`, { record: record });
+            }
+        }
+
+        await t.commit();
+        res.status(200).json({
+            message: 'Payments imported successfully!',
+            importedCount: importedCount,
+            updatedCount: 0,
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        await t.rollback();
+        logger.error(`Error importing payments: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Server error during import', error: error.message });
+    } finally {
+        if (file) {
+            try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+        }
+    }
+};
+
 
 // Multer middleware برای استفاده در روت‌ها (برای واردات)
 exports.uploadImport = upload;

@@ -201,7 +201,11 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/place-order', authMiddleware.authenticateToken, orderController.placeOrder);
+router.post(
+  '/place-order',
+  authMiddleware.authenticateToken,
+  orderController.placeOrder,
+);
 
 /**
  * @swagger
@@ -211,6 +215,27 @@ router.post('/place-order', authMiddleware.authenticateToken, orderController.pl
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: user_id
+ *         in: query
+ *         description: Filter orders by user ID (only for Admin)
+ *         required: false
+ *         schema:
+ *           type: integer
+ *       - name: status
+ *         in: query
+ *         description: Filter orders by status (only for Admin)
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [pending, processing, delivered]
+ *       - name: payment_status
+ *         in: query
+ *         description: Filter orders by payment status (only for Admin)
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [paid, unpaid]
  *     responses:
  *       200:
  *         description: A list of orders
@@ -226,7 +251,7 @@ router.post('/place-order', authMiddleware.authenticateToken, orderController.pl
  *       401:
  *         description: Unauthorized
  *       403:
- *         description: Forbidden
+ *         description: Forbidden (Access denied or not logged in)
  *       500:
  *         description: Server error
  */
@@ -264,7 +289,11 @@ router.get('/', authMiddleware.authenticateToken, orderController.getAllOrders);
  *       500:
  *         description: Server error
  */
-router.get('/:id', authMiddleware.authenticateToken, orderController.getOrderById);
+router.get(
+  '/:id',
+  authMiddleware.authenticateToken,
+  orderController.getOrderById,
+);
 
 /**
  * @swagger
@@ -304,7 +333,12 @@ router.get('/:id', authMiddleware.authenticateToken, orderController.getOrderByI
  *       500:
  *         description: Server error
  */
-router.put('/:id/status', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), orderController.updateOrderStatus);
+router.put(
+  '/:id/status',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  orderController.updateOrderStatus,
+);
 
 /**
  * @swagger
@@ -340,6 +374,10 @@ router.put('/:id/status', authMiddleware.authenticateToken, authMiddleware.autho
  *       500:
  *         description: Server error
  */
-router.post('/:id/cancel', authMiddleware.authenticateToken, orderController.cancelOrder);
+router.post(
+  '/:id/cancel',
+  authMiddleware.authenticateToken,
+  orderController.cancelOrder,
+);
 
 module.exports = router;

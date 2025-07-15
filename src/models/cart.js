@@ -6,23 +6,26 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Cart.belongsTo(models.User, {
         foreignKey: 'user_id',
-        as: 'user'
+        as: 'user',
       });
       Cart.hasMany(models.CartItem, {
         foreignKey: 'cart_id',
-        as: 'cartItems'
+        as: 'cartItems',
       });
     }
   }
-  Cart.init({
-    user_id: { type: DataTypes.INTEGER, allowNull: true },
-    session_id: { type: DataTypes.STRING(255), allowNull: true },
-    expires_at: { type: DataTypes.DATE, allowNull: false }
-  }, {
-    sequelize,
-    modelName: 'Cart',
-    tableName: 'Carts',
-    timestamps: true
-  });
+  Cart.init(
+    {
+      user_id: { type: DataTypes.INTEGER, allowNull: true },
+      session_id: { type: DataTypes.STRING(255), allowNull: true },
+      expires_at: { type: DataTypes.DATE, allowNull: false },
+    },
+    {
+      sequelize,
+      modelName: 'Cart',
+      tableName: 'Carts',
+      timestamps: true,
+    },
+  );
   return Cart;
 };

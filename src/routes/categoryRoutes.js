@@ -71,10 +71,10 @@ const router = express.Router();
  *         description: Server error
  */
 router.post(
-    '/',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    categoryController.createCategory
+  '/',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  categoryController.createCategory,
 );
 
 /**
@@ -179,10 +179,10 @@ router.get('/:id', categoryController.getCategoryById);
  *         description: Server error
  */
 router.put(
-    '/:id',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    categoryController.updateCategory
+  '/:id',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  categoryController.updateCategory,
 );
 
 /**
@@ -216,10 +216,10 @@ router.put(
  *         description: Server error
  */
 router.delete(
-    '/:id',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    categoryController.deleteCategory
+  '/:id',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  categoryController.deleteCategory,
 );
 
 module.exports = router;

@@ -1,124 +1,194 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebSocket Test Client (AI Chat)</title>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        #messages { border: 1px solid #ddd; padding: 10px; min-height: 300px; max-height: 500px; overflow-y: auto; margin-bottom: 10px; background-color: #e9e9e9; border-radius: 4px; }
-        .message-input-container { display: flex; gap: 10px; }
-        #messageInput { flex-grow: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        #sendButton { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        #sendButton:hover { background-color: #0056b3; }
-        .message { margin-bottom: 8px; padding: 8px; border-radius: 5px; }
-        .user-message { background-color: #dcf8c6; text-align: right; margin-left: 20%; }
-        .ai-message { background-color: #ffffff; text-align: left; margin-right: 20%; border: 1px solid #eee; }
-        .sender { font-weight: bold; margin-bottom: 4px; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      #messages {
+        border: 1px solid #ddd;
+        padding: 10px;
+        min-height: 300px;
+        max-height: 500px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        background-color: #e9e9e9;
+        border-radius: 4px;
+      }
+      .message-input-container {
+        display: flex;
+        gap: 10px;
+      }
+      #messageInput {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      #sendButton {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      #sendButton:hover {
+        background-color: #0056b3;
+      }
+      .message {
+        margin-bottom: 8px;
+        padding: 8px;
+        border-radius: 5px;
+      }
+      .user-message {
+        background-color: #dcf8c6;
+        text-align: right;
+        margin-left: 20%;
+      }
+      .ai-message {
+        background-color: #ffffff;
+        text-align: left;
+        margin-right: 20%;
+        border: 1px solid #eee;
+      }
+      .sender {
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
     </style>
-</head>
-<body>
-<div class="container">
-    <h1>مشاوره آنلاین لامورا (AI Chat)</h1>
-    <div id="messages"></div>
-    <div class="message-input-container">
-        <input type="text" id="messageInput" placeholder="پیام خود را اینجا بنویسید..." autofocus>
+  </head>
+  <body>
+    <div class="container">
+      <h1>مشاوره آنلاین لامورا (AI Chat)</h1>
+      <div id="messages"></div>
+      <div class="message-input-container">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="پیام خود را اینجا بنویسید..."
+          autofocus
+        />
         <button id="sendButton">ارسال پیام</button>
+      </div>
+      <p>
+        برای تست، می‌توانید سوالاتی مانند "یک گوشی خوب برای عکاسی پیشنهاد بدید؟"
+        یا "آیا هدفون موجود دارید؟" بپرسید.
+      </p>
+      <p>
+        همچنین می‌توانید سوالات نامرتبط مانند "هوا چطوره؟" بپرسید تا عملکرد
+        فیلتر را ببینید.
+      </p>
     </div>
-    <p>برای تست، می‌توانید سوالاتی مانند "یک گوشی خوب برای عکاسی پیشنهاد بدید؟" یا "آیا هدفون موجود دارید؟" بپرسید.</p>
-    <p>همچنین می‌توانید سوالات نامرتبط مانند "هوا چطوره؟" بپرسید تا عملکرد فیلتر را ببینید.</p>
-</div>
 
-<script>
-    const socket = io('http://localhost:3000', {
-        withCredentials: true // همچنان این را نگه می‌داریم برای کوکی‌های دیگر (مثل JWT)
-    });
+    <script>
+      const socket = io('http://localhost:3000', {
+        withCredentials: true, // همچنان این را نگه می‌داریم برای کوکی‌های دیگر (مثل JWT)
+      });
 
-    const messagesDiv = document.getElementById('messages');
-    const messageInput = document.getElementById('messageInput');
-    const sendButton = document.getElementById('sendButton');
+      const messagesDiv = document.getElementById('messages');
+      const messageInput = document.getElementById('messageInput');
+      const sendButton = document.getElementById('sendButton');
 
-    // 👈 تولید یا دریافت session_id از LocalStorage
-    let sessionId = localStorage.getItem('chat_session_id');
-    if (!sessionId) {
+      // 👈 تولید یا دریافت session_id از LocalStorage
+      let sessionId = localStorage.getItem('chat_session_id');
+      if (!sessionId) {
         sessionId = uuid.v4(); // تولید UUID جدید
         localStorage.setItem('chat_session_id', sessionId);
         console.log('Generated new chat_session_id:', sessionId);
-    } else {
+      } else {
         console.log('Using existing chat_session_id:', sessionId);
-    }
+      }
 
-    // 👈 (اختیاری) اگر کاربر لاگین بود، userId را از LocalStorage یا هر جای دیگر بگیرید
-    // برای تست:
-    const userId = 1; // 👈 اینجا ID کاربر لاگین شده را وارد کنید، یا null اگر کاربر مهمان است.
+      // 👈 (اختیاری) اگر کاربر لاگین بود، userId را از LocalStorage یا هر جای دیگر بگیرید
+      // برای تست:
+      const userId = 1; // 👈 اینجا ID کاربر لاگین شده را وارد کنید، یا null اگر کاربر مهمان است.
 
-
-    // تابع برای اضافه کردن پیام به UI
-    function addMessage(sender, message) {
+      // تابع برای اضافه کردن پیام به UI
+      function addMessage(sender, message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message');
         if (sender === 'You') {
-            messageElement.classList.add('user-message');
+          messageElement.classList.add('user-message');
         } else {
-            messageElement.classList.add('ai-message');
+          messageElement.classList.add('ai-message');
         }
         messageElement.innerHTML = `<div class="sender">${sender}:</div><div>${message}</div>`;
         messagesDiv.appendChild(messageElement);
         messagesDiv.scrollTop = messagesDiv.scrollHeight; // اسکرول به پایین
-    }
+      }
 
-    // اتصال به سرور WebSocket
-    socket.on('connect', () => {
+      // اتصال به سرور WebSocket
+      socket.on('connect', () => {
         console.log('Connected to WebSocket server');
-        addMessage('System', 'به مشاور آنلاین لامورا خوش آمدید. چگونه می‌توانم به شما کمک کنم؟');
-    });
+        addMessage(
+          'System',
+          'به مشاور آنلاین لامورا خوش آمدید. چگونه می‌توانم به شما کمک کنم؟',
+        );
+      });
 
-    // دریافت پیام از سرور
-    socket.on('receiveAdviceMessage', (data) => {
+      // دریافت پیام از سرور
+      socket.on('receiveAdviceMessage', (data) => {
         console.log('Received message:', data);
         addMessage(data.sender, data.message);
-    });
+      });
 
-    // مدیریت خطاها
-    socket.on('connect_error', (error) => {
+      // مدیریت خطاها
+      socket.on('connect_error', (error) => {
         console.error('Connection Error:', error);
-        addMessage('System Error', 'خطا در اتصال به سرور. لطفاً صفحه را رفرش کنید.');
-    });
+        addMessage(
+          'System Error',
+          'خطا در اتصال به سرور. لطفاً صفحه را رفرش کنید.',
+        );
+      });
 
-    socket.on('disconnect', (reason) => {
+      socket.on('disconnect', (reason) => {
         console.log('Disconnected:', reason);
         addMessage('System', `ارتباط قطع شد: ${reason}.`);
-    });
+      });
 
-    // ارسال پیام به سرور
-    sendButton.addEventListener('click', () => {
+      // ارسال پیام به سرور
+      sendButton.addEventListener('click', () => {
         sendMessage();
-    });
+      });
 
-    messageInput.addEventListener('keypress', (e) => {
+      messageInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            sendMessage();
+          sendMessage();
         }
-    });
+      });
 
-    function sendMessage() {
+      function sendMessage() {
         const message = messageInput.value.trim();
         if (message) {
-            addMessage('You', message); // نمایش پیام کاربر در UI
+          addMessage('You', message); // نمایش پیام کاربر در UI
 
-            // 👈 ارسال session_id و userId (اگر وجود دارد) در payload پیام
-            socket.emit('sendAdviceMessage', {
-                userId: userId, // 👈 ID کاربر لاگین شده (اگر لاگین است) یا null
-                sessionId: sessionId, // 👈 Session ID تولید شده در کلاینت
-                message: message,
-                topic: 'product recommendation' // یا هر موضوع دیگری
-            });
-            messageInput.value = ''; // پاک کردن ورودی
+          // 👈 ارسال session_id و userId (اگر وجود دارد) در payload پیام
+          socket.emit('sendAdviceMessage', {
+            userId: userId, // 👈 ID کاربر لاگین شده (اگر لاگین است) یا null
+            sessionId: sessionId, // 👈 Session ID تولید شده در کلاینت
+            message: message,
+            topic: 'product recommendation', // یا هر موضوع دیگری
+          });
+          messageInput.value = ''; // پاک کردن ورودی
         }
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>

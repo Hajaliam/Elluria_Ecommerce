@@ -124,10 +124,10 @@ const router = express.Router();
  *         description: Server error
  */
 router.post(
-    '/',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    couponController.createCoupon
+  '/',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  couponController.createCoupon,
 );
 
 /**
@@ -158,10 +158,10 @@ router.post(
  *         description: Server error
  */
 router.get(
-    '/',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    couponController.getAllCoupons
+  '/',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  couponController.getAllCoupons,
 );
 
 /**
@@ -196,10 +196,10 @@ router.get(
  *         description: Server error
  */
 router.get(
-    '/:code',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    couponController.getCouponByCode
+  '/:code',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  couponController.getCouponByCode,
 );
 
 /**
@@ -269,10 +269,10 @@ router.get(
  *         description: Server error
  */
 router.put(
-    '/:code',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    couponController.updateCoupon
+  '/:code',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  couponController.updateCoupon,
 );
 
 /**
@@ -314,10 +314,10 @@ router.put(
  *         description: Server error
  */
 router.delete(
-    '/:code',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    couponController.deleteCoupon
+  '/:code',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  couponController.deleteCoupon,
 );
 
 module.exports = router;

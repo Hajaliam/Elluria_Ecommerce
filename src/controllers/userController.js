@@ -143,17 +143,14 @@ exports.register = async (req, res) => {
       .json({ message: 'User registered successfully!', user: userResponse });
   } catch (error) {
     console.error('Error during registration:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error during registration',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error during registration',
+      error: error.message,
+    });
   }
 };
 
 exports.login = async (req, res) => {
-
   const { username, password } = req.body;
 
   try {
@@ -210,13 +207,10 @@ exports.login = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   const { identifier } = req.body;
 
-
   if (!identifier) {
-    return res
-      .status(400)
-      .json({
-        message: 'لطفاً ایمیل یا شماره تلفن ثبت‌نامی خود را وارد کنید.',
-      });
+    return res.status(400).json({
+      message: 'لطفاً ایمیل یا شماره تلفن ثبت‌نامی خود را وارد کنید.',
+    });
   }
 
   const value = sanitizeString(identifier.trim());
@@ -244,7 +238,6 @@ exports.forgotPassword = async (req, res) => {
           'اگر کاربری با این ایمیل یا شماره وجود داشته باشد، لینک یا کد بازیابی برای او ارسال خواهد شد.',
       });
     }
-
 
     // ارسال ایمیل
     if (isEmail && user.email) {
@@ -313,12 +306,10 @@ exports.forgotPassword = async (req, res) => {
     });
   } catch (error) {
     logger.error('خطا در forgotPassword:', error);
-    res
-      .status(500)
-      .json({
-        message: 'خطای سرور در فرآیند بازیابی رمز عبور',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'خطای سرور در فرآیند بازیابی رمز عبور',
+      error: error.message,
+    });
   }
 };
 
@@ -359,12 +350,10 @@ exports.resetPassword = async (req, res) => {
     res.status(200).json({ message: 'Password has been successfully reset.' });
   } catch (error) {
     logger.error('Error resetting password:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error resetting password',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error resetting password',
+      error: error.message,
+    });
   }
 };
 
@@ -373,22 +362,33 @@ exports.getUserProfile = async (req, res) => {
 
   try {
     const user = await User.findByPk(userId, {
-      attributes: { exclude: ['password', 'resetPasswordToken', 'resetPasswordExpires'] }, // پسورد و توکن‌ها را برنمی‌گردانیم
-      include: [{
-        model: Role,
-        as: 'role',
-        attributes: ['name']
-      }]
+      attributes: {
+        exclude: ['password', 'resetPasswordToken', 'resetPasswordExpires'],
+      }, // پسورد و توکن‌ها را برنمی‌گردانیم
+      include: [
+        {
+          model: Role,
+          as: 'role',
+          attributes: ['name'],
+        },
+      ],
     });
 
     if (!user) {
       return res.status(404).json({ message: 'User profile not found.' });
     }
 
-    res.status(200).json({ message: 'User profile retrieved successfully!', user: user });
+    res
+      .status(200)
+      .json({ message: 'User profile retrieved successfully!', user: user });
   } catch (error) {
     logger.error('Error fetching user profile:', error);
-    res.status(500).json({ message: 'Server error fetching user profile', error: error.message });
+    res
+      .status(500)
+      .json({
+        message: 'Server error fetching user profile',
+        error: error.message,
+      });
   }
 };
 
@@ -411,15 +411,25 @@ exports.updateUserProfile = async (req, res) => {
     }
 
     // بررسی نام کاربری یا ایمیل تکراری (اگر تغییر کنند)
-    if ((username && username !== user.username) || (email && email !== user.email)) {
+    if (
+      (username && username !== user.username) ||
+      (email && email !== user.email)
+    ) {
       const existingUser = await User.findOne({
         where: {
-          [Sequelize.Op.or]: [{ username: username || user.username }, { email: email || user.email }],
-          id: { [Sequelize.Op.ne]: userId } // به جز خود کاربر
-        }
+          [Sequelize.Op.or]: [
+            { username: username || user.username },
+            { email: email || user.email },
+          ],
+          id: { [Sequelize.Op.ne]: userId }, // به جز خود کاربر
+        },
       });
       if (existingUser) {
-        return res.status(409).json({ message: 'Username or email already exists for another user.' });
+        return res
+          .status(409)
+          .json({
+            message: 'Username or email already exists for another user.',
+          });
       }
     }
 
@@ -442,13 +452,23 @@ exports.updateUserProfile = async (req, res) => {
       phone_number: user.phone_number,
       role_id: user.role_id,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
     };
 
-    res.status(200).json({ message: 'User profile updated successfully!', user: userResponse });
+    res
+      .status(200)
+      .json({
+        message: 'User profile updated successfully!',
+        user: userResponse,
+      });
   } catch (error) {
     logger.error('Error updating user profile:', error);
-    res.status(500).json({ message: 'Server error updating user profile', error: error.message });
+    res
+      .status(500)
+      .json({
+        message: 'Server error updating user profile',
+        error: error.message,
+      });
   }
 };
 
@@ -458,18 +478,26 @@ exports.requestOtp = async (req, res) => {
   const sanitizedPhoneNumber = sanitizeString(phone_number);
 
   if (!sanitizedPhoneNumber) {
-    return res.status(400).json({ message: 'وارد کردن شماره تلفن ضروری است.\n' });
+    return res
+      .status(400)
+      .json({ message: 'وارد کردن شماره تلفن ضروری است.\n' });
   }
 
   try {
-    const user = await User.findOne({ where: { phone_number: sanitizedPhoneNumber } });
+    const user = await User.findOne({
+      where: { phone_number: sanitizedPhoneNumber },
+    });
     if (!user) {
-      return res.status(404).json({ message: 'ما همچین شماره‌ای نداریم، لطفاً بررسی کن.\n' });
+      return res
+        .status(404)
+        .json({ message: 'ما همچین شماره‌ای نداریم، لطفاً بررسی کن.\n' });
     }
 
     // تولید OTP (مثلاً 6 رقم)
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpiresAt = moment().add(process.env.OTP_EXPIRES_IN_MINUTES || 2, 'minutes').toDate();
+    const otpExpiresAt = moment()
+      .add(process.env.OTP_EXPIRES_IN_MINUTES || 2, 'minutes')
+      .toDate();
 
     user.otp_code = otpCode;
     user.otp_expires_at = otpExpiresAt;
@@ -483,14 +511,19 @@ exports.requestOtp = async (req, res) => {
     await kavenegarAPI.Send({
       message: smsMessage,
       sender: process.env.SMS_SENDER_NUMBER,
-      receptor: user.phone_number
+      receptor: user.phone_number,
     });
     logger.info(`OTP sent to ${user.phone_number}: ${otpCode}`);
 
     res.status(200).json({ message: 'کد ورود به شماره موبایلتون ارسال شد.\n' });
   } catch (error) {
     logger.error('Error requesting OTP:', error);
-    res.status(500).json({ message: 'یه مشکلی تو سرور پیش اومده، لطفاً بعداً دوباره امتحان کن.\n', error: error.message });
+    res
+      .status(500)
+      .json({
+        message: 'یه مشکلی تو سرور پیش اومده، لطفاً بعداً دوباره امتحان کن.\n',
+        error: error.message,
+      });
   }
 };
 
@@ -501,7 +534,9 @@ exports.verifyOtpAndLogin = async (req, res) => {
   const sanitizedOtpCode = sanitizeString(otp_code);
 
   if (!sanitizedPhoneNumber || !sanitizedOtpCode) {
-    return res.status(400).json({ message: 'لطفاً هم شماره موبایل رو وارد کن، هم کد تأیید رو \n' });
+    return res
+      .status(400)
+      .json({ message: 'لطفاً هم شماره موبایل رو وارد کن، هم کد تأیید رو \n' });
   }
 
   try {
@@ -509,12 +544,17 @@ exports.verifyOtpAndLogin = async (req, res) => {
       where: {
         phone_number: sanitizedPhoneNumber,
         otp_code: sanitizedOtpCode,
-        otp_expires_at: { [Sequelize.Op.gt]: new Date() } // OTP منقضی نشده باشد
-      }
+        otp_expires_at: { [Sequelize.Op.gt]: new Date() }, // OTP منقضی نشده باشد
+      },
     });
 
     if (!user) {
-      return res.status(401).json({ message: 'یا کدی که زدی اشتباهه یا تموم شده، یا همچین شماره‌ای نداریم ' });
+      return res
+        .status(401)
+        .json({
+          message:
+            'یا کدی که زدی اشتباهه یا تموم شده، یا همچین شماره‌ای نداریم ',
+        });
     }
 
     // پاک کردن OTP پس از استفاده موفق
@@ -524,15 +564,15 @@ exports.verifyOtpAndLogin = async (req, res) => {
 
     // تولید JWT (Access Token) و Refresh Token
     const accessToken = jwt.sign(
-        { id: user.id, role_id: user.role_id, username: user.username },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
+      { id: user.id, role_id: user.role_id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN },
     );
 
     const refreshToken = jwt.sign(
-        { id: user.id },
-        process.env.JWT_REFRESH_SECRET,
-        { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN }
+      { id: user.id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN },
     );
 
     res.status(200).json({
@@ -544,12 +584,16 @@ exports.verifyOtpAndLogin = async (req, res) => {
         username: user.username,
         email: user.email,
         phone_number: user.phone_number,
-        role_id: user.role_id
-      }
+        role_id: user.role_id,
+      },
     });
-
   } catch (error) {
     logger.error('Error verifying OTP or logging in:', error);
-    res.status(500).json({ message: 'یه مشکل فنی پیش اومد، لطفاً دوباره تلاش کن.\n', error: error.message });
+    res
+      .status(500)
+      .json({
+        message: 'یه مشکل فنی پیش اومد، لطفاً دوباره تلاش کن.\n',
+        error: error.message,
+      });
   }
 };

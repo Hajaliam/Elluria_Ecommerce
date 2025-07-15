@@ -144,7 +144,11 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/add', authMiddleware.authenticateToken, cartController.addItemToCart);
+router.post(
+  '/add',
+  authMiddleware.authenticateToken,
+  cartController.addItemToCart,
+);
 
 /**
  * @swagger
@@ -222,7 +226,11 @@ router.get('/', authMiddleware.authenticateToken, cartController.getCart);
  *       500:
  *         description: Server error
  */
-router.put('/:cartItemId', authMiddleware.authenticateToken, cartController.updateCartItemQuantity);
+router.put(
+  '/:cartItemId',
+  authMiddleware.authenticateToken,
+  cartController.updateCartItemQuantity,
+);
 
 /**
  * @swagger
@@ -259,7 +267,11 @@ router.put('/:cartItemId', authMiddleware.authenticateToken, cartController.upda
  *       500:
  *         description: Server error
  */
-router.delete('/:cartItemId', authMiddleware.authenticateToken, cartController.removeItemFromCart);
+router.delete(
+  '/:cartItemId',
+  authMiddleware.authenticateToken,
+  cartController.removeItemFromCart,
+);
 
 /**
  * @swagger

@@ -6,18 +6,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Category.hasMany(models.Product, {
         foreignKey: 'category_id',
-        as: 'products'
+        as: 'products',
       });
     }
   }
-  Category.init({
-    name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
-    description: { type: DataTypes.TEXT }
-  }, {
-    sequelize,
-    modelName: 'Category',
-    tableName: 'Categories',
-    timestamps: true
-  });
+  Category.init(
+    {
+      name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
+      description: { type: DataTypes.TEXT },
+    },
+    {
+      sequelize,
+      modelName: 'Category',
+      tableName: 'Categories',
+      timestamps: true,
+    },
+  );
   return Category;
 };

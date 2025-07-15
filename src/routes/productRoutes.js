@@ -123,11 +123,11 @@ const router = express.Router();
  *         description: Server error
  */
 router.post(
-    '/',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    productController.upload.single('image'),
-    productController.createProduct
+  '/',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  productController.upload.single('image'),
+  productController.createProduct,
 );
 
 /**
@@ -289,11 +289,11 @@ router.get('/:id', productController.getProductById);
  *         description: Server error
  */
 router.put(
-    '/:id',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    productController.upload.single('image'),
-    productController.updateProduct
+  '/:id',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  productController.upload.single('image'),
+  productController.updateProduct,
 );
 
 /**
@@ -325,10 +325,10 @@ router.put(
  *         description: Server error
  */
 router.delete(
-    '/:id',
-    authMiddleware.authenticateToken,
-    authMiddleware.authorizeRoles('admin'),
-    productController.deleteProduct
+  '/:id',
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+  productController.deleteProduct,
 );
 
 module.exports = router;

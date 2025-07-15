@@ -7,14 +7,22 @@ module.exports = (sequelize, DataTypes) => {
       // این جدول معمولاً ارتباط مستقیم با جداول دیگر ندارد
     }
   }
-  Setting.init({
-    key: { type: DataTypes.STRING(100), primaryKey: true, allowNull: false, unique: true },
-    value: { type: DataTypes.TEXT, allowNull: false }
-  }, {
-    sequelize,
-    modelName: 'Setting',
-    tableName: 'Settings',
-    timestamps: true
-  });
+  Setting.init(
+    {
+      key: {
+        type: DataTypes.STRING(100),
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+      },
+      value: { type: DataTypes.TEXT, allowNull: false },
+    },
+    {
+      sequelize,
+      modelName: 'Setting',
+      tableName: 'Settings',
+      timestamps: true,
+    },
+  );
   return Setting;
 };

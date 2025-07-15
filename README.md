@@ -1,4 +1,3 @@
-
 Hi, I'm Alireza Doosti 👋
 Welcome to my world of web design and development! I'm a Front-end Developer and WordPress Developer, specializing in Vanilla JavaScript and jQuery. From building responsive websites to designing custom WordPress themes and plugins, I focus on writing clean, optimized code for the best user experience.
 
@@ -24,7 +23,7 @@ You can find my projects and portfolio on GitHub. From WordPress theme designs t
 🔗 https://github.com/Hajaliam
 
 💬 Contact Me:
-Instagram: @alirezadoosti._
+Instagram: @alirezadoosti.\_
 
 Twitter: @Hajaliamdige
 

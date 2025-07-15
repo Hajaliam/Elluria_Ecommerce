@@ -6,21 +6,21 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    username: process.env.DB_USER,      // نام کاربری از .env
-    password: process.env.DB_PASSWORD,  // رمز عبور از .env
-    database: process.env.DB_NAME_DEV,  // نام دیتابیس توسعه از .env
+    username: process.env.DB_USER, // نام کاربری از .env
+    password: process.env.DB_PASSWORD, // رمز عبور از .env
+    database: process.env.DB_NAME_DEV, // نام دیتابیس توسعه از .env
     host: process.env.DB_HOST,
-    dialect: "postgres",
-    port: process.env.DB_PORT,          // پورت از .env (معمولا 5432 برای PostgreSQL)
+    dialect: 'postgres',
+    port: process.env.DB_PORT, // پورت از .env (معمولا 5432 برای PostgreSQL)
     logging: false, // برای محیط توسعه می‌تونید true بذارید تا کوئری‌ها رو در کنسول ببینید.
-                    // برای پروداکشن بهتره false باشه.
+    // برای پروداکشن بهتره false باشه.
   },
   test: {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME_TEST,
     host: process.env.DB_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
     port: process.env.DB_PORT,
     logging: false,
   },
@@ -29,8 +29,8 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME_PROD,
     host: process.env.DB_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
     port: process.env.DB_PORT,
     logging: false,
-  }
+  },
 };

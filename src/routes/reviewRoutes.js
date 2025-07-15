@@ -135,7 +135,11 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/', authMiddleware.authenticateToken, reviewController.createReview);
+router.post(
+  '/',
+  authMiddleware.authenticateToken,
+  reviewController.createReview,
+);
 
 /**
  * @swagger
@@ -226,7 +230,11 @@ router.get('/product/:productId', reviewController.getReviewsByProductId);
  *       500:
  *         description: Server error
  */
-router.put('/:id', authMiddleware.authenticateToken, reviewController.updateReview);
+router.put(
+  '/:id',
+  authMiddleware.authenticateToken,
+  reviewController.updateReview,
+);
 
 /**
  * @swagger
@@ -264,6 +272,10 @@ router.put('/:id', authMiddleware.authenticateToken, reviewController.updateRevi
  *       500:
  *         description: Server error
  */
-router.delete('/:id', authMiddleware.authenticateToken, reviewController.deleteReview);
+router.delete(
+  '/:id',
+  authMiddleware.authenticateToken,
+  reviewController.deleteReview,
+);
 
 module.exports = router;

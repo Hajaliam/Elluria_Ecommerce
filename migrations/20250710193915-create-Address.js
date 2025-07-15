@@ -1,63 +1,63 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Addresses', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Users', // نام جدول User (جمع شده)
-          key: 'id'
+          key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE' // اگر کاربر حذف شد، آدرس‌های او هم حذف شوند
+        onDelete: 'CASCADE', // اگر کاربر حذف شد، آدرس‌های او هم حذف شوند
       },
       street: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: false,
       },
       city: {
         type: Sequelize.STRING(100),
-        allowNull: false
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING(100),
-        allowNull: false
+        allowNull: false,
       },
       zip_code: {
         type: Sequelize.STRING(20),
-        allowNull: false
+        allowNull: false,
       },
       country: {
         type: Sequelize.STRING(100),
-        allowNull: false
+        allowNull: false,
       },
       is_default: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Addresses');
-  }
+  },
 };

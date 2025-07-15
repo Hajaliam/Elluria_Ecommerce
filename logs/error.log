@@ -112,3 +112,19 @@
 2025-07-15 10:29:51 ERROR: Error importing categories: Invalid Record Length: columns length is 2, got 1 on line 2
 2025-07-15 10:43:58 ERROR: Error importing user record: Assignment to constant variable.
 2025-07-15 10:43:58 ERROR: Error importing user record: Assignment to constant variable.
+2025-07-15 12:36:09 ERROR: HTTP Error POST /api/admin/imports/orders 200 invalid csrf token
+2025-07-15 12:36:09 ERROR: Unhandled error: invalid csrf token
+2025-07-15 12:57:46 ERROR: Error importing payment record: Validation error
+2025-07-15 12:57:46 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:09:37 ERROR: Error importing payment record: Validation error
+2025-07-15 13:09:37 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:16:03 ERROR: Error importing payment record: Validation error
+2025-07-15 13:16:03 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:25:23 ERROR: Error importing payments: csv is not defined
+2025-07-15 13:29:26 ERROR: Error importing payments: parse.parse is not a function
+2025-07-15 13:30:06 ERROR: Error importing payment record: Validation error
+2025-07-15 13:30:06 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:30:59 ERROR: Error importing payment record: Validation error
+2025-07-15 13:30:59 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 13:34:24 ERROR: Error importing payment record: Validation error
+2025-07-15 13:34:25 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block

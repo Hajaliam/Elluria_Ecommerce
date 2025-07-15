@@ -13,7 +13,10 @@ const router = express.Router();
  *     description: Admin panel management operations (Requires 'admin' role)
  */
 
-router.use(authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'));
+router.use(
+  authMiddleware.authenticateToken,
+  authMiddleware.authorizeRoles('admin'),
+);
 
 /**
  * @swagger
@@ -796,7 +799,11 @@ router.get('/exports/inventory', adminController.exportInventory); // 👈 صا�
  *       500:
  *         description: Server error
  */
-router.post('/imports/categories', adminController.uploadImport.single('file'), adminController.importCategories);
+router.post(
+  '/imports/categories',
+  adminController.uploadImport.single('file'),
+  adminController.importCategories,
+);
 
 /**
  * @swagger
@@ -859,7 +866,11 @@ router.post('/imports/categories', adminController.uploadImport.single('file'), 
  *       500:
  *         description: Server error
  */
-router.post('/imports/products', adminController.uploadImport.single('file'), adminController.importProducts);
+router.post(
+  '/imports/products',
+  adminController.uploadImport.single('file'),
+  adminController.importProducts,
+);
 
 /**
  * @swagger
@@ -922,6 +933,144 @@ router.post('/imports/products', adminController.uploadImport.single('file'), ad
  *       500:
  *         description: Server error
  */
-router.post('/imports/users', adminController.uploadImport.single('file'), adminController.importUsers);
+router.post(
+  '/imports/users',
+  adminController.uploadImport.single('file'),
+  adminController.importUsers,
+);
+
+/**
+ * @swagger
+ * /api/admin/imports/orders:
+ *   post:
+ *     summary: Import orders from CSV or Excel file (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *               - format
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file containing orders data
+ *               format:
+ *                 type: string
+ *                 enum: [csv, excel]
+ *                 description: Format of the uploaded file
+ *                 example: csv
+ *     responses:
+ *       200:
+ *         description: Orders imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 importedCount:
+ *                   type: integer
+ *                 updatedCount:
+ *                   type: integer
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       record:
+ *                         type: object
+ *                       error:
+ *                         type: string
+ *       400:
+ *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       500:
+ *         description: Server error
+ */
+router.post(
+  '/imports/orders',
+  adminController.uploadImport.single('file'),
+  adminController.importOrders,
+);
+
+/**
+ * @swagger
+ * /api/admin/imports/payments:
+ *   post:
+ *     summary: Import payments from CSV or Excel file (Admin only)
+ *     tags:
+ *       - Admin
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *               - format
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file containing payments data
+ *               format:
+ *                 type: string
+ *                 enum: [csv, excel]
+ *                 description: Format of the uploaded file
+ *                 example: csv
+ *     responses:
+ *       200:
+ *         description: Payments imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 importedCount:
+ *                   type: integer
+ *                 updatedCount:
+ *                   type: integer
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       record:
+ *                         type: object
+ *                       error:
+ *                         type: string
+ *       400:
+ *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       500:
+ *         description: Server error
+ */
+router.post(
+  '/imports/payments',
+  adminController.uploadImport.single('file'),
+  adminController.importPayments,
+);
 
 module.exports = router;

@@ -8,49 +8,67 @@ const Role = db.Role;
 // تابع authenticateToken را طوری تغییر می‌دهیم که اگر توکن نبود، فقط req.user را null بگذارد و ادامه دهد (next())
 // این اجازه می‌دهد که روت‌های عمومی (مثل سبد خرید برای مهمانان) بدون توکن کار کنند.
 exports.authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) {
-        req.user = null; // اگر توکن نبود، req.user را null می‌گذاریم
-        return next(); // 👈 اجازه می‌دهیم درخواست ادامه پیدا کند
-    }
+  if (!token) {
+    req.user = null; // اگر توکن نبود، req.user را null می‌گذاریم
+    return next(); // 👈 اجازه می‌دهیم درخواست ادامه پیدا کند
+  }
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // اطلاعات کاربر (id, role_id) را به آبجکت req اضافه می‌کنیم
-        next(); // به Middleware بعدی یا کنترلر اصلی برو
-    } catch (error) {
-        console.error('Token verification error:', error);
-        // در صورت نامعتبر بودن توکن، همچنان دسترسی را رد می‌کنیم
-        return res.status(403).json({ message: 'Access Denied: Invalid or expired token.' });
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // اطلاعات کاربر (id, role_id) را به آبجکت req اضافه می‌کنیم
+    next(); // به Middleware بعدی یا کنترلر اصلی برو
+  } catch (error) {
+    console.error('Token verification error:', error);
+    // در صورت نامعتبر بودن توکن، همچنان دسترسی را رد می‌کنیم
+    return res
+      .status(403)
+      .json({ message: 'Access Denied: Invalid or expired token.' });
+  }
 };
 
 exports.authorizeRoles = (...allowedRoles) => {
-    return async (req, res, next) => {
-        if (!req.user || !req.user.role_id) {
-            // اگر authenticateToken اجرا شده ولی توکن معتبر نبوده یا کاربری نیست
-            return res.status(403).json({ message: 'Access Denied: User role not found or not authenticated.' });
-        }
+  return async (req, res, next) => {
+    if (!req.user || !req.user.role_id) {
+      // اگر authenticateToken اجرا شده ولی توکن معتبر نبوده یا کاربری نیست
+      return res
+        .status(403)
+        .json({
+          message: 'Access Denied: User role not found or not authenticated.',
+        });
+    }
 
-        try {
-            const userRole = await Role.findByPk(req.user.role_id);
+    try {
+      const userRole = await Role.findByPk(req.user.role_id);
 
-            if (!userRole || !allowedRoles.includes(userRole.name)) {
-                return res.status(403).json({ message: 'Access Denied: You do not have the required role.' });
-            }
+      if (!userRole || !allowedRoles.includes(userRole.name)) {
+        return res
+          .status(403)
+          .json({
+            message: 'Access Denied: You do not have the required role.',
+          });
+      }
 
-            next();
-        } catch (error) {
-            console.error('Authorization error:', error);
-            return res.status(500).json({ message: 'Server error during role authorization.', error: error.message });
-        }
-    };
+      next();
+    } catch (error) {
+      console.error('Authorization error:', error);
+      return res
+        .status(500)
+        .json({
+          message: 'Server error during role authorization.',
+          error: error.message,
+        });
+    }
+  };
 };
 exports.bypassCsrf = (req, res, next) => {
-    if (req.method === 'POST' && (req.path === '/reset-password/:token' || req.path === '/forgot-password')) {
-        req.csrfToken = () => null;  // غیر فعال کردن CSRF
-    }
-    next();
+  if (
+    req.method === 'POST' &&
+    (req.path === '/reset-password/:token' || req.path === '/forgot-password')
+  ) {
+    req.csrfToken = () => null; // غیر فعال کردن CSRF
+  }
+  next();
 };
