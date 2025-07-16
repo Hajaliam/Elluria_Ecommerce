@@ -10,183 +10,122 @@ const Address = db.Address; // برای بررسی آدرس ارسال
 const Coupon = db.Coupon; // برای اعمال کوپن
 const Sequelize = db.Sequelize;
 const { sanitizeString } = require('../utils/sanitizer');
+const logger = require('../config/logger');
 
 // تابع برای نهایی کردن خرید از سبد خرید و ایجاد سفارش
 exports.placeOrder = async (req, res) => {
+  const userId = req.user.id;
+  // 👈 از req.body، `shippingAddressId` و `couponCode` را می‌گیریم
   const { shippingAddressId, couponCode } = req.body;
-  const userId = req.user ? req.user.id : null;
-  const sessionId = req.cookies ? req.cookies.session_id : null;
 
-  if (!userId && !sessionId) {
-    return res
-      .status(400)
-      .json({
-        message: 'User ID or Session ID is required to place an order.',
-      });
-  }
-
-  const t = await db.sequelize.transaction(); // شروع یک تراکنش دیتابیس
+  const t = await db.sequelize.transaction();
 
   try {
     // 1. دریافت سبد خرید کاربر
-    const cart = await Cart.findOne({
-      where: userId ? { user_id: userId } : { session_id: sessionId },
-      include: [
-        {
-          model: CartItem,
-          as: 'cartItems',
-          include: [
-            {
-              model: Product,
-              as: 'product',
-            },
-          ],
-        },
-      ],
-      transaction: t, // شامل کردن در تراکنش
+    const cart = await db.Cart.findOne({
+      where: { user_id: userId },
+      include: [{
+        model: db.CartItem,
+        as: 'cartItems',
+        include: [{ model: db.Product, as: 'product' }]
+      }],
+      transaction: t
     });
 
     if (!cart || cart.cartItems.length === 0) {
-      await t.rollback(); // اگر سبد خرید خالی بود، تراکنش را برگردان
-      return res
-        .status(400)
-        .json({ message: 'Cart is empty. Cannot place an order.' });
-    }
-
-    // 2. بررسی آدرس ارسال
-    const shippingAddress = await Address.findByPk(shippingAddressId, {
-      transaction: t,
-    });
-    if (!shippingAddress || (userId && shippingAddress.user_id !== userId)) {
       await t.rollback();
-      return res
-        .status(404)
-        .json({
-          message: 'Shipping address not found or does not belong to you.',
-        });
+      return res.status(400).json({ message: 'Cart is empty.' });
     }
 
-    // 3. بررسی و اعمال کوپن (اگر وجود داشت)
+    let totalAmount = 0;
+    let totalDiscount = 0;
     let coupon = null;
-    let discountAmount = 0;
+
+    // 2. محاسبه مبلغ کل
+    cart.cartItems.forEach(item => {
+      totalAmount += parseFloat(item.product.price) * item.quantity;
+    });
+
+    // 3. اعتبارسنجی و اعمال کوپن (اگر وجود داشت)
     if (couponCode) {
-      coupon = await Coupon.findOne({
-        where: { code: couponCode, isActive: true },
-        transaction: t,
-      });
+      coupon = await db.Coupon.findOne({ where: { code: couponCode, isActive: true }, transaction: t });
+
       if (!coupon) {
         await t.rollback();
-        return res
-          .status(400)
-          .json({ message: 'Invalid or expired coupon code.' });
+        return res.status(400).json({ message: 'Invalid or expired coupon.' });
       }
-      if (
-        coupon.usage_limit !== null &&
-        coupon.used_count >= coupon.usage_limit
-      ) {
+
+      // 👈 اعتبارسنجی: حداقل مبلغ سفارش
+      if (coupon.min_amount && totalAmount < coupon.min_amount) {
         await t.rollback();
-        return res.status(400).json({ message: 'Coupon usage limit reached.' });
-      }
-    }
-
-    // 4. محاسبه کل مبلغ سفارش و بررسی موجودی محصولات
-    let totalAmount = 0;
-    const orderItemsData = [];
-    for (const item of cart.cartItems) {
-      const product = item.product;
-
-      if (!product || product.stock_quantity < item.quantity) {
-        await t.rollback();
-        return res
-          .status(400)
-          .json({
-            message: `Not enough stock for product: ${product ? product.name : 'Unknown Product'} (Available: ${product ? product.stock_quantity : 0})`,
-          });
+        return res.status(400).json({ message: `This coupon requires a minimum order amount of ${coupon.min_amount}.` });
       }
 
-      totalAmount += item.quantity * product.price;
+      // 👈 اعتبارسنجی: کوپن مخصوص خرید اول
+      if (coupon.is_first_purchase_only) {
+        const existingOrders = await db.Order.count({ where: { user_id: userId }, transaction: t });
+        if (existingOrders > 0) {
+          await t.rollback();
+          return res.status(400).json({ message: 'This coupon is for first-time purchases only.' });
+        }
+      }
 
-      orderItemsData.push({
-        product_id: product.id,
-        quantity: item.quantity,
-        price_at_purchase: product.price, // ذخیره قیمت در زمان خرید
-      });
-
-      // کاهش موجودی محصول
-      product.stock_quantity -= item.quantity;
-      await product.save({ transaction: t }); // ذخیره تغییرات موجودی در تراکنش
-    }
-
-    // بررسی حداقل مبلغ برای کوپن
-    if (coupon && totalAmount < coupon.min_amount) {
-      await t.rollback();
-      return res
-        .status(400)
-        .json({
-          message: `Coupon requires a minimum order amount of ${coupon.min_amount}.`,
-        });
-    }
-
-    // 5. اعمال تخفیف کوپن
-    if (coupon) {
+      // محاسبه تخفیف
       if (coupon.discount_type === 'percentage') {
-        discountAmount = totalAmount * (coupon.discount_value / 100);
+        totalDiscount = totalAmount * (parseFloat(coupon.discount_value) / 100);
       } else if (coupon.discount_type === 'fixed_amount') {
-        discountAmount = coupon.discount_value;
+        totalDiscount = parseFloat(coupon.discount_value);
       }
-      totalAmount -= discountAmount;
-      if (totalAmount < 0) totalAmount = 0; // اطمینان از عدم منفی شدن قیمت
 
-      // افزایش تعداد استفاده شده کوپن
-      coupon.used_count += 1;
-      await coupon.save({ transaction: t });
+      // کاهش تعداد مجاز استفاده از کوپن
+      if (coupon.usage_limit !== null) {
+        coupon.usage_limit -= 1;
+        await coupon.save({ transaction: t });
+      }
     }
 
-    // 6. ایجاد سفارش جدید در جدول Orders
-    const newOrder = await Order.create(
-      {
-        user_id: userId,
-        total_amount: totalAmount.toFixed(2),
-        status: 'pending', // وضعیت اولیه سفارش
-        shipping_address_id: shippingAddressId,
-        payment_status: 'unpaid', // وضعیت اولیه پرداخت
-        coupon_id: coupon ? coupon.id : null, // اضافه کردن کوپن استفاده شده
-      },
-      { transaction: t },
-    );
+    const finalAmount = totalAmount - totalDiscount;
 
-    // 7. ایجاد آیتم‌های سفارش در جدول OrderItems
-    for (const itemData of orderItemsData) {
-      await OrderItem.create(
-        {
-          order_id: newOrder.id,
-          product_id: itemData.product_id,
-          quantity: itemData.quantity,
-          price_at_purchase: itemData.price_at_purchase,
-        },
-        { transaction: t },
-      );
+    // 4. ایجاد سفارش جدید
+    const newOrder = await db.Order.create({
+      user_id: userId,
+      total_amount: finalAmount,
+      status: 'pending', // 👈 مقدار پیش‌فرض
+      shipping_address_id: shippingAddressId, // 👈 استفاده از shippingAddressId
+      payment_status: 'unpaid', // 👈 مقدار پیش‌فرض
+      coupon_id: coupon ? coupon.id : null,
+    }, { transaction: t });
+
+    // 5. انتقال آیتم‌های سبد خرید به جزئیات سفارش
+    for (const item of cart.cartItems) {
+      await db.OrderItem.create({
+        order_id: newOrder.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+        price_at_purchase: parseFloat(item.product.price),
+      }, { transaction: t });
+
+      // 6. به‌روزرسانی موجودی انبار
+      const product = await db.Product.findByPk(item.product_id, { transaction: t });
+      if (product) {
+        product.stock_quantity -= item.quantity;
+        await product.save({ transaction: t });
+      }
     }
 
-    // 8. پاک کردن سبد خرید پس از ایجاد سفارش موفق
-    await CartItem.destroy({ where: { cart_id: cart.id }, transaction: t });
-    await cart.destroy({ transaction: t }); // حذف خود سبد خرید نیز
+    // 7. پاک کردن سبد خرید
+    await db.CartItem.destroy({ where: { cart_id: cart.id }, transaction: t });
+    await cart.destroy({ transaction: t });
 
-    // 9. انجام تراکنش
     await t.commit();
+    res.status(201).json({ message: 'Order placed successfully!', order: newOrder });
 
-    res
-      .status(201)
-      .json({ message: 'Order placed successfully!', order: newOrder });
   } catch (error) {
-    await t.rollback(); // در صورت بروز خطا، تراکنش را برگردان
-    console.error('Error placing order:', error);
-    res
-      .status(500)
-      .json({ message: 'Server error placing order', error: error.message });
+    await t.rollback();
+    logger.error(`Error placing order: ${error.message}`, { stack: error.stack });
+    res.status(500).json({ message: 'Server error placing order', error: error.message });
   }
 };
-
 // تابع برای دریافت جزئیات یک سفارش
 exports.getOrderById = async (req, res) => {
   const { id } = req.params;

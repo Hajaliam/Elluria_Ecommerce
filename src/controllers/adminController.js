@@ -1955,6 +1955,117 @@ exports.importPayments = async (req, res) => {
     }
 };
 
+//تابع برای واردات  کوپن ها
+exports.importCoupons = async (req, res) => {
+    const file = req.file;
+    const { format } = req.body;
+    const allowedFormats = ['csv', 'excel'];
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+    }
+    if (!format || !allowedFormats.includes(format.toLowerCase())) {
+        await fs.unlink(file.path);
+        return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+    }
+
+    const t = await db.sequelize.transaction();
+
+    try {
+        let records = [];
+
+        if (format.toLowerCase() === 'csv') {
+            const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+            records = await new Promise((resolve, reject) => {
+                parse(fileContent, { columns: true, skip_empty_lines: true }, (err, records) => {
+                    if (err) reject(err);
+                    resolve(records);
+                });
+            });
+        } else if (format.toLowerCase() === 'excel') {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(file.path);
+            const worksheet = workbook.getWorksheet(1);
+
+            worksheet.eachRow((row, rowNumber) => {
+                if (rowNumber === 1) return; // Skip header row
+                const rowData = {
+                    code: row.getCell(1).value,
+                    discount_type: row.getCell(2).value,
+                    discount_value: row.getCell(3).value,
+                    min_amount: row.getCell(4).value,
+                    usage_limit: row.getCell(5).value,
+                    expiry_date: row.getCell(6).value,
+                    isActive: row.getCell(7).value,
+                    is_first_purchase_only: row.getCell(8).value,
+                };
+                records.push(rowData);
+            });
+        }
+
+        let importedCount = 0;
+        let updatedCount = 0;
+        const errors = [];
+
+        for (const record of records) {
+            const { code, discount_type, discount_value, min_amount, usage_limit, expiry_date, isActive, is_first_purchase_only } = record;
+
+            try {
+                // 👈 **مهم:** بررسی نوع داده قبل از تبدیل
+                const isFirstPurchaseOnly = typeof is_first_purchase_only === 'string' ? (is_first_purchase_only.toLowerCase() === 'true') : is_first_purchase_only;
+                const isActiveBool = typeof isActive === 'string' ? (isActive.toLowerCase() === 'true') : isActive;
+
+                const [coupon, created] = await db.Coupon.findOrCreate({
+                    where: { code: sanitizeString(code) },
+                    defaults: {
+                        discount_type: sanitizeString(discount_type),
+                        discount_value: parseFloat(discount_value),
+                        min_amount: parseFloat(min_amount),
+                        usage_limit: usage_limit ? parseInt(usage_limit) : null,
+                        expiry_date: expiry_date ? new Date(expiry_date) : null,
+                        isActive: isActiveBool,
+                        is_first_purchase_only: isFirstPurchaseOnly
+                    },
+                    transaction: t
+                });
+
+                if (created) {
+                    importedCount++;
+                } else {
+                    coupon.discount_type = sanitizeString(discount_type);
+                    coupon.discount_value = parseFloat(discount_value);
+                    coupon.min_amount = parseFloat(min_amount);
+                    coupon.usage_limit = usage_limit ? parseInt(usage_limit) : null;
+                    coupon.expiry_date = expiry_date ? new Date(expiry_date) : null;
+                    coupon.isActive = isActiveBool;
+                    coupon.is_first_purchase_only = isFirstPurchaseOnly;
+                    await coupon.save({ transaction: t });
+                    updatedCount++;
+                }
+            } catch (recordError) {
+                errors.push({ record: record, error: recordError.message });
+                logger.error(`Error importing coupon record: ${recordError.message}`, { record: record });
+            }
+        }
+
+        await t.commit();
+        res.status(200).json({
+            message: 'Coupons imported successfully!',
+            importedCount: importedCount,
+            updatedCount: updatedCount,
+            errors: errors.length > 0 ? errors : undefined
+        });
+    } catch (error) {
+        await t.rollback();
+        logger.error(`Error importing coupons: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Server error during import', error: error.message });
+    } finally {
+        if (file) {
+            try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+        }
+    }
+};
+
 
 // Multer middleware برای استفاده در روت‌ها (برای واردات)
 exports.uploadImport = upload;

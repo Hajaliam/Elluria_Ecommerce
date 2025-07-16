@@ -128,3 +128,29 @@
 2025-07-15 13:30:59 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
 2025-07-15 13:34:24 ERROR: Error importing payment record: Validation error
 2025-07-15 13:34:25 ERROR: Error importing payment record: current transaction is aborted, commands ignored until end of transaction block
+2025-07-15 14:50:50 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
+2025-07-15 14:50:50 ERROR: Unhandled error: invalid csrf token
+2025-07-15 14:54:47 ERROR: HTTP Error POST /api/orders/place-order 200 logger is not defined
+2025-07-15 14:54:47 ERROR: Unhandled error: logger is not defined
+2025-07-15 14:58:32 ERROR: Error placing order: CartItem is associated to Cart using an alias. You've included an alias (items), but it does not match the alias(es) defined in your association (cartItems).
+2025-07-15 15:04:59 ERROR: Error placing order: CartItem is associated to Cart using an alias. You've included an alias (items), but it does not match the alias(es) defined in your association (cartItems).
+2025-07-15 15:07:07 ERROR: Error placing order: Product is associated to CartItem using an alias. You must use the 'as' keyword to specify the alias within your include statement.
+2025-07-15 15:10:07 ERROR: Error placing order: Cannot read properties of undefined (reading 'length')
+2025-07-15 15:13:42 ERROR: Error placing order: notNull Violation: Order.shipping_address_id cannot be null,
+notNull Violation: Order.payment_status cannot be null
+2025-07-15 15:13:54 ERROR: Error placing order: notNull Violation: Order.shipping_address_id cannot be null,
+notNull Violation: Order.payment_status cannot be null
+2025-07-15 15:42:51 ERROR: HTTP Error POST /api/users/2/addresses 200 Cannot destructure property 'street' of 'req.body' as it is undefined.
+2025-07-15 15:42:51 ERROR: Unhandled error: Cannot destructure property 'street' of 'req.body' as it is undefined.
+2025-07-15 15:47:56 ERROR: Error fetching addresses for user NaN: column "nan" does not exist
+2025-07-15 15:58:35 ERROR: Error importing coupons: Invalid Record Length: columns length is 2, got 1 on line 2
+2025-07-15 15:58:47 ERROR: Error importing coupon record: is_first_purchase_only.toLowerCase is not a function
+2025-07-16 14:13:33 ERROR: HTTP Error POST /api/reviews/ 200 invalid csrf token
+2025-07-16 14:13:33 ERROR: Unhandled error: invalid csrf token
+2025-07-16 14:21:19 ERROR: HTTP Error GET /api/search?query=book&minRating=4 200 logger is not defined
+2025-07-16 14:21:19 ERROR: Unhandled error: logger is not defined
+2025-07-16 14:22:20 ERROR: Error during global search: column Product.rating does not exist
+2025-07-16 14:40:06 ERROR: Error during global search: syntax error at or near "["
+2025-07-16 14:44:11 ERROR: Error during global search: syntax error at or near "["
+2025-07-16 14:44:40 ERROR: Error during global search: syntax error at or near "["
+2025-07-16 14:49:33 ERROR: Error during global search: missing FROM-clause entry for table "reviews"

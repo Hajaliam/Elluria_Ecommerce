@@ -3,6 +3,7 @@
 const db = require('../../models');
 const Product = db.Product;
 const Category = db.Category; // برای بررسی وجود دسته‌بندی
+const Brand = db.Brand ;
 const Sequelize = db.Sequelize;
 const multer = require('multer'); // برای آپلود فایل
 const path = require('path'); // برای کار با مسیرهای فایل
@@ -40,7 +41,7 @@ const upload = multer({
 // تابع برای ایجاد محصول جدید
 exports.createProduct = async (req, res) => {
   // Multer فایل را در req.file قرار می‌دهد و بقیه فیلدها در req.body
-  let { name, description, price, stock_quantity, category_id, slug } =
+  let { name, description, price, stock_quantity, category_id, slug ,brand_id } =
     req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی به فیلدهای متنی
@@ -55,6 +56,12 @@ exports.createProduct = async (req, res) => {
     const category = await Category.findByPk(category_id);
     if (!category) {
       return res.status(404).json({ message: 'Category not found.' });
+    }
+
+    // 1. بررسی وجود برند
+    const brand = await Brand.findByPk(brand_id);
+    if (!brand) {
+      return res.status(404).json({ message: 'Brand not found.' });
     }
 
     // 2. بررسی وجود محصول با نام یا slug تکراری
@@ -82,6 +89,7 @@ exports.createProduct = async (req, res) => {
       image_url,
       category_id,
       slug,
+      brand_id
     });
 
     res
@@ -106,6 +114,7 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
   const {
     categoryId,
+    brand_id,
     search,
     minPrice,
     maxPrice,
@@ -119,6 +128,9 @@ exports.getAllProducts = async (req, res) => {
 
   if (categoryId) {
     whereClause.category_id = categoryId;
+  }
+  if (brand_id) {
+    whereClause.brand_id = brand_id;
   }
   if (search) {
     whereClause.name = { [Sequelize.Op.iLike]: `%${sanitizeString(search)}%` }; // 👈 جستجو هم پاکسازی شود
@@ -216,15 +228,14 @@ exports.getProductById = async (req, res) => {
 // تابع برای به‌روزرسانی یک محصول
 exports.updateProduct = async (req, res) => {
   const { id } = req.params;
-  let { name, description, price, stock_quantity, category_id, slug } =
-    req.body; // 👈 از let استفاده کنید
+  let { name, description, price, stock_quantity, category_id, slug, brand_id , sold_count} = req.body;
 
-  // 👈 اعمال پاکسازی به فیلدهای متنی
+  // 👈 پاکسازی رشته‌ها
   if (name) name = sanitizeString(name);
   if (description) description = sanitizeString(description);
   if (slug) slug = sanitizeString(slug);
 
-  const image_url = req.file ? `/uploads/products/${req.file.filename}` : null; // تصویر جدید اگر آپلود شد
+  const image_url = req.file ? `/uploads/products/${req.file.filename}` : null;
 
   try {
     const product = await Product.findByPk(id);
@@ -232,7 +243,7 @@ exports.updateProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found.' });
     }
 
-    // بررسی وجود دسته‌بندی جدید (اگر تغییر کرده)
+    // بررسی دسته‌بندی جدید (در صورت تغییر)
     if (category_id && category_id !== product.category_id) {
       const category = await Category.findByPk(category_id);
       if (!category) {
@@ -240,7 +251,7 @@ exports.updateProduct = async (req, res) => {
       }
     }
 
-    // بررسی نام یا slug تکراری (در صورت تغییر)
+    // بررسی نام یا اسلاگ تکراری (در صورت تغییر)
     if ((name && name !== product.name) || (slug && slug !== product.slug)) {
       const existingProduct = await Product.findOne({
         where: {
@@ -248,47 +259,46 @@ exports.updateProduct = async (req, res) => {
             { name: name || product.name },
             { slug: slug || product.slug },
           ],
-          id: { [Sequelize.Op.ne]: id }, // به جز خود محصول
+          id: { [Sequelize.Op.ne]: id },
         },
       });
       if (existingProduct) {
         if (req.file) {
-          /* fs.unlinkSync(req.file.path); */
+          // اگر لازم شد فایل رو پاک کن
+          // fs.unlinkSync(req.file.path);
         }
-        return res
-          .status(409)
-          .json({ message: 'Product with this name or slug already exists.' });
+        return res.status(409).json({
+          message: 'Product with this name or slug already exists.',
+        });
       }
     }
 
-    // اگر تصویر جدید آپلود شد، تصویر قبلی را حذف کن (اختیاری و نیاز به fs)
-    // if (req.file && product.image_url) {
-    //   const oldImagePath = path.join(__dirname, '..', '..', 'public', product.image_url);
-    //   fs.unlink(oldImagePath, (err) => {
-    //     if (err) console.error('Error deleting old image:', err);
-    //   });
-    // }
-
-    product.name = name || product.name;
-    product.description = description || product.description;
-    product.price = price || product.price;
-    product.stock_quantity = stock_quantity || product.stock_quantity;
-    product.image_url = image_url || product.image_url; // به‌روزرسانی با تصویر جدید
-    product.category_id = category_id || product.category_id;
-    product.slug = slug || product.slug;
+    // آپدیت فیلدها به صورت ایمن و بدون نادیده گرفتن مقادیر ۰
+    if (name) product.name = name;
+    if (description) product.description = description;
+    if (slug) product.slug = slug;
+    if (brand_id) product.brand_id = brand_id;
+    if (sold_count) product.sold_count = sold_count;
+    if (price !== undefined && price !== null) product.price = price;
+    if ('stock_quantity' in req.body) product.stock_quantity = stock_quantity;
+    if (image_url) product.image_url = image_url;
+    if (category_id) product.category_id = category_id;
 
     await product.save();
-    res
-      .status(200)
-      .json({ message: 'Product updated successfully!', product: product });
+
+    return res.status(200).json({
+      message: 'Product updated successfully!',
+      product,
+    });
   } catch (error) {
     console.error('Error updating product:', error);
     if (req.file) {
-      /* fs.unlinkSync(req.file.path); */
+      // fs.unlinkSync(req.file.path);
     }
-    res
-      .status(500)
-      .json({ message: 'Server error updating product', error: error.message });
+    return res.status(500).json({
+      message: 'Server error updating product',
+      error: error.message,
+    });
   }
 };
 

@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'category_id',
         as: 'category',
       });
+      Product.belongsTo(models.Brand, {
+          foreignKey: 'brand_id',
+          as: 'brand'
+      });
       Product.hasMany(models.CartItem, {
         foreignKey: 'product_id',
         as: 'cartItems',
@@ -41,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
       },
       slug: { type: DataTypes.STRING(255), allowNull: false, unique: true },
+
+      brand_id: { // 👈 فیلد جدید
+          type: DataTypes.INTEGER,
+          allowNull: true
+      }
     },
     {
       sequelize,

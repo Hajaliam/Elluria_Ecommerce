@@ -392,6 +392,25 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
+exports.getAddresses = async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  const userIdFromToken = req.user.id;
+  const userRole = await db.Role.findByPk(req.user.role_id);
+
+  // فقط مالک آدرس یا ادمین می‌تواند آدرس‌ها را ببیند
+  if (userId !== userIdFromToken && userRole.name !== 'admin') {
+    return res.status(403).json({ message: 'Access Denied: You can only view your own addresses.' });
+  }
+
+  try {
+    const addresses = await db.Address.findAll({ where: { user_id: userId } });
+    res.status(200).json({ addresses: addresses });
+  } catch (error) {
+    logger.error(`Error fetching addresses for user ${userId}: ${error.message}`, { stack: error.stack });
+    res.status(500).json({ message: 'Server error fetching addresses', error: error.message });
+  }
+};
+
 // 👈 تابع برای به‌روزرسانی اطلاعات پروفایل کاربر لاگین شده
 exports.updateUserProfile = async (req, res) => {
   const userId = req.user.id; // ID کاربر از توکن احراز هویت شده

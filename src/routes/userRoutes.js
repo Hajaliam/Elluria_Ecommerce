@@ -694,4 +694,40 @@ router.post(
   userController.verifyOtpAndLogin,
 );
 
+/**
+ * @swagger
+ * /api/users/{userId}/addresses:
+ *   get:
+ *     summary: Get all addresses for a specific user
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user to get addresses for
+ *     responses:
+ *       200:
+ *         description: A list of user's addresses
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 addresses:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Address'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (invalid token or unauthorized user)
+ *       500:
+ *         description: Server error
+ */
+router.get('/:userId/addresses', authMiddleware.authenticateToken, userController.getAddresses);
+
 module.exports = router;

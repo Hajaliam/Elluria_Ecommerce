@@ -95,7 +95,7 @@ const router = express.Router();
 /**
  * @swagger
  * /api/coupons:
- *   post:
+ *    post:
  *     summary: Create a new coupon (Admin only)
  *     tags: [Coupons]
  *     security:
@@ -106,20 +106,47 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CouponInput'
+ *             type: object
+ *             required:
+ *               - code
+ *               - discount_type
+ *               - discount_value
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 example: SUMMER2024
+ *               discount_type:
+ *                 type: string
+ *                 enum: [percentage, fixed]
+ *                 example: percentage
+ *               discount_value:
+ *                 type: number
+ *                 example: 15
+ *               min_amount:
+ *                 type: number
+ *                 example: 500
+ *               usage_limit:
+ *                 type: integer
+ *                 example: 100
+ *               expiry_date:
+ *                 type: string
+ *                 format: date
+ *                 example: '2025-09-30'
+ *               isActive:
+ *                 type: boolean
+ *                 example: true
+ *               is_first_purchase_only:
+ *                 type: boolean
+ *                 example: false
  *     responses:
  *       201:
  *         description: Coupon created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Coupon'
+ *       400:
+ *         description: Bad Request
  *       401:
  *         description: Unauthorized
  *       403:
  *         description: Forbidden
- *       409:
- *         description: Coupon with this code already exists
  *       500:
  *         description: Server error
  */
@@ -206,8 +233,8 @@ router.get(
  * @swagger
  * /api/coupons/{code}:
  *   put:
- *     summary: Update a coupon by its code (Admin only)
- *     tags: [Coupons]
+ *     summary: Update an existing coupon by code (Admin only)
+ *     tags : [Coupons]
  *     security:
  *       - bearerAuth: []
  *       - csrfToken: []
@@ -217,7 +244,7 @@ router.get(
  *         required: true
  *         schema:
  *           type: string
- *         description: The code of the coupon to update
+ *         description: The unique coupon code (e.g. SUMMER2024)
  *     requestBody:
  *       required: true
  *       content:
@@ -225,46 +252,40 @@ router.get(
  *           schema:
  *             type: object
  *             properties:
- *               new_code:
- *                 type: string
- *                 example: SPRING_SALE
  *               discount_type:
  *                 type: string
- *                 enum: [percentage, fixed_amount]
- *                 example: fixed_amount
+ *                 enum: [percentage, fixed]
+ *                 example: percentage
  *               discount_value:
  *                 type: number
- *                 format: float
- *                 example: 15.00
+ *                 example: 15
  *               min_amount:
  *                 type: number
- *                 format: float
- *                 example: 75.00
+ *                 example: 500
  *               usage_limit:
  *                 type: integer
- *                 example: 200
+ *                 example: 100
  *               expiry_date:
  *                 type: string
  *                 format: date
- *                 example: 2026-03-31
+ *                 example: '2025-09-30'
  *               isActive:
+ *                 type: boolean
+ *                 example: true
+ *               is_first_purchase_only:
  *                 type: boolean
  *                 example: false
  *     responses:
  *       200:
  *         description: Coupon updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Coupon'
+ *       400:
+ *         description: Bad Request
  *       401:
  *         description: Unauthorized
  *       403:
  *         description: Forbidden
  *       404:
  *         description: Coupon not found
- *       409:
- *         description: Conflict - new code already exists
  *       500:
  *         description: Server error
  */

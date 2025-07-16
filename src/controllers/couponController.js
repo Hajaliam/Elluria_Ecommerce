@@ -15,6 +15,7 @@ exports.createCoupon = async (req, res) => {
     usage_limit,
     expiry_date,
     isActive,
+    is_first_purchase_only
   } = req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی
@@ -36,6 +37,7 @@ exports.createCoupon = async (req, res) => {
       usage_limit,
       expiry_date,
       isActive,
+      is_first_purchase_only,
     });
     res
       .status(201)
@@ -93,6 +95,7 @@ exports.updateCoupon = async (req, res) => {
     usage_limit,
     expiry_date,
     isActive,
+    is_first_purchase_only,
   } = req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی
@@ -126,7 +129,7 @@ exports.updateCoupon = async (req, res) => {
       usage_limit !== undefined ? usage_limit : coupon.usage_limit;
     coupon.expiry_date = expiry_date || coupon.expiry_date;
     coupon.isActive = isActive !== undefined ? isActive : coupon.isActive;
-
+    coupon.is_first_purchase_only = is_first_purchase_only;
     await coupon.save();
     res
       .status(200)

@@ -29,6 +29,7 @@ const orderRoutes = require('./src/routes/orderRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const reviewRoutes = require('./src/routes/reviewRoutes');
 const couponRoutes = require('./src/routes/couponRoutes');
+const searchRoutes = require("./src/routes/searchRoutes");
 
 // ایمپورت Logger (برای لاگ‌گیری)
 const logger = require('./src/config/logger');
@@ -127,6 +128,7 @@ app.use('/api/orders', csrfProtection, orderRoutes);
 app.use('/api/admin', csrfProtection, adminRoutes);
 app.use('/api/reviews', csrfProtection, reviewRoutes);
 app.use('/api/coupons', csrfProtection, couponRoutes);
+app.use('/api/search', searchRoutes);
 
 // ** WebSocket (Socket.IO) Logic for Online Advice (AI Chat) **
 // Map برای ذخیره موقت تاریخچه مکالمه هر نشست (برای AI با حافظه کوتاه مدت)
