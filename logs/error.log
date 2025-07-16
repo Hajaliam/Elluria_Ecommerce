@@ -163,3 +163,5 @@ notNull Violation: Order.payment_status cannot be null
 2025-07-16 16:41:19 ERROR: Error importing inventory update record: oldStock is not defined
 2025-07-16 19:44:49 ERROR: HTTP Error POST /api/products/8 200 invalid csrf token
 2025-07-16 19:44:49 ERROR: Unhandled error: invalid csrf token
+2025-07-16 23:39:39 ERROR: Error importing reviews: Invalid Record Length: columns length is 4, got 5 on line 3
+2025-07-16 23:44:02 ERROR: Error importing review record: Invalid value { text: 'admin@example.com' }

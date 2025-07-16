@@ -2831,5 +2831,119 @@ exports.importInventoryUpdates = async (req, res) => {
   }
 };
 
+// 👈 تابع برای واردات نظرات
+exports.importReviews = async (req, res) => {
+  const file = req.file;
+  const { format } = req.body;
+  const allowedFormats = ['csv', 'excel'];
+
+  if (!file) {
+    return res.status(400).json({ message: 'No file uploaded.' });
+  }
+  if (!format || !allowedFormats.includes(format.toLowerCase())) {
+    await fs.unlink(file.path);
+    return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: csv, excel.' });
+  }
+
+  const t = await db.sequelize.transaction();
+
+  try {
+    let records = [];
+
+    if (format.toLowerCase() === 'csv') {
+      const fileContent = await fs.readFile(file.path, { encoding: 'utf8' });
+      records = await new Promise((resolve, reject) => {
+        parse(fileContent, { columns: true, skip_empty_lines: true }, (err, records) => {
+          if (err) reject(err);
+          resolve(records);
+        });
+      });
+    } else if (format.toLowerCase() === 'excel') {
+      const workbook = new ExcelJS.Workbook();
+      await workbook.xlsx.readFile(file.path);
+      const worksheet = workbook.getWorksheet(1);
+
+      worksheet.eachRow((row, rowNumber) => {
+        if (rowNumber === 1) return; // Skip header row
+        const rowData = {
+          user_email: row.getCell(1).value,
+          product_slug: row.getCell(2).value,
+          rating: row.getCell(3).value,
+          comment: row.getCell(4).value,
+        };
+        records.push(rowData);
+      });
+    }
+
+    let importedCount = 0;
+    let updatedCount = 0; // برای Reviewها معمولاً فقط واردات جدید است
+    const errors = [];
+
+    for (const record of records) {
+      const { user_email, product_slug, rating, comment } = record;
+      const sanitizedEmail = sanitizeString(user_email);
+      const sanitizedComment = sanitizeString(comment);
+
+      try {
+        // اعتبارسنجی: وجود کاربر و محصول
+        const user = await db.User.findOne({ where: { email: sanitizedEmail }, transaction: t });
+        if (!user) {
+          errors.push({ record: record, error: `User with email '${sanitizedEmail}' not found.` });
+          continue;
+        }
+
+        const product = await db.Product.findOne({ where: { slug: product_slug }, transaction: t });
+        if (!product) {
+          errors.push({ record: record, error: `Product with slug '${product_slug}' not found.` });
+          continue;
+        }
+
+        // اعتبارسنجی: عدم تکرار (هر کاربر فقط یک Review برای هر محصول)
+        const existingReview = await db.Review.findOne({
+          where: { user_id: user.id, product_id: product.id },
+          transaction: t
+        });
+        if (existingReview) {
+          // اگر Review موجود بود، آن را به‌روزرسانی کن (یا فقط skip کن)
+          existingReview.rating = parseInt(rating);
+          existingReview.comment = sanitizedComment;
+          await existingReview.save({ transaction: t });
+          updatedCount++; // اگر به‌روزرسانی کردیم
+          continue; // به رکورد بعدی برو
+        }
+
+        // ایجاد Review جدید
+        await db.Review.create({
+          user_id: user.id,
+          product_id: product.id,
+          rating: parseInt(rating),
+          comment: sanitizedComment,
+        }, { transaction: t });
+        importedCount++;
+
+      } catch (recordError) {
+        errors.push({ record: record, error: recordError.message });
+        logger.error(`Error importing review record: ${recordError.message}`, { record: record });
+      }
+    }
+
+    await t.commit();
+    res.status(200).json({
+      message: 'Reviews imported successfully!',
+      importedCount: importedCount,
+      updatedCount: updatedCount,
+      errors: errors.length > 0 ? errors : undefined
+    });
+  } catch (error) {
+    await t.rollback();
+    logger.error(`Error importing reviews: ${error.message}`, { stack: error.stack });
+    res.status(500).json({ message: 'Server error during import', error: error.message });
+  } finally {
+    if (file) {
+      try { await fs.unlink(file.path); } catch (e) { logger.error(`Error deleting temp uploaded file ${file.path}: ${e.message}`); }
+    }
+  }
+};
+
 // Multer middleware برای استفاده در روت‌ها (برای واردات)
 exports.uploadImport = upload;

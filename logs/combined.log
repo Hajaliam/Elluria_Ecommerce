@@ -1557,3 +1557,21 @@ notNull Violation: Order.payment_status cannot be null
 2025-07-16 20:29:20 INFO: HTTP GET /api/orders [32m200[39m 74ms
 2025-07-16 20:30:39 INFO: HTTP POST /api/orders/9/cansel [33m404[39m 1ms
 2025-07-16 20:30:49 INFO: HTTP POST /api/orders/9/cancel [32m200[39m 136ms
+2025-07-16 23:35:05 INFO: Server is running on port 3000
+2025-07-16 23:35:05 INFO: Environment: development
+2025-07-16 23:35:05 INFO: Database User: postgres
+2025-07-16 23:36:48 INFO: HTTP GET /api-docs/ [36m304[39m 5ms
+2025-07-16 23:36:48 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-16 23:36:48 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 11ms
+2025-07-16 23:36:48 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 11ms
+2025-07-16 23:36:48 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 8ms
+2025-07-16 23:36:48 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-16 23:39:31 INFO: HTTP POST /api/admin/imports/reviews [33m400[39m 228ms
+2025-07-16 23:39:39 ERROR: Error importing reviews: Invalid Record Length: columns length is 4, got 5 on line 3
+2025-07-16 23:39:39 INFO: HTTP POST /api/admin/imports/reviews [31m500[39m 40ms
+2025-07-16 23:40:39 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 168ms
+2025-07-16 23:40:44 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 16ms
+2025-07-16 23:42:37 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 154ms
+2025-07-16 23:44:02 ERROR: Error importing review record: Invalid value { text: 'admin@example.com' }
+2025-07-16 23:44:02 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 111ms
+2025-07-16 23:44:35 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 91ms

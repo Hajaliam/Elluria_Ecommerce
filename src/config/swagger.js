@@ -5,7 +5,7 @@ const swaggerOptions = {
     openapi: '3.0.0',
     info: {
       title: 'API documentation for the Lamora online store.',
-      version: '1.0.0',
+      version: '1.6.2',
       description:
         'API documentation for the Lamora online e-commerce platform.',
       contact: {
