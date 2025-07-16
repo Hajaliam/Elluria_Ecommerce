@@ -100,21 +100,17 @@ exports.addItemToCart = async (req, res) => {
     cart.expires_at = new Date(new Date().setDate(new Date().getDate() + 7)); // 👈 اصلاح: همیشه از زمان فعلی 7 روز اضافه شود
     await cart.save();
 
-    res
-      .status(200)
-      .json({
-        message: 'Item added to cart successfully!',
-        cartItem: cartItem,
-        sessionId: sessionId,
-      });
+    res.status(200).json({
+      message: 'Item added to cart successfully!',
+      cartItem: cartItem,
+      sessionId: sessionId,
+    });
   } catch (error) {
     console.error('Error adding item to cart:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error adding item to cart',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error adding item to cart',
+      error: error.message,
+    });
   }
 };
 
@@ -191,11 +187,9 @@ exports.updateCartItemQuantity = async (req, res) => {
   const { quantity } = req.body;
 
   if (quantity <= 0) {
-    return res
-      .status(400)
-      .json({
-        message: 'Quantity must be positive. Use delete to remove item.',
-      });
+    return res.status(400).json({
+      message: 'Quantity must be positive. Use delete to remove item.',
+    });
   }
 
   try {
@@ -213,20 +207,15 @@ exports.updateCartItemQuantity = async (req, res) => {
     });
 
     if (!cartItem) {
-      return res
-        .status(404)
-        .json({
-          message:
-            'Cart item not found or does not belong to your current cart.',
-        });
+      return res.status(404).json({
+        message: 'Cart item not found or does not belong to your current cart.',
+      });
     }
 
     if (cartItem.product.stock_quantity < quantity) {
-      return res
-        .status(400)
-        .json({
-          message: `Not enough product in stock. Available: ${cartItem.product.stock_quantity}`,
-        });
+      return res.status(400).json({
+        message: `Not enough product in stock. Available: ${cartItem.product.stock_quantity}`,
+      });
     }
 
     cartItem.quantity = quantity;
@@ -235,20 +224,16 @@ exports.updateCartItemQuantity = async (req, res) => {
     cart.expires_at = new Date(new Date().setDate(new Date().getDate() + 7)); // 👈 اصلاح: همیشه از زمان فعلی 7 روز اضافه شود
     await cart.save();
 
-    res
-      .status(200)
-      .json({
-        message: 'Cart item quantity updated successfully!',
-        cartItem: cartItem,
-      });
+    res.status(200).json({
+      message: 'Cart item quantity updated successfully!',
+      cartItem: cartItem,
+    });
   } catch (error) {
     console.error('Error updating cart item quantity:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error updating cart item quantity',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error updating cart item quantity',
+      error: error.message,
+    });
   }
 };
 
@@ -264,12 +249,9 @@ exports.removeItemFromCart = async (req, res) => {
     });
 
     if (!cartItem) {
-      return res
-        .status(404)
-        .json({
-          message:
-            'Cart item not found or does not belong to your current cart.',
-        });
+      return res.status(404).json({
+        message: 'Cart item not found or does not belong to your current cart.',
+      });
     }
 
     await cartItem.destroy();
@@ -280,12 +262,10 @@ exports.removeItemFromCart = async (req, res) => {
     res.status(200).json({ message: 'Item removed from cart successfully!' });
   } catch (error) {
     console.error('Error removing item from cart:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error removing item from cart',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error removing item from cart',
+      error: error.message,
+    });
   }
 };
 

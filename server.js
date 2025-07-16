@@ -29,7 +29,7 @@ const orderRoutes = require('./src/routes/orderRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const reviewRoutes = require('./src/routes/reviewRoutes');
 const couponRoutes = require('./src/routes/couponRoutes');
-const searchRoutes = require("./src/routes/searchRoutes");
+const searchRoutes = require('./src/routes/searchRoutes');
 
 // ایمپورت Logger (برای لاگ‌گیری)
 const logger = require('./src/config/logger');

@@ -3,12 +3,15 @@
 const db = require('../../models');
 const Product = db.Product;
 const Category = db.Category; // برای بررسی وجود دسته‌بندی
-const Brand = db.Brand ;
+const Brand = db.Brand;
 const Sequelize = db.Sequelize;
 const multer = require('multer'); // برای آپلود فایل
 const path = require('path'); // برای کار با مسیرهای فایل
 const { sanitizeString } = require('../utils/sanitizer'); // 👈 این خط باید وجود داشته باشد و استفاده شود
 // const fs = require('fs'); // اگر می‌خواهید حذف فایل‌های قدیمی را فعال کنید، این خط را اضافه کنید
+
+
+
 
 // تنظیم Multer برای ذخیره محلی فایل‌ها
 const storage = multer.diskStorage({
@@ -41,8 +44,15 @@ const upload = multer({
 // تابع برای ایجاد محصول جدید
 exports.createProduct = async (req, res) => {
   // Multer فایل را در req.file قرار می‌دهد و بقیه فیلدها در req.body
-  let { name, description, price, stock_quantity, category_id, slug ,brand_id } =
-    req.body; // 👈 از let استفاده کنید
+  let {
+    name,
+    description,
+    price,
+    stock_quantity,
+    category_id,
+    slug,
+    brand_id,
+  } = req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی به فیلدهای متنی
   name = sanitizeString(name);
@@ -89,9 +99,17 @@ exports.createProduct = async (req, res) => {
       image_url,
       category_id,
       slug,
-      brand_id
+      brand_id,
     });
-
+    await db.InventoryLog.create({
+      product_id: newProduct.id,
+      change_type: 'Adding_New_Product',
+      quantity_change: newProduct.stock_quantity,
+      old_stock_quantity: 0,
+      new_stock_quantity: newProduct.stock_quantity,
+      changed_by_user_id: req.user.id, // کاربر تغییر دهنده
+      description: `Product ${newProduct.id} Created - Added  ${stock_quantity} units .`
+    });
     res
       .status(201)
       .json({ message: 'Product created successfully!', product: newProduct });
@@ -101,12 +119,10 @@ exports.createProduct = async (req, res) => {
     if (req.file) {
       // اگر fs ایمپورت شده باشد: fs.unlinkSync(req.file.path);
     }
-    res
-      .status(500)
-      .json({
-        message: 'Server error during product creation',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error during product creation',
+      error: error.message,
+    });
   }
 };
 
@@ -186,12 +202,10 @@ exports.getAllProducts = async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching products:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error fetching products',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error fetching products',
+      error: error.message,
+    });
   }
 };
 
@@ -227,8 +241,17 @@ exports.getProductById = async (req, res) => {
 
 // تابع برای به‌روزرسانی یک محصول
 exports.updateProduct = async (req, res) => {
+  const t = await db.sequelize.transaction();
   const { id } = req.params;
-  let { name, description, price, stock_quantity, category_id, slug, brand_id , sold_count} = req.body;
+  let {
+    name,
+    description,
+    price,
+    stock_quantity,
+    category_id,
+    slug,
+    brand_id,
+  } = req.body;
 
   // 👈 پاکسازی رشته‌ها
   if (name) name = sanitizeString(name);
@@ -278,11 +301,24 @@ exports.updateProduct = async (req, res) => {
     if (description) product.description = description;
     if (slug) product.slug = slug;
     if (brand_id) product.brand_id = brand_id;
-    if (sold_count) product.sold_count = sold_count;
     if (price !== undefined && price !== null) product.price = price;
-    if ('stock_quantity' in req.body) product.stock_quantity = stock_quantity;
+    if ('stock_quantity' in req.body) {
+      let oldStock = product.stock_quantity;
+      product.stock_quantity = stock_quantity;
+      await db.InventoryLog.create({
+        product_id: product.id,
+        change_type: 'product_stock_update',
+        quantity_change: -Number(oldStock)+Number(stock_quantity),
+        old_stock_quantity: oldStock,
+        new_stock_quantity: stock_quantity,
+        changed_by_user_id: req.user.id, // کاربر تغییر دهنده
+        description: `Product ${product.id} - Changed  ${stock_quantity} units.`
+      });
+    }
     if (image_url) product.image_url = image_url;
     if (category_id) product.category_id = category_id;
+
+
 
     await product.save();
 

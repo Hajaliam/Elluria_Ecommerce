@@ -1469,3 +1469,91 @@ notNull Violation: Order.payment_status cannot be null
 2025-07-16 15:57:37 INFO: HTTP GET /api/search?query=lap&sortBy=best_selling&sortOrder=DESC [32m200[39m 26ms
 2025-07-16 15:58:01 INFO: HTTP GET /api/search?query=lap&sortBy=price&sortOrder=DESC [32m200[39m 71ms
 2025-07-16 15:58:25 INFO: HTTP GET /api/search?query=lap&sortBy=most_popular&sortOrder=DESC [32m200[39m 74ms
+2025-07-16 16:19:31 INFO: Server is running on port 3000
+2025-07-16 16:19:31 INFO: Environment: development
+2025-07-16 16:19:31 INFO: Database User: postgres
+2025-07-16 16:19:52 INFO: HTTP GET /api/products/8 [32m200[39m 304ms
+2025-07-16 16:20:46 INFO: HTTP POST /api/orders/place-order [33m400[39m 78ms
+2025-07-16 16:21:16 INFO: HTTP GET /api-docs/ [36m304[39m 2ms
+2025-07-16 16:21:16 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-16 16:21:16 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 8ms
+2025-07-16 16:21:16 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 10ms
+2025-07-16 16:21:16 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 11ms
+2025-07-16 16:21:16 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 4ms
+2025-07-16 16:22:07 INFO: HTTP GET /api/cart [32m200[39m 80ms
+2025-07-16 16:22:44 ERROR: HTTP Error POST /api/cart/add 200 invalid csrf token
+2025-07-16 16:22:44 ERROR: Unhandled error: invalid csrf token
+2025-07-16 16:22:44 INFO: HTTP POST /api/cart/add [33m403[39m 10ms
+2025-07-16 16:23:30 INFO: HTTP POST /api/cart/add [32m200[39m 84ms
+2025-07-16 16:23:58 ERROR: HTTP Error POST /api/orders/place-order 200 Bad control character in string literal in JSON at position 56 (line 4 column 4)
+2025-07-16 16:23:58 ERROR: Unhandled error: Bad control character in string literal in JSON at position 56 (line 4 column 4)
+2025-07-16 16:24:17 INFO: New session_id generated and set: 1b0f5414-db9b-40b5-8f17-031684536cf5
+2025-07-16 16:24:17 ERROR: Error placing order: oldStock is not defined
+2025-07-16 16:24:17 INFO: HTTP POST /api/orders/place-order [31m500[39m 185ms
+2025-07-16 16:31:18 INFO: Server is running on port 3000
+2025-07-16 16:31:18 INFO: Environment: development
+2025-07-16 16:31:18 INFO: Database User: postgres
+2025-07-16 16:31:24 INFO: HTTP POST /api/orders/place-order [32m201[39m 381ms
+2025-07-16 16:31:59 INFO: HTTP GET /api/products/8 [32m200[39m 66ms
+2025-07-16 16:38:16 INFO: HTTP GET /api/products [32m200[39m 78ms
+2025-07-16 16:41:19 ERROR: Error importing inventory update record: oldStock is not defined
+2025-07-16 16:41:19 ERROR: Error importing inventory update record: oldStock is not defined
+2025-07-16 16:41:19 INFO: HTTP POST /api/admin/imports/inventory [32m200[39m 94ms
+2025-07-16 16:45:05 INFO: Server is running on port 3000
+2025-07-16 16:45:05 INFO: Environment: development
+2025-07-16 16:45:05 INFO: Database User: postgres
+2025-07-16 16:46:02 INFO: HTTP POST /api/admin/imports/inventory [32m200[39m 359ms
+2025-07-16 16:46:18 INFO: HTTP GET /api/products [32m200[39m 152ms
+2025-07-16 16:53:14 INFO: HTTP POST /api/admin/imports/inventory [32m200[39m 166ms
+2025-07-16 16:53:20 INFO: HTTP GET /api/products [32m200[39m 11ms
+2025-07-16 19:36:47 INFO: Server is running on port 3000
+2025-07-16 19:36:47 INFO: Environment: development
+2025-07-16 19:36:47 INFO: Database User: postgres
+2025-07-16 19:36:50 INFO: HTTP GET /api-docs/ [32m200[39m 7ms
+2025-07-16 19:36:50 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-07-16 19:36:50 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 24ms
+2025-07-16 19:36:50 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 32ms
+2025-07-16 19:36:50 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 49ms
+2025-07-16 19:36:51 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 4ms
+2025-07-16 19:44:49 ERROR: HTTP Error POST /api/products/8 200 invalid csrf token
+2025-07-16 19:44:49 ERROR: Unhandled error: invalid csrf token
+2025-07-16 19:44:49 INFO: HTTP POST /api/products/8 [33m403[39m 9ms
+2025-07-16 19:44:54 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-16 19:45:09 INFO: HTTP POST /api/products/8 [33m404[39m 2ms
+2025-07-16 19:45:18 INFO: HTTP PUT /api/products/8 [31m500[39m 718ms
+2025-07-16 19:55:21 INFO: Server is running on port 3000
+2025-07-16 19:55:21 INFO: Environment: development
+2025-07-16 19:55:21 INFO: Database User: postgres
+2025-07-16 19:55:26 INFO: HTTP PUT /api/products/8 [32m200[39m 321ms
+2025-07-16 19:58:52 INFO: Server is running on port 3000
+2025-07-16 19:58:52 INFO: Environment: development
+2025-07-16 19:58:52 INFO: Database User: postgres
+2025-07-16 19:59:04 INFO: HTTP PUT /api/products/8 [32m200[39m 342ms
+2025-07-16 20:00:00 INFO: HTTP PUT /api/products/8 [32m200[39m 152ms
+2025-07-16 20:08:35 INFO: Server is running on port 3000
+2025-07-16 20:08:35 INFO: Environment: development
+2025-07-16 20:08:35 INFO: Database User: postgres
+2025-07-16 20:09:55 INFO: HTTP POST /api/products [33m404[39m 191ms
+2025-07-16 20:12:09 INFO: HTTP POST /api/products [31m500[39m 186ms
+2025-07-16 20:12:30 INFO: Server is running on port 3000
+2025-07-16 20:12:30 INFO: Environment: development
+2025-07-16 20:12:30 INFO: Database User: postgres
+2025-07-16 20:12:34 INFO: HTTP POST /api/products [33m409[39m 213ms
+2025-07-16 20:13:30 INFO: HTTP POST /api/products [32m201[39m 83ms
+2025-07-16 20:22:52 INFO: Server is running on port 3000
+2025-07-16 20:22:52 INFO: Environment: development
+2025-07-16 20:22:52 INFO: Database User: postgres
+2025-07-16 20:23:17 INFO: HTTP GET /api/orders [32m200[39m 748ms
+2025-07-16 20:24:12 INFO: HTTP POST /api/orders/8/cancel [32m200[39m 187ms
+2025-07-16 20:24:50 INFO: HTTP GET /api/orders/ [32m200[39m 166ms
+2025-07-16 20:26:56 INFO: HTTP GET /api/cart/add [33m404[39m 1ms
+2025-07-16 20:27:00 INFO: HTTP POST /api/cart/add [32m200[39m 122ms
+2025-07-16 20:27:11 INFO: HTTP POST /api/cart/add [33m400[39m 80ms
+2025-07-16 20:27:16 INFO: HTTP POST /api/cart/add [32m200[39m 15ms
+2025-07-16 20:27:29 INFO: HTTP POST /api/cart/add [32m200[39m 64ms
+2025-07-16 20:27:40 INFO: HTTP GET /api/cart [32m200[39m 78ms
+2025-07-16 20:28:22 INFO: HTTP GET /api/coupons [32m200[39m 66ms
+2025-07-16 20:28:59 INFO: HTTP POST /api/orders/place-order [32m201[39m 121ms
+2025-07-16 20:29:20 INFO: HTTP GET /api/orders [32m200[39m 74ms
+2025-07-16 20:30:39 INFO: HTTP POST /api/orders/9/cansel [33m404[39m 1ms
+2025-07-16 20:30:49 INFO: HTTP POST /api/orders/9/cancel [32m200[39m 136ms

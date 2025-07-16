@@ -100,12 +100,9 @@ exports.updateReview = async (req, res) => {
 
     // فقط صاحب بررسی یا ادمین می‌تواند آن را به‌روزرسانی کند
     if (review.user_id !== userId && userRole.name !== 'admin') {
-      return res
-        .status(403)
-        .json({
-          message:
-            'Access Denied: You are not authorized to update this review.',
-        });
+      return res.status(403).json({
+        message: 'Access Denied: You are not authorized to update this review.',
+      });
     }
 
     review.rating = rating || review.rating;
@@ -137,12 +134,9 @@ exports.deleteReview = async (req, res) => {
 
     // فقط صاحب بررسی یا ادمین می‌تواند آن را حذف کند
     if (review.user_id !== userId && userRole.name !== 'admin') {
-      return res
-        .status(403)
-        .json({
-          message:
-            'Access Denied: You are not authorized to delete this review.',
-        });
+      return res.status(403).json({
+        message: 'Access Denied: You are not authorized to delete this review.',
+      });
     }
 
     await review.destroy();

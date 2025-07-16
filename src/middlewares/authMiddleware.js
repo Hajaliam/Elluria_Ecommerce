@@ -33,33 +33,27 @@ exports.authorizeRoles = (...allowedRoles) => {
   return async (req, res, next) => {
     if (!req.user || !req.user.role_id) {
       // اگر authenticateToken اجرا شده ولی توکن معتبر نبوده یا کاربری نیست
-      return res
-        .status(403)
-        .json({
-          message: 'Access Denied: User role not found or not authenticated.',
-        });
+      return res.status(403).json({
+        message: 'Access Denied: User role not found or not authenticated.',
+      });
     }
 
     try {
       const userRole = await Role.findByPk(req.user.role_id);
 
       if (!userRole || !allowedRoles.includes(userRole.name)) {
-        return res
-          .status(403)
-          .json({
-            message: 'Access Denied: You do not have the required role.',
-          });
+        return res.status(403).json({
+          message: 'Access Denied: You do not have the required role.',
+        });
       }
 
       next();
     } catch (error) {
       console.error('Authorization error:', error);
-      return res
-        .status(500)
-        .json({
-          message: 'Server error during role authorization.',
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: 'Server error during role authorization.',
+        error: error.message,
+      });
     }
   };
 };

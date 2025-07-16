@@ -15,7 +15,7 @@ exports.createCoupon = async (req, res) => {
     usage_limit,
     expiry_date,
     isActive,
-    is_first_purchase_only
+    is_first_purchase_only,
   } = req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی

@@ -22,12 +22,10 @@ exports.getAllAdvice = async (req, res) => {
     res.status(200).json({ advice_requests: adviceRequests });
   } catch (error) {
     console.error('Error fetching all advice requests:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error fetching advice requests',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error fetching advice requests',
+      error: error.message,
+    });
   }
 };
 
@@ -53,23 +51,18 @@ exports.getAdviceById = async (req, res) => {
 
     // فقط ادمین یا مالک درخواست می‌تواند آن را ببیند
     if (advice.user_id !== userId && userRole.name !== 'admin') {
-      return res
-        .status(403)
-        .json({
-          message:
-            'Access Denied: You are not authorized to view this request.',
-        });
+      return res.status(403).json({
+        message: 'Access Denied: You are not authorized to view this request.',
+      });
     }
 
     res.status(200).json({ advice: advice });
   } catch (error) {
     console.error('Error fetching advice request by ID:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error fetching advice request',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error fetching advice request',
+      error: error.message,
+    });
   }
 };
 
@@ -91,20 +84,16 @@ exports.updateAdvice = async (req, res) => {
     advice.object = sanitizedObject || advice.object;
     await advice.save();
 
-    res
-      .status(200)
-      .json({
-        message: 'Advice request updated successfully!',
-        advice: advice,
-      });
+    res.status(200).json({
+      message: 'Advice request updated successfully!',
+      advice: advice,
+    });
   } catch (error) {
     console.error('Error updating advice request:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error updating advice request',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error updating advice request',
+      error: error.message,
+    });
   }
 };
 
@@ -120,11 +109,9 @@ exports.deleteAdvice = async (req, res) => {
     res.status(200).json({ message: 'Advice request deleted successfully!' });
   } catch (error) {
     console.error('Error deleting advice request:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error deleting advice request',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error deleting advice request',
+      error: error.message,
+    });
   }
 };

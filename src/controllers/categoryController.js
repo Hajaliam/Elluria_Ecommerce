@@ -23,20 +23,16 @@ exports.createCategory = async (req, res) => {
     }
 
     const newCategory = await Category.create({ name, description });
-    res
-      .status(201)
-      .json({
-        message: 'Category created successfully!',
-        category: newCategory,
-      });
+    res.status(201).json({
+      message: 'Category created successfully!',
+      category: newCategory,
+    });
   } catch (error) {
     console.error('Error creating category:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error during category creation',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error during category creation',
+      error: error.message,
+    });
   }
 };
 
@@ -47,12 +43,10 @@ exports.getAllCategories = async (req, res) => {
     res.status(200).json({ categories: categories });
   } catch (error) {
     console.error('Error fetching categories:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error fetching categories',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error fetching categories',
+      error: error.message,
+    });
   }
 };
 
@@ -68,12 +62,10 @@ exports.getCategoryById = async (req, res) => {
     res.status(200).json({ category: category });
   } catch (error) {
     console.error('Error fetching category by ID:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error fetching category',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error fetching category',
+      error: error.message,
+    });
   }
 };
 
@@ -113,12 +105,10 @@ exports.updateCategory = async (req, res) => {
       .json({ message: 'Category updated successfully!', category: category });
   } catch (error) {
     console.error('Error updating category:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error updating category',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error updating category',
+      error: error.message,
+    });
   }
 };
 
@@ -148,17 +138,13 @@ exports.deleteCategory = async (req, res) => {
     console.error('Error deleting category:', error);
     // اضافه کردن مدیریت خطای Foreign Key (اختیاری)
     if (error.name === 'SequelizeForeignKeyConstraintError') {
-      return res
-        .status(400)
-        .json({
-          message: 'Cannot delete category: Products are associated with it.',
-        });
-    }
-    res
-      .status(500)
-      .json({
-        message: 'Server error deleting category',
-        error: error.message,
+      return res.status(400).json({
+        message: 'Cannot delete category: Products are associated with it.',
       });
+    }
+    res.status(500).json({
+      message: 'Server error deleting category',
+      error: error.message,
+    });
   }
 };

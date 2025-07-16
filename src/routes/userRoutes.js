@@ -248,12 +248,10 @@ router.get(
         .json({ message: 'User profile accessed successfully!', user: user });
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      res
-        .status(500)
-        .json({
-          message: 'Server error fetching profile.',
-          error: error.message,
-        });
+      res.status(500).json({
+        message: 'Server error fetching profile.',
+        error: error.message,
+      });
     }
   },
 );
@@ -329,12 +327,10 @@ router.post(
     const userRole = await db.Role.findByPk(req.user.role_id);
 
     if (userIdFromParam !== userIdFromToken && userRole.name !== 'admin') {
-      return res
-        .status(403)
-        .json({
-          message:
-            'Access Denied: You can only add addresses for your own account.',
-        });
+      return res.status(403).json({
+        message:
+          'Access Denied: You can only add addresses for your own account.',
+      });
     }
     next();
   },
@@ -728,6 +724,10 @@ router.post(
  *       500:
  *         description: Server error
  */
-router.get('/:userId/addresses', authMiddleware.authenticateToken, userController.getAddresses);
+router.get(
+  '/:userId/addresses',
+  authMiddleware.authenticateToken,
+  userController.getAddresses,
+);
 
 module.exports = router;

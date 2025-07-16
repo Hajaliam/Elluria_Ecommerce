@@ -12,6 +12,9 @@ const Sequelize = db.Sequelize;
 const { sanitizeString } = require('../utils/sanitizer');
 const logger = require('../config/logger');
 
+let oldStock
+
+
 // تابع برای نهایی کردن خرید از سبد خرید و ایجاد سفارش
 exports.placeOrder = async (req, res) => {
   const userId = req.user.id;
@@ -24,12 +27,14 @@ exports.placeOrder = async (req, res) => {
     // 1. دریافت سبد خرید کاربر
     const cart = await db.Cart.findOne({
       where: { user_id: userId },
-      include: [{
-        model: db.CartItem,
-        as: 'cartItems',
-        include: [{ model: db.Product, as: 'product' }]
-      }],
-      transaction: t
+      include: [
+        {
+          model: db.CartItem,
+          as: 'cartItems',
+          include: [{ model: db.Product, as: 'product' }],
+        },
+      ],
+      transaction: t,
     });
 
     if (!cart || cart.cartItems.length === 0) {
@@ -42,13 +47,16 @@ exports.placeOrder = async (req, res) => {
     let coupon = null;
 
     // 2. محاسبه مبلغ کل
-    cart.cartItems.forEach(item => {
+    cart.cartItems.forEach((item) => {
       totalAmount += parseFloat(item.product.price) * item.quantity;
     });
 
     // 3. اعتبارسنجی و اعمال کوپن (اگر وجود داشت)
     if (couponCode) {
-      coupon = await db.Coupon.findOne({ where: { code: couponCode, isActive: true }, transaction: t });
+      coupon = await db.Coupon.findOne({
+        where: { code: couponCode, isActive: true },
+        transaction: t,
+      });
 
       if (!coupon) {
         await t.rollback();
@@ -58,15 +66,24 @@ exports.placeOrder = async (req, res) => {
       // 👈 اعتبارسنجی: حداقل مبلغ سفارش
       if (coupon.min_amount && totalAmount < coupon.min_amount) {
         await t.rollback();
-        return res.status(400).json({ message: `This coupon requires a minimum order amount of ${coupon.min_amount}.` });
+        return res
+          .status(400)
+          .json({
+            message: `This coupon requires a minimum order amount of ${coupon.min_amount}.`,
+          });
       }
 
       // 👈 اعتبارسنجی: کوپن مخصوص خرید اول
       if (coupon.is_first_purchase_only) {
-        const existingOrders = await db.Order.count({ where: { user_id: userId }, transaction: t });
+        const existingOrders = await db.Order.count({
+          where: { user_id: userId },
+          transaction: t,
+        });
         if (existingOrders > 0) {
           await t.rollback();
-          return res.status(400).json({ message: 'This coupon is for first-time purchases only.' });
+          return res
+            .status(400)
+            .json({ message: 'This coupon is for first-time purchases only.' });
         }
       }
 
@@ -87,29 +104,48 @@ exports.placeOrder = async (req, res) => {
     const finalAmount = totalAmount - totalDiscount;
 
     // 4. ایجاد سفارش جدید
-    const newOrder = await db.Order.create({
-      user_id: userId,
-      total_amount: finalAmount,
-      status: 'pending', // 👈 مقدار پیش‌فرض
-      shipping_address_id: shippingAddressId, // 👈 استفاده از shippingAddressId
-      payment_status: 'unpaid', // 👈 مقدار پیش‌فرض
-      coupon_id: coupon ? coupon.id : null,
-    }, { transaction: t });
+    const newOrder = await db.Order.create(
+      {
+        user_id: userId,
+        total_amount: finalAmount,
+        status: 'pending', // 👈 مقدار پیش‌فرض
+        shipping_address_id: shippingAddressId, // 👈 استفاده از shippingAddressId
+        payment_status: 'unpaid', // 👈 مقدار پیش‌فرض
+        coupon_id: coupon ? coupon.id : null,
+      },
+      { transaction: t },
+    );
 
     // 5. انتقال آیتم‌های سبد خرید به جزئیات سفارش
     for (const item of cart.cartItems) {
-      await db.OrderItem.create({
-        order_id: newOrder.id,
-        product_id: item.product_id,
-        quantity: item.quantity,
-        price_at_purchase: parseFloat(item.product.price),
-      }, { transaction: t });
+      await db.OrderItem.create(
+        {
+          order_id: newOrder.id,
+          product_id: item.product_id,
+          quantity: item.quantity,
+          price_at_purchase: parseFloat(item.product.price),
+        },
+        { transaction: t },
+      );
 
       // 6. به‌روزرسانی موجودی انبار
-      const product = await db.Product.findByPk(item.product_id, { transaction: t });
+      const product = await db.Product.findByPk(item.product_id, {
+        transaction: t,
+      });
       if (product) {
+        oldStock = product.stock_quantity
         product.stock_quantity -= item.quantity;
         await product.save({ transaction: t });
+        // 👈 ثبت لاگ انبارداری برای فروش
+        await db.InventoryLog.create({
+          product_id: product.id,
+          change_type: 'sale',
+          quantity_change: -item.quantity, // کاهش موجودی
+          old_stock_quantity: oldStock,
+          new_stock_quantity: product.stock_quantity,
+          changed_by_user_id: userId, // کاربر سفارش‌دهنده
+          description: `Order ${newOrder.id} - Sale of ${item.quantity} units.`
+        }, { transaction: t });
       }
     }
 
@@ -118,12 +154,17 @@ exports.placeOrder = async (req, res) => {
     await cart.destroy({ transaction: t });
 
     await t.commit();
-    res.status(201).json({ message: 'Order placed successfully!', order: newOrder });
-
+    res
+      .status(201)
+      .json({ message: 'Order placed successfully!', order: newOrder });
   } catch (error) {
     await t.rollback();
-    logger.error(`Error placing order: ${error.message}`, { stack: error.stack });
-    res.status(500).json({ message: 'Server error placing order', error: error.message });
+    logger.error(`Error placing order: ${error.message}`, {
+      stack: error.stack,
+    });
+    res
+      .status(500)
+      .json({ message: 'Server error placing order', error: error.message });
   }
 };
 // تابع برای دریافت جزئیات یک سفارش
@@ -162,12 +203,9 @@ exports.getOrderById = async (req, res) => {
     const userRole = req.user ? await db.Role.findByPk(req.user.role_id) : null;
     if (!userRole || userRole.name !== 'admin') {
       if (order.user_id !== userId) {
-        return res
-          .status(403)
-          .json({
-            message:
-              'Access Denied: You are not authorized to view this order.',
-          });
+        return res.status(403).json({
+          message: 'Access Denied: You are not authorized to view this order.',
+        });
       }
     }
 
@@ -285,12 +323,10 @@ exports.updateOrderStatus = async (req, res) => {
       .json({ message: 'Order status updated successfully!', order: order });
   } catch (error) {
     console.error('Error updating order status:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error updating order status',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error updating order status',
+      error: error.message,
+    });
   }
 };
 
@@ -315,12 +351,9 @@ exports.cancelOrder = async (req, res) => {
 
     if (!userRole || (userRole.name !== 'admin' && order.user_id !== userId)) {
       await t.rollback();
-      return res
-        .status(403)
-        .json({
-          message:
-            'Access Denied: You are not authorized to cancel this order.',
-        });
+      return res.status(403).json({
+        message: 'Access Denied: You are not authorized to cancel this order.',
+      });
     }
 
     if (
@@ -339,7 +372,17 @@ exports.cancelOrder = async (req, res) => {
         transaction: t,
       });
       if (product) {
+        let oldStock = product.stock_quantity
         product.stock_quantity += item.quantity;
+        await db.InventoryLog.create({
+          product_id: product.id,
+          change_type: 'Order_Canceled',
+          quantity_change: item.quantity,
+          old_stock_quantity: oldStock,
+          new_stock_quantity: product.stock_quantity,
+          changed_by_user_id: req.user.id, // کاربر تغییر دهنده
+          description: `Product ${product.id}  returned to inventory ${item.quantity} units .`
+        });
         await product.save({ transaction: t });
       }
     }

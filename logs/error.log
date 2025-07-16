@@ -154,3 +154,12 @@ notNull Violation: Order.payment_status cannot be null
 2025-07-16 14:44:11 ERROR: Error during global search: syntax error at or near "["
 2025-07-16 14:44:40 ERROR: Error during global search: syntax error at or near "["
 2025-07-16 14:49:33 ERROR: Error during global search: missing FROM-clause entry for table "reviews"
+2025-07-16 16:22:44 ERROR: HTTP Error POST /api/cart/add 200 invalid csrf token
+2025-07-16 16:22:44 ERROR: Unhandled error: invalid csrf token
+2025-07-16 16:23:58 ERROR: HTTP Error POST /api/orders/place-order 200 Bad control character in string literal in JSON at position 56 (line 4 column 4)
+2025-07-16 16:23:58 ERROR: Unhandled error: Bad control character in string literal in JSON at position 56 (line 4 column 4)
+2025-07-16 16:24:17 ERROR: Error placing order: oldStock is not defined
+2025-07-16 16:41:19 ERROR: Error importing inventory update record: oldStock is not defined
+2025-07-16 16:41:19 ERROR: Error importing inventory update record: oldStock is not defined
+2025-07-16 19:44:49 ERROR: HTTP Error POST /api/products/8 200 invalid csrf token
+2025-07-16 19:44:49 ERROR: Unhandled error: invalid csrf token

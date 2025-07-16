@@ -383,12 +383,10 @@ exports.getUserProfile = async (req, res) => {
       .json({ message: 'User profile retrieved successfully!', user: user });
   } catch (error) {
     logger.error('Error fetching user profile:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error fetching user profile',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error fetching user profile',
+      error: error.message,
+    });
   }
 };
 
@@ -399,15 +397,27 @@ exports.getAddresses = async (req, res) => {
 
   // فقط مالک آدرس یا ادمین می‌تواند آدرس‌ها را ببیند
   if (userId !== userIdFromToken && userRole.name !== 'admin') {
-    return res.status(403).json({ message: 'Access Denied: You can only view your own addresses.' });
+    return res
+      .status(403)
+      .json({
+        message: 'Access Denied: You can only view your own addresses.',
+      });
   }
 
   try {
     const addresses = await db.Address.findAll({ where: { user_id: userId } });
     res.status(200).json({ addresses: addresses });
   } catch (error) {
-    logger.error(`Error fetching addresses for user ${userId}: ${error.message}`, { stack: error.stack });
-    res.status(500).json({ message: 'Server error fetching addresses', error: error.message });
+    logger.error(
+      `Error fetching addresses for user ${userId}: ${error.message}`,
+      { stack: error.stack },
+    );
+    res
+      .status(500)
+      .json({
+        message: 'Server error fetching addresses',
+        error: error.message,
+      });
   }
 };
 
@@ -444,11 +454,9 @@ exports.updateUserProfile = async (req, res) => {
         },
       });
       if (existingUser) {
-        return res
-          .status(409)
-          .json({
-            message: 'Username or email already exists for another user.',
-          });
+        return res.status(409).json({
+          message: 'Username or email already exists for another user.',
+        });
       }
     }
 
@@ -474,20 +482,16 @@ exports.updateUserProfile = async (req, res) => {
       updatedAt: user.updatedAt,
     };
 
-    res
-      .status(200)
-      .json({
-        message: 'User profile updated successfully!',
-        user: userResponse,
-      });
+    res.status(200).json({
+      message: 'User profile updated successfully!',
+      user: userResponse,
+    });
   } catch (error) {
     logger.error('Error updating user profile:', error);
-    res
-      .status(500)
-      .json({
-        message: 'Server error updating user profile',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'Server error updating user profile',
+      error: error.message,
+    });
   }
 };
 
@@ -537,12 +541,10 @@ exports.requestOtp = async (req, res) => {
     res.status(200).json({ message: 'کد ورود به شماره موبایلتون ارسال شد.\n' });
   } catch (error) {
     logger.error('Error requesting OTP:', error);
-    res
-      .status(500)
-      .json({
-        message: 'یه مشکلی تو سرور پیش اومده، لطفاً بعداً دوباره امتحان کن.\n',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'یه مشکلی تو سرور پیش اومده، لطفاً بعداً دوباره امتحان کن.\n',
+      error: error.message,
+    });
   }
 };
 
@@ -568,12 +570,9 @@ exports.verifyOtpAndLogin = async (req, res) => {
     });
 
     if (!user) {
-      return res
-        .status(401)
-        .json({
-          message:
-            'یا کدی که زدی اشتباهه یا تموم شده، یا همچین شماره‌ای نداریم ',
-        });
+      return res.status(401).json({
+        message: 'یا کدی که زدی اشتباهه یا تموم شده، یا همچین شماره‌ای نداریم ',
+      });
     }
 
     // پاک کردن OTP پس از استفاده موفق
@@ -608,11 +607,9 @@ exports.verifyOtpAndLogin = async (req, res) => {
     });
   } catch (error) {
     logger.error('Error verifying OTP or logging in:', error);
-    res
-      .status(500)
-      .json({
-        message: 'یه مشکل فنی پیش اومد، لطفاً دوباره تلاش کن.\n',
-        error: error.message,
-      });
+    res.status(500).json({
+      message: 'یه مشکل فنی پیش اومد، لطفاً دوباره تلاش کن.\n',
+      error: error.message,
+    });
   }
 };
