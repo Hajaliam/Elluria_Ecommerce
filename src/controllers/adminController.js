@@ -1805,6 +1805,74 @@ exports.exportInventory = async (req, res) => {
   }
 };
 
+//تابع برای دریافت پرفروش ترین محصولات بر اساس دسته بندی و بازه زمانی
+exports.getBestSellingProducts = async (req, res) => {
+  const { startDate, endDate, categoryId, limit } = req.query;
+
+  const whereClause = {};
+  if (startDate) {
+    whereClause.createdAt = { [db.Sequelize.Op.gte]: new Date(startDate) };
+  }
+  if (endDate) {
+    whereClause.createdAt = { ...whereClause.createdAt, [db.Sequelize.Op.lte]: new Date(endDate) };
+  }
+
+  const productWhereClause = {};
+  if (categoryId) {
+    productWhereClause.category_id = categoryId;
+  }
+
+  const itemsLimit = limit ? parseInt(limit) : 10; // پیش‌فرض 10 محصول پرفروش
+
+  try {
+    // OrderItems را با Products و Order Join می‌کنیم
+    const bestSellingItems = await db.OrderItem.findAll({
+      attributes: [
+        'product_id',
+        [db.Sequelize.fn('SUM', db.Sequelize.col('quantity')), 'total_sold_quantity'], // 👈 ارجاع مستقیم به 'quantity'
+        // 👈 ارجاع مستقیم و صریح به ستون‌ها در literal برای total_revenue
+        [db.Sequelize.literal('SUM(quantity * "OrderItem"."price_at_purchase")'), 'total_revenue']
+      ],
+      include: [
+        {
+          model: db.Order,
+          as: 'order',
+          where: whereClause,
+          attributes: [],
+          required: true
+        },
+        {
+          model: db.Product,
+          as: 'product',
+          where: productWhereClause,
+          attributes: ['name', 'slug', 'image_url', 'price'],
+          required: true
+        }
+      ],
+      group: ['product_id', 'product.id', 'product.name', 'product.slug', 'product.image_url', 'product.price'],
+      order: [[db.Sequelize.literal('total_sold_quantity'), 'DESC']],
+      limit: itemsLimit
+    });
+
+    const bestSellingProducts = bestSellingItems.map(item => ({
+      product_id: item.product_id,
+      product_name: item.product.name,
+      product_slug: item.product.slug,
+      product_image_url: item.product.image_url,
+      product_price: parseFloat(item.product.price),
+      total_sold_quantity: parseInt(item.get('total_sold_quantity')),
+      total_revenue: parseFloat(item.get('total_revenue'))
+    }));
+
+    res.status(200).json({ best_selling_products: bestSellingProducts });
+
+  } catch (error) {
+    logger.error(`Error fetching best-selling products: ${error.message}`, { stack: error.stack });
+    res.status(500).json({ message: 'Server error fetching best-selling products', error: error.message });
+  }
+};
+
+
 /////توابع ایمپورتی
 
 //تابع برای ایمپورت دسته بندی ها

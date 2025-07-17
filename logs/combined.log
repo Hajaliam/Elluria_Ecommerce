@@ -81,3 +81,104 @@
 2025-07-17 22:12:43 INFO: HTTP DELETE /api/settings/coder [33m404[39m 63ms
 2025-07-17 22:12:50 INFO: HTTP DELETE /api/settings/Coder [32m200[39m 9ms
 2025-07-17 22:12:58 INFO: HTTP GET /api/settings/ [32m200[39m 4ms
+2025-07-17 22:20:49 INFO: Server is running on port 3000
+2025-07-17 22:20:49 INFO: Environment: development
+2025-07-17 22:20:49 INFO: Database User: postgres
+2025-07-17 22:20:49 INFO: Database backup scheduler started.
+2025-07-17 22:20:49 INFO: Expired order cleanup scheduler started.
+2025-07-17 22:20:54 INFO: HTTP GET /api-docs/ [36m304[39m 7ms
+2025-07-17 22:20:54 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-17 22:20:54 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 4ms
+2025-07-17 22:20:54 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-17 22:20:54 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 7ms
+2025-07-17 22:20:54 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-17 22:21:54 INFO: Server is running on port 3000
+2025-07-17 22:21:54 INFO: Environment: development
+2025-07-17 22:21:54 INFO: Database User: postgres
+2025-07-17 22:21:54 INFO: Database backup scheduler started.
+2025-07-17 22:21:54 INFO: Expired order cleanup scheduler started.
+2025-07-17 22:21:54 INFO: HTTP GET /api-docs/ [36m304[39m 5ms
+2025-07-17 22:21:54 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-17 22:21:54 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-17 22:21:54 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 7ms
+2025-07-17 22:21:54 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 10ms
+2025-07-17 22:21:54 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-17 22:22:53 ERROR: Error fetching best-selling products: missing FROM-clause entry for table "orderitem"
+2025-07-17 22:22:53 INFO: HTTP GET /api/admin/exports/reports/best-selling [31m500[39m 309ms
+2025-07-17 22:29:44 INFO: Server is running on port 3000
+2025-07-17 22:29:44 INFO: Environment: development
+2025-07-17 22:29:44 INFO: Database User: postgres
+2025-07-17 22:29:44 INFO: Database backup scheduler started.
+2025-07-17 22:29:44 INFO: Expired order cleanup scheduler started.
+2025-07-17 22:29:53 ERROR: Error fetching best-selling products: missing FROM-clause entry for table "orderitem"
+2025-07-17 22:29:53 INFO: HTTP GET /api/admin/exports/reports/best-selling [31m500[39m 1304ms
+2025-07-17 22:29:57 ERROR: Error fetching best-selling products: missing FROM-clause entry for table "orderitem"
+2025-07-17 22:29:57 INFO: HTTP GET /api/admin/exports/reports/best-selling [31m500[39m 18ms
+2025-07-17 22:31:56 INFO: Server is running on port 3000
+2025-07-17 22:31:56 INFO: Environment: development
+2025-07-17 22:31:56 INFO: Database User: postgres
+2025-07-17 22:31:56 INFO: Database backup scheduler started.
+2025-07-17 22:31:56 INFO: Expired order cleanup scheduler started.
+2025-07-17 22:32:04 INFO: HTTP GET /api/admin/exports/reports/best-selling [32m200[39m 235ms
+2025-07-17 22:38:38 INFO: HTTP GET /api/admin/exports/reports/best-selling [32m200[39m 74ms
+2025-07-17 22:38:57 INFO: Server is running on port 3000
+2025-07-17 22:38:57 INFO: Environment: development
+2025-07-17 22:38:57 INFO: Database User: postgres
+2025-07-17 22:38:57 INFO: Database backup scheduler started.
+2025-07-17 22:38:57 INFO: Expired order cleanup scheduler started.
+2025-07-17 22:39:02 INFO: HTTP GET /api/admin/exports/reports/best-selling [32m200[39m 1457ms
+2025-07-17 22:57:16 INFO: HTTP GET /api/admin/exports/reports/best-selling [32m200[39m 202ms
+2025-07-17 23:00:00 INFO: Triggering expired order cleanup.
+2025-07-17 23:00:00 INFO: Running expired orders cleanup job...
+2025-07-17 23:00:00 INFO: No expired pending orders found.
+2025-07-17 23:00:08 INFO: HTTP POST /api/cart/add [33m400[39m 30ms
+2025-07-17 23:01:23 ERROR: HTTP Error POST /api/products/7 200 invalid csrf token
+2025-07-17 23:01:23 ERROR: Unhandled error: invalid csrf token
+2025-07-17 23:01:23 INFO: HTTP POST /api/products/7 [33m403[39m 12ms
+2025-07-17 23:01:52 INFO: HTTP POST /api/products/7 [33m404[39m 3ms
+2025-07-17 23:02:01 INFO: HTTP PUT /api/products/7 [32m200[39m 144ms
+2025-07-17 23:02:10 INFO: HTTP POST /api/cart/add [32m200[39m 15ms
+2025-07-17 23:02:49 INFO: HTTP POST /api/orders/place-order [33m400[39m 69ms
+2025-07-17 23:03:33 INFO: HTTP GET /api/coupons [32m200[39m 68ms
+2025-07-17 23:03:43 INFO: HTTP POST /api/orders/place-order [33m400[39m 14ms
+2025-07-17 23:03:58 INFO: HTTP POST /api/orders/place-order [33m400[39m 177ms
+2025-07-17 23:04:16 INFO: HTTP POST /api/orders/place-order [32m201[39m 106ms
+2025-07-17 23:36:21 INFO: HTTP POST /api/card/add [33m404[39m 0ms
+2025-07-17 23:36:35 INFO: HTTP POST /api/cart/add [32m200[39m 89ms
+2025-07-17 23:37:13 INFO: HTTP POST /api/orders/place-order [32m201[39m 100ms
+2025-07-17 23:37:59 INFO: Payment initiated for Order ID: 12. Redirecting to simulated gateway.
+2025-07-17 23:37:59 INFO: HTTP POST /api/payments/initiate [32m200[39m 170ms
+2025-07-17 23:39:16 WARN: Payment verification failed for Order ID: 12. Status: undefined
+2025-07-17 23:39:16 INFO: HTTP GET /api/payments/verify?Authority%20=alksnoqanwepiwadolasi&Status%20=OK&orderId=12 [33m400[39m 1ms
+2025-07-17 23:41:10 INFO: Payment successful for Order ID: 12. Transaction ID: alksnoqanwepiwadolasi
+2025-07-17 23:41:10 INFO: HTTP GET /api/payments/verify?Authority=alksnoqanwepiwadolasi&Status=OK&orderId=12 [32m200[39m 106ms
+2025-07-17 23:48:34 INFO: Server is running on port 3000
+2025-07-17 23:48:34 INFO: Environment: development
+2025-07-17 23:48:34 INFO: Database User: postgres
+2025-07-17 23:48:34 INFO: Database backup scheduler started.
+2025-07-17 23:48:34 INFO: Expired order cleanup scheduler started.
+2025-07-17 23:50:06 INFO: HTTP POST /api/cart/add [32m200[39m 194ms
+2025-07-17 23:50:57 ERROR: Error placing order: notNull Violation: Order.shipping_address_id cannot be null
+2025-07-17 23:50:57 INFO: HTTP POST /api/orders/place-order [31m500[39m 76ms
+2025-07-18 00:00:00 INFO: Running daily database backup...
+2025-07-18 00:00:00 INFO: Triggering expired order cleanup.
+2025-07-18 00:00:00 INFO: Running expired orders cleanup job...
+2025-07-18 00:00:00 INFO: No expired pending orders found.
+2025-07-18 00:00:00 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250718_000000.sql
+2025-07-18 00:03:06 INFO: Server is running on port 3000
+2025-07-18 00:03:06 INFO: Environment: development
+2025-07-18 00:03:06 INFO: Database User: postgres
+2025-07-18 00:03:06 INFO: Database backup scheduler started.
+2025-07-18 00:03:06 INFO: Expired order cleanup scheduler started.
+2025-07-18 00:03:27 ERROR: Error placing order: InventoryLog is not defined
+2025-07-18 00:03:27 INFO: HTTP POST /api/orders/place-order [31m500[39m 239ms
+2025-07-18 00:05:44 INFO: Server is running on port 3000
+2025-07-18 00:05:44 INFO: Environment: development
+2025-07-18 00:05:44 INFO: Database User: postgres
+2025-07-18 00:05:44 INFO: Database backup scheduler started.
+2025-07-18 00:05:44 INFO: Expired order cleanup scheduler started.
+2025-07-18 00:06:01 INFO: HTTP POST /api/orders/place-order [32m201[39m 217ms
+2025-07-18 00:07:56 INFO: Payment initiated for Order ID: 14. Redirecting to simulated gateway.
+2025-07-18 00:07:56 INFO: HTTP POST /api/payments/initiate [32m200[39m 74ms
+2025-07-18 00:08:49 INFO: ✅ Payment verified and order finalized. Order ID: 14, Tx ID: asdjnaofpwnjfiolajidws
+2025-07-18 00:08:49 INFO: HTTP GET /api/payments/verify?Authority=asdjnaofpwnjfiolajidws&Status=OK&orderId=14 [32m200[39m 89ms

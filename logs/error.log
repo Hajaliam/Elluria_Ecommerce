@@ -183,3 +183,10 @@ operable program or batch file.
 'PGPASSWORD' is not recognized as an internal or external command,
 operable program or batch file.
 
+2025-07-17 22:22:53 ERROR: Error fetching best-selling products: missing FROM-clause entry for table "orderitem"
+2025-07-17 22:29:53 ERROR: Error fetching best-selling products: missing FROM-clause entry for table "orderitem"
+2025-07-17 22:29:57 ERROR: Error fetching best-selling products: missing FROM-clause entry for table "orderitem"
+2025-07-17 23:01:23 ERROR: HTTP Error POST /api/products/7 200 invalid csrf token
+2025-07-17 23:01:23 ERROR: Unhandled error: invalid csrf token
+2025-07-17 23:50:57 ERROR: Error placing order: notNull Violation: Order.shipping_address_id cannot be null
+2025-07-18 00:03:27 ERROR: Error placing order: InventoryLog is not defined

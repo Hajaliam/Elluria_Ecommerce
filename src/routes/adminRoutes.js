@@ -422,6 +422,77 @@ router.get('/exports/reports', adminController.exportReports);
 
 /**
  * @swagger
+ * /api/admin/exports/reports/best-selling:
+ *   get:
+ *     summary: Get best-selling products report (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Filter by order creation date from (YYYY-MM-DD)
+ *         example: 2025-01-01
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Filter by order creation date to (YYYY-MM-DD)
+ *         example: 2025-12-31
+ *       - in: query
+ *         name: categoryId
+ *         schema:
+ *           type: integer
+ *         description: Filter by product category ID
+ *         example: 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of best-selling products to return (default is 10)
+ *         example: 5
+ *     responses:
+ *       200:
+ *         description: List of best-selling products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 best_selling_products:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       product_id:
+ *                         type: integer
+ *                       product_name:
+ *                         type: string
+ *                       product_slug:
+ *                         type: string
+ *                       product_image_url:
+ *                         type: string
+ *                       product_price:
+ *                         type: number
+ *                       total_sold_quantity:
+ *                         type: integer
+ *                       total_revenue:
+ *                         type: number
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: Server error
+ */
+router.get('/exports/reports/best-selling', adminController.getBestSellingProducts);
+
+/**
+ * @swagger
  * /api/admin/exports/orders:
  *   get:
  *     summary: Export orders data in various formats (Admin only)
@@ -1297,5 +1368,6 @@ router.post(
     authMiddleware.authorizeRoles('admin'),
     backupUtil.manualBackup
 );
+
 
 module.exports = router;

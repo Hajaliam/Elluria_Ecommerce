@@ -1,8 +1,7 @@
 // src/controllers/paymentController.js
 
 const db = require('../../models');
-const Order = db.Order;
-const Payment = db.Payment;
+const { Order, Payment, OrderItem, Product, Cart, CartItem, InventoryLog } = db;
 const logger = require('../config/logger'); // برای لاگ‌گیری
 const { sanitizeString } = require('../utils/sanitizer');
 
@@ -54,18 +53,13 @@ exports.initiatePayment = async (req, res) => {
 // تابع برای تأیید پرداخت (Callback از درگاه پرداخت)
 // این روت توسط درگاه پرداخت (مثلاً زرین‌پال) فراخوانی می‌شود
 exports.verifyPayment = async (req, res) => {
-    // در یک سیستم واقعی، این‌ها از درگاه پرداخت می‌آیند
-    // مثلاً از query parameters یا body درخواست POST
-    const { Authority, Status, orderId } = req.query; // برای زرین‌پال Authority و Status می‌آید
+    const { Authority, Status, orderId } = req.query;
 
-    // این یک شبیه‌سازی ساده است. در واقعیت، باید اعتبار Authority را چک کنید.
     if (Status !== 'OK') {
         logger.warn(`Payment verification failed for Order ID: ${orderId}. Status: ${Status}`);
-        // اینجا می‌توانید کاربر را به صفحه‌ی ناموفق پرداخت هدایت کنید
         return res.status(400).json({ message: 'Payment failed or cancelled by user.' });
     }
 
-    // تراکنش دیتابیس برای به‌روزرسانی اتمیک
     const t = await db.sequelize.transaction();
 
     try {
@@ -73,7 +67,7 @@ exports.verifyPayment = async (req, res) => {
 
         if (!order) {
             await t.rollback();
-            return res.status(404).json({ message: 'Order not found for payment verification.' });
+            return res.status(404).json({ message: 'Order not found.' });
         }
 
         if (order.payment_status === 'paid') {
@@ -83,29 +77,83 @@ exports.verifyPayment = async (req, res) => {
 
         // 1. به‌روزرسانی وضعیت سفارش
         order.payment_status = 'paid';
-        order.status = 'processing'; // سفارش وارد مرحله پردازش می‌شود
+        order.status = 'processing';
         await order.save({ transaction: t });
 
-        // 2. ایجاد رکورد پرداخت در جدول Payment
+        // 2. ثبت پرداخت
         const payment = await Payment.create({
             order_id: order.id,
-            transaction_id: Authority, // Authority زرین‌پال به عنوان Transaction ID
+            transaction_id: Authority,
             amount: order.total_amount,
-            method: 'Zarinpal', // یا هر روش دیگری
+            method: 'Zarinpal',
             status: 'success',
             payment_date: new Date(),
             refunded: false,
             refund_reason: null
         }, { transaction: t });
 
-        logger.info(`Payment successful for Order ID: ${order.id}. Transaction ID: ${Authority}`);
+        // 3. دریافت آیتم‌های سبد خرید هنگام سفارش
+        const cart = await Cart.findOne({
+            where: { user_id: order.user_id },
+            include: {
+                model: CartItem,
+                as: 'cartItems',
+                include: ['product']
+            },
+            transaction: t
+        });
 
-        // TODO: ارسال ایمیل/پیامک تأیید خرید به مشتری
-        // TODO: ثبت لاگ‌های اضافی در صورت نیاز
+        if (!cart || cart.cartItems.length === 0) {
+            await t.rollback();
+            return res.status(400).json({ message: 'No cart items found for this user.' });
+        }
+
+        // 4. ثبت OrderItems و افزایش sold_count
+        for (const item of cart.cartItems) {
+            const product = await Product.findByPk(item.product_id, { transaction: t });
+
+            if (!product) {
+                await t.rollback();
+                return res.status(404).json({ message: `Product with ID ${item.product_id} not found.` });
+            }
+
+            // ثبت آیتم سفارش
+            await OrderItem.create({
+                order_id: order.id,
+                product_id: product.id,
+                quantity: item.quantity,
+                price_at_purchase: parseFloat(product.price),
+            }, { transaction: t });
+
+            // افزایش sold_count
+            const oldSoldCount = product.sold_count || 0;
+            console.log("OldSold Count", oldSoldCount);
+            product.sold_count = oldSoldCount + item.quantity;
+            console.log("NewSold Count", product.sold_count);
+            await product.save({ transaction: t });
+
+            // ثبت لاگ فروش در موجودی
+            await InventoryLog.create({
+                product_id: product.id,
+                change_type: 'sold',
+                quantity_change: -item.quantity,
+                old_stock_quantity: product.stock_quantity + item.quantity, // چون توی placeOrder کم شده
+                new_stock_quantity: product.stock_quantity,
+                changed_by_user_id: order.user_id,
+                description: `Sold ${item.quantity} units for order ${order.id}`
+            }, { transaction: t });
+        }
+
+        // TODO: ایمیل یا پیامک تایید برای کاربر
 
         await t.commit();
-        // اینجا کاربر را به صفحه‌ی موفقیت‌آمیز پرداخت در فرانت‌اند هدایت می‌کنیم
-        res.status(200).json({ message: 'Payment verified and order updated successfully!', orderId: order.id, paymentId: payment.id });
+
+        logger.info(`✅ Payment verified and order finalized. Order ID: ${order.id}, Tx ID: ${Authority}`);
+        res.status(200).json({
+            message: 'Payment verified and order finalized.',
+            orderId: order.id,
+            paymentId: payment.id
+        });
 
     } catch (error) {
         await t.rollback();
