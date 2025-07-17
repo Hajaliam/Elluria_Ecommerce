@@ -3,6 +3,7 @@
 const express = require('express');
 const adminController = require('../controllers/adminController');
 const authMiddleware = require('../middlewares/authMiddleware');
+const backupUtil = require('../utils/backupService')
 
 const router = express.Router();
 
@@ -1269,6 +1270,32 @@ router.post(
     '/imports/reviews',
     adminController.uploadImport.single('file'),
     adminController.importReviews
+);
+
+/**
+ * @swagger
+ * /api/admin/backup:
+ *   post:
+ *     summary: Trigger a manual database backup (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     responses:
+ *       200:
+ *         description: Manual backup initiated. Check logs for status.
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       500:
+ *         description: Server error during backup
+ */
+router.post(
+    '/backup',
+    authMiddleware.authenticateToken,
+    authMiddleware.authorizeRoles('admin'),
+    backupUtil.manualBackup
 );
 
 module.exports = router;

@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser'); // برای پردازش کوکی
 const csrf = require('csurf'); // برای محافظت CSRF
 const { v4: uuidv4 } = require('uuid');
 const path = require('path'); // برای کار با مسیرهای فایل
+const authMiddleware = require('./src/middlewares/authMiddleware');
 
 require('global-agent/bootstrap');
 
@@ -40,6 +41,7 @@ const db = require('./models'); // آبجکت حاوی همه مدل‌های Se
 const { sanitizeString } = require('./src/utils/sanitizer'); // برای پاکسازی ورودی‌های XSS
 //const { getGeminiResponse } = require('./src/utils/geminiService'); // برای ارتباط با Gemini API
 const { getAIResponse } = require('./src/utils/aiService');
+const { startBackupScheduler, manualBackup } = require('./src/utils/backupService');
 
 const app = express();
 const server = http.createServer(app); // ساخت سرور HTTP از اپ Express
@@ -129,6 +131,7 @@ app.use('/api/admin', csrfProtection, adminRoutes);
 app.use('/api/reviews', csrfProtection, reviewRoutes);
 app.use('/api/coupons', csrfProtection, couponRoutes);
 app.use('/api/search', searchRoutes);
+app.post('/api/admin/backup', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), manualBackup);
 
 // ** WebSocket (Socket.IO) Logic for Online Advice (AI Chat) **
 // Map برای ذخیره موقت تاریخچه مکالمه هر نشست (برای AI با حافظه کوتاه مدت)
@@ -278,4 +281,7 @@ server.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
   logger.info(`Database User: ${process.env.DB_USER}`);
+
+  ///بکاپ Scheduler راه اندازی
+  startBackupScheduler();
 });

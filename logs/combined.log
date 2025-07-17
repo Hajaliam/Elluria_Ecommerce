@@ -1575,3 +1575,50 @@ notNull Violation: Order.payment_status cannot be null
 2025-07-16 23:44:02 ERROR: Error importing review record: Invalid value { text: 'admin@example.com' }
 2025-07-16 23:44:02 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 111ms
 2025-07-16 23:44:35 INFO: HTTP POST /api/admin/imports/reviews [32m200[39m 91ms
+2025-07-17 17:44:39 INFO: Server is running on port 3000
+2025-07-17 17:44:39 INFO: Environment: development
+2025-07-17 17:44:39 INFO: Database User: postgres
+2025-07-17 17:44:39 INFO: Database backup scheduler started.
+2025-07-17 17:45:00 INFO: Running database backup...
+2025-07-17 17:45:00 ERROR: Backup failed: Command failed: PGPASSWORD=@!IrezaDo1383 pg_dump -h localhost -p 5432 -U postgres -d lamora > C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_174500.sql
+'PGPASSWORD' is not recognized as an internal or external command,
+operable program or batch file.
+
+2025-07-17 17:45:26 INFO: HTTP GET /api/csrf-token [32m200[39m 6ms
+2025-07-17 17:45:53 INFO: HTTP POST /api/admin/backup [33m403[39m 15ms
+2025-07-17 17:46:00 INFO: Running database backup...
+2025-07-17 17:46:00 ERROR: Backup failed: Command failed: PGPASSWORD=@!IrezaDo1383 pg_dump -h localhost -p 5432 -U postgres -d lamora > C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_174600.sql
+'PGPASSWORD' is not recognized as an internal or external command,
+operable program or batch file.
+
+2025-07-17 17:46:02 ERROR: HTTP Error POST /api/users/login 200 invalid csrf token
+2025-07-17 17:46:02 ERROR: Unhandled error: invalid csrf token
+2025-07-17 17:46:02 INFO: HTTP POST /api/users/login [33m403[39m 11ms
+2025-07-17 17:46:18 INFO: HTTP POST /api/users/login [32m200[39m 309ms
+2025-07-17 17:46:31 INFO: Manual database backup initiated via API.
+2025-07-17 17:46:31 INFO: HTTP POST /api/admin/backup [32m200[39m 88ms
+2025-07-17 17:46:31 ERROR: Backup failed: Command failed: PGPASSWORD=@!IrezaDo1383 pg_dump -h localhost -p 5432 -U postgres -d lamora > C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_174631.sql
+'PGPASSWORD' is not recognized as an internal or external command,
+operable program or batch file.
+
+2025-07-17 17:47:00 INFO: Running database backup...
+2025-07-17 17:47:00 ERROR: Backup failed: Command failed: PGPASSWORD=@!IrezaDo1383 pg_dump -h localhost -p 5432 -U postgres -d lamora > C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_174700.sql
+'PGPASSWORD' is not recognized as an internal or external command,
+operable program or batch file.
+
+2025-07-17 17:53:21 INFO: Server is running on port 3000
+2025-07-17 17:53:21 INFO: Environment: development
+2025-07-17 17:53:21 INFO: Database User: postgres
+2025-07-17 17:53:21 INFO: Database backup scheduler started.
+2025-07-17 17:53:25 INFO: Manual database backup initiated via API.
+2025-07-17 17:53:25 INFO: HTTP POST /api/admin/backup [32m200[39m 323ms
+2025-07-17 17:53:26 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_175325.sql
+2025-07-17 17:54:00 INFO: Running database backup...
+2025-07-17 17:54:00 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_175400.sql
+2025-07-17 17:55:00 INFO: Running database backup...
+2025-07-17 17:55:00 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_175500.sql
+2025-07-17 17:56:00 INFO: Running database backup...
+2025-07-17 17:56:00 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_175600.sql
+2025-07-17 17:56:09 INFO: Manual database backup initiated via API.
+2025-07-17 17:56:09 INFO: HTTP POST /api/admin/backup [32m200[39m 91ms
+2025-07-17 17:56:09 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\lamora_20250717_175609.sql
