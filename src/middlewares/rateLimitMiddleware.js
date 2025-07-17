@@ -53,3 +53,14 @@ exports.verifyOTPlimitter = rateLimit({
     return req.headers['x-forwarded-for'] || req.ip;
   },
 });
+exports.paymentLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // یک دقیقه
+  max: 5, // حداکثر پنج درخواست در این مدت زمان
+  message: 'در هر یک دقیقه فقط ۵ بار می‌تونی درخواست ارسال کنی. لطفاً چند لحظه صبر کن.',
+  standardHeaders: true, // اضافه کردن هدرهای RateLimit-*
+  legacyHeaders: false, // غیرفعال کردن هدرهای X-RateLimit-* (اختیاری)
+  keyGenerator: (req, res) => {
+    if (req.user?.id) return `user-${req.user.id}`;
+    return req.headers['x-forwarded-for'] || req.ip;
+  },
+});

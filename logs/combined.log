@@ -9,3 +9,75 @@
 2025-07-17 20:12:00 INFO: Order undefined - Status pending changed to expired by system due to expired order.
 2025-07-17 20:12:00 INFO: Order 3 expired and stock returned.
 2025-07-17 20:12:00 INFO: Expired orders cleanup job completed successfully.
+2025-07-17 21:11:01 INFO: Server is running on port 3000
+2025-07-17 21:11:01 INFO: Environment: development
+2025-07-17 21:11:01 INFO: Database User: postgres
+2025-07-17 21:11:01 INFO: Database backup scheduler started.
+2025-07-17 21:11:01 INFO: Expired order cleanup scheduler started.
+2025-07-17 21:36:01 INFO: HTTP GET /api/ [33m404[39m 2ms
+2025-07-17 21:36:23 INFO: HTTP GET /api/cart [32m200[39m 226ms
+2025-07-17 21:36:42 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-17 21:36:59 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-17 21:37:29 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-17 21:38:34 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-17 21:40:06 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-17 21:41:39 INFO: HTTP POST /api/users/login [32m200[39m 256ms
+2025-07-17 21:42:09 INFO: HTTP GET /api/cart [32m200[39m 67ms
+2025-07-17 21:42:28 INFO: HTTP POST /api/cart [33m404[39m 0ms
+2025-07-17 21:42:38 INFO: HTTP POST /api/cart/add [32m200[39m 74ms
+2025-07-17 21:43:16 INFO: HTTP POST /api/place-order [33m404[39m 1ms
+2025-07-17 21:43:34 INFO: HTTP POST /api/orders/place-order [32m201[39m 95ms
+2025-07-17 21:45:01 INFO: HTTP GET /api-docs/ [36m304[39m 4ms
+2025-07-17 21:45:01 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-17 21:45:01 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 14ms
+2025-07-17 21:45:01 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 2ms
+2025-07-17 21:45:01 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 6ms
+2025-07-17 21:45:02 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-17 21:47:03 INFO: Server is running on port 3000
+2025-07-17 21:47:03 INFO: Environment: development
+2025-07-17 21:47:03 INFO: Database User: postgres
+2025-07-17 21:47:03 INFO: Database backup scheduler started.
+2025-07-17 21:47:03 INFO: Expired order cleanup scheduler started.
+2025-07-17 21:47:04 INFO: HTTP GET /api-docs/ [36m304[39m 13ms
+2025-07-17 21:47:04 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 5ms
+2025-07-17 21:47:04 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 6ms
+2025-07-17 21:47:04 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 7ms
+2025-07-17 21:47:04 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-17 21:47:04 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-17 21:48:47 INFO: Server is running on port 3000
+2025-07-17 21:48:47 INFO: Environment: development
+2025-07-17 21:48:47 INFO: Database User: postgres
+2025-07-17 21:48:47 INFO: Database backup scheduler started.
+2025-07-17 21:48:47 INFO: Expired order cleanup scheduler started.
+2025-07-17 21:50:08 INFO: Server is running on port 3000
+2025-07-17 21:50:08 INFO: Environment: development
+2025-07-17 21:50:08 INFO: Database User: postgres
+2025-07-17 21:50:08 INFO: Database backup scheduler started.
+2025-07-17 21:50:08 INFO: Expired order cleanup scheduler started.
+2025-07-17 21:50:12 INFO: HTTP GET /api-docs/ [36m304[39m 6ms
+2025-07-17 21:50:12 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 6ms
+2025-07-17 21:50:12 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 7ms
+2025-07-17 21:50:12 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-07-17 21:50:12 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 9ms
+2025-07-17 21:50:13 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms
+2025-07-17 21:50:55 INFO: Payment initiated for Order ID: 10. Redirecting to simulated gateway.
+2025-07-17 21:50:55 INFO: HTTP POST /api/payments/initiate [32m200[39m 201ms
+2025-07-17 21:52:31 WARN: Payment verification failed for Order ID: 10. Status: NOK
+2025-07-17 21:52:31 INFO: HTTP GET /api/payments/verify?Authority=X9Y8Z7A6B5C4D321&Status=NOK&orderId=10 [33m400[39m 2ms
+2025-07-17 21:52:40 INFO: HTTP GET /api/orders [32m200[39m 86ms
+2025-07-17 22:00:00 INFO: Triggering expired order cleanup.
+2025-07-17 22:00:00 INFO: Running expired orders cleanup job...
+2025-07-17 22:00:00 INFO: Found 1 expired pending orders.
+2025-07-17 22:00:00 INFO: Order 10 - Status pending changed to expired by system due to expired order.
+2025-07-17 22:00:00 INFO: Order 10 expired and stock returned.
+2025-07-17 22:00:00 INFO: Expired orders cleanup job completed successfully.
+2025-07-17 22:10:31 INFO: HTTP POST /api/settings [32m200[39m 120ms
+2025-07-17 22:10:55 INFO: HTTP POST /api/settings [32m200[39m 67ms
+2025-07-17 22:11:22 INFO: HTTP GET /api/settings/site_name [32m200[39m 55ms
+2025-07-17 22:11:38 INFO: HTTP GET /api/settings/site_names [33m404[39m 65ms
+2025-07-17 22:11:52 INFO: HTTP GET /api/settings/ [32m200[39m 62ms
+2025-07-17 22:12:19 INFO: HTTP POST /api/settings/ [32m200[39m 77ms
+2025-07-17 22:12:24 INFO: HTTP GET /api/settings/ [32m200[39m 4ms
+2025-07-17 22:12:43 INFO: HTTP DELETE /api/settings/coder [33m404[39m 63ms
+2025-07-17 22:12:50 INFO: HTTP DELETE /api/settings/Coder [32m200[39m 9ms
+2025-07-17 22:12:58 INFO: HTTP GET /api/settings/ [32m200[39m 4ms

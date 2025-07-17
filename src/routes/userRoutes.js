@@ -335,7 +335,7 @@ router.post(
     next();
   },
   userController.createAddress,
-);
+)
 
 /**
  * @swagger

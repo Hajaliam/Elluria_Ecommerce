@@ -58,11 +58,42 @@ exports.authorizeRoles = (...allowedRoles) => {
   };
 };
 exports.bypassCsrf = (req, res, next) => {
-  if (
-    req.method === 'POST' &&
-    (req.path === '/reset-password/:token' || req.path === '/forgot-password')
-  ) {
-    req.csrfToken = () => null; // غیر فعال کردن CSRF
+  const csrfBypassPaths = [
+    '/verify-otp',
+    '/request-otp',
+    '/forgot-password',
+  ];
+
+  // چک مسیرهای ثابت
+  const isStaticPath = csrfBypassPaths.includes(req.path);
+
+  // چک مسیر داینامیک reset-password/:token
+  const isResetPasswordPath = req.path.startsWith('/reset-password/');
+
+  if (req.method === 'POST' && (isStaticPath || isResetPasswordPath)) {
+    req.csrfToken = () => null; // غیرفعال کردن CSRF برای این مسیرها
   }
+
   next();
+};
+
+exports.authenticateForPayments = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'برای ادامه فرآیند پرداخت لطفا وارد شوید.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // اطلاعات کاربر (id, role_id) را به آبجکت req اضافه می‌کنیم
+    next(); // به Middleware بعدی یا کنترلر اصلی برو
+  } catch (error) {
+    console.error('Token verification error:', error);
+    // در صورت نامعتبر بودن توکن، همچنان دسترسی را رد می‌کنیم
+    return res
+        .status(403)
+        .json({ message: 'Access Denied: Invalid or expired token.' });
+  }
 };

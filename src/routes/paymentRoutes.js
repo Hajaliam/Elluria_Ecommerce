@@ -3,6 +3,7 @@
 const express = require('express');
 const paymentController = require('../controllers/paymentController');
 const authMiddleware = require('../middlewares/authMiddleware');
+const rateLimiter = require('../middlewares/rateLimitMiddleware');
 
 const router = express.Router();
 
@@ -16,52 +17,88 @@ const router = express.Router();
 /**
  * @swagger
  * /api/payments/initiate:
- * post:
- * summary: Initiate a payment using a coupon code
- * tags: [Payments]
- * security:
- *   - bearerAuth: []
- *   - csrfToken: []
- * requestBody:
- *   required: true
- *   content:
- *     application/json:
- *       schema:
- *         type: object
- *         required:
- *           - orderId
- *         properties:
- *           couponCode:
- *             type: string
- *             description: The coupon code used for the order
- *             example: SUMMER2025
- * responses:
- *   200:
- *     description: Payment initiation successful. Returns gateway URL.
- *     content:
- *       application/json:
- *         schema:
- *           type: object
- *           properties:
- *             message:
- *               type: string
- *             paymentGatewayUrl:
- *               type: string
- *             orderId:
- *               type: integer
- *   400:
- *     description: Bad Request (e.g., invalid or expired coupon)
- *   401:
- *     description: Unauthorized
- *   403:
- *     description: Forbidden (invalid token, CSRF, or unauthorized user)
- *   404:
- *     description: Coupon or associated order not found
- *   500:
- *     description: Server error
+ *   post:
+ *     summary: Initiate a payment for an order
+ *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - orderId
+ *             properties:
+ *               orderId:
+ *                 type: integer
+ *                 description: The ID of the order to initiate payment for
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Payment initiation successful. Returns gateway URL.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Payment initiation successful. Redirecting to payment gateway.
+ *                 paymentGatewayUrl:
+ *                   type: string
+ *                   example: http://zarinpal.com/pg/StartPay/1500/1
+ *                 orderId:
+ *                   type: integer
+ *                   example: 1
+ *       400:
+ *         description: Bad Request (e.g., order already paid or cancelled)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Order has already been paid.
+ *       401:
+ *         description: Unauthorized (user not authenticated)
+ *       403:
+ *         description: Forbidden (user not authorized to pay for this order)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'Access Denied: You are not authorized to pay for this order.'
+ *       404:
+ *         description: Order not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Order not found.
+ *       500:
+ *         description: Server error initiating payment
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Server error initiating payment
+ *                 error:
+ *                   type: string
  */
-
-router.post('/initiate', authMiddleware.authenticateToken, paymentController.initiatePayment);
+router.post('/initiate', authMiddleware.authenticateForPayments,rateLimiter.paymentLimiter, paymentController.initiatePayment);
 
 /**
  * @swagger
@@ -114,7 +151,6 @@ router.post('/initiate', authMiddleware.authenticateToken, paymentController.ini
  *       500:
  *         description: Server error
  */
-
 router.get('/verify', paymentController.verifyPayment); // 👈 نیازی به احراز هویت با JWT نیست
 
 module.exports = router;
