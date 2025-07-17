@@ -42,6 +42,8 @@ const { sanitizeString } = require('./src/utils/sanitizer'); // برای پاک�
 //const { getGeminiResponse } = require('./src/utils/geminiService'); // برای ارتباط با Gemini API
 const { getAIResponse } = require('./src/utils/aiService');
 const { startBackupScheduler, manualBackup } = require('./src/utils/backupService');
+const paymentRoutes = require('./src/routes/paymentRoutes');
+const { startExpiredOrderCleanupScheduler } = require('./src/utils/orderCleanupService');
 
 const app = express();
 const server = http.createServer(app); // ساخت سرور HTTP از اپ Express
@@ -132,6 +134,7 @@ app.use('/api/reviews', csrfProtection, reviewRoutes);
 app.use('/api/coupons', csrfProtection, couponRoutes);
 app.use('/api/search', searchRoutes);
 app.post('/api/admin/backup', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), manualBackup);
+app.use('/api/payments', paymentRoutes);
 
 // ** WebSocket (Socket.IO) Logic for Online Advice (AI Chat) **
 // Map برای ذخیره موقت تاریخچه مکالمه هر نشست (برای AI با حافظه کوتاه مدت)
@@ -284,4 +287,7 @@ server.listen(PORT, () => {
 
   ///بکاپ Scheduler راه اندازی
   startBackupScheduler();
+
+  //راه اندازی  Scheduler پاکسازی سفارشات منقضی
+  startExpiredOrderCleanupScheduler();
 });
