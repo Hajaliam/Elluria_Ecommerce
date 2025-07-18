@@ -144,6 +144,27 @@ exports.verifyPayment = async (req, res) => {
             }, { transaction: t });
         }
 
+        //5. به روزرسانی تعداد استفاده از کوپن در صورت وجود
+        if (order.coupon_id) {
+            const coupon = await db.Coupon.findByPk(order.coupon_id , { transaction: t });
+            if (coupon && coupon.max_usage_per_user !== null) {
+                const [userUsage, created] = await db.UserCouponUsage.findOrCreate({
+                    where: { user_id: order.user_id, coupon_id: coupon.id },
+                    defaults: { usage_count: 1 },
+                    transaction: t
+                });
+
+                if (!created) {
+                    await userUsage.increment('usage_count', { by: 1, transaction: t });
+                }
+            }
+            // کاهش محدودیت کلی کوپن (نه کاربر)
+            if (coupon.usage_limit !== null) {
+                coupon.usage_limit -= 1;
+                await coupon.save({ transaction: t });
+            }
+        }
+
         // TODO: ایمیل یا پیامک تایید برای کاربر
 
         await t.commit();

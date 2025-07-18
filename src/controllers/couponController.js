@@ -2,51 +2,95 @@
 
 const db = require('../../models');
 const Coupon = db.Coupon;
+const User = db.User; // برای کوپن‌های خصوصی
+const Product = db.Product; // برای کوپن‌های محصول خاص
+const CouponGroup = db.CouponGroup; // برای گروه‌بندی کوپن‌ها
 const Sequelize = db.Sequelize;
-const { sanitizeString } = require('../utils/sanitizer'); // 👈 اضافه کنید
-
+const { sanitizeString } = require('../utils/sanitizer');
 // تابع برای ایجاد کوپن جدید
 exports.createCoupon = async (req, res) => {
   let {
-    code,
-    discount_type,
-    discount_value,
-    min_amount,
-    usage_limit,
-    expiry_date,
-    isActive,
-    is_first_purchase_only,
-  } = req.body; // 👈 از let استفاده کنید
-
-  // 👈 اعمال پاکسازی
-  code = sanitizeString(code);
-  discount_type = sanitizeString(discount_type);
+    code, discount_type, discount_value, min_amount, usage_limit,
+    expiry_date, isActive, is_first_purchase_only, is_exclusive,
+    max_usage_per_user, coupon_group_id, product_ids, user_ids // فیلدهای جدید و آرایه‌ها
+  } = req.body;
 
   try {
-    const existingCoupon = await Coupon.findOne({ where: { code: code } });
-    if (existingCoupon) {
-      return res
-        .status(409)
-        .json({ message: 'Coupon with this code already exists.' });
+    // 1. پاکسازی و اعتبارسنجی اولیه
+    const sanitizedCode = sanitizeString(code);
+    const sanitizedDiscountType = sanitizeString(discount_type);
+
+    if (!sanitizedCode || !sanitizedDiscountType || discount_value === undefined) {
+      return res.status(400).json({ message: 'Missing required fields: code, discount_type, discount_value.' });
     }
+    if (!['percentage', 'fixed_amount', 'free_shipping'].includes(sanitizedDiscountType)) {
+      return res.status(400).json({ message: 'Invalid discount_type. Allowed: percentage, fixed_amount, free_shipping.' });
+    }
+    if (sanitizedDiscountType !== 'free_shipping' && (isNaN(parseFloat(discount_value)) || parseFloat(discount_value) <= 0)) {
+      return res.status(400).json({ message: 'discount_value must be a positive number for percentage/fixed coupons.' });
+    }
+    if (min_amount && isNaN(parseFloat(min_amount))) {
+      return res.status(400).json({ message: 'min_amount must be a number.' });
+    }
+
+
+    // 2. بررسی وجود کوپن با کد تکراری
+    const existingCoupon = await Coupon.findOne({ where: { code: sanitizedCode } });
+    if (existingCoupon) {
+      return res.status(409).json({ message: 'Coupon with this code already exists.' });
+    }
+
+    // 3. بررسی وجود گروه کوپن
+    let couponGroup = null;
+    if (coupon_group_id) {
+      couponGroup = await CouponGroup.findByPk(coupon_group_id);
+      if (!couponGroup) {
+        return res.status(404).json({ message: 'CouponGroup not found.' });
+      }
+    }
+
+
+    // 4. ایجاد کوپن جدید
     const newCoupon = await Coupon.create({
-      code,
-      discount_type,
-      discount_value,
-      min_amount: min_amount || 0,
-      usage_limit,
-      expiry_date,
-      isActive,
-      is_first_purchase_only,
+      code: sanitizedCode,
+      discount_type: sanitizedDiscountType,
+      discount_value: sanitizedDiscountType === 'free_shipping' ? 0 : parseFloat(discount_value), // برای ارسال رایگان، مقدار تخفیف 0
+      min_amount: min_amount ? parseFloat(min_amount) : 0,
+      usage_limit: usage_limit ? parseInt(usage_limit) : null,
+      expiry_date: expiry_date ? new Date(expiry_date) : null,
+      isActive: isActive === 'true' || isActive === true,
+      is_first_purchase_only: is_first_purchase_only === 'true' || is_first_purchase_only === true,
+      is_exclusive: is_exclusive === 'true' || is_exclusive === true,
+      max_usage_per_user: max_usage_per_user ? parseInt(max_usage_per_user) : null,
+      coupon_group_id: couponGroup ? couponGroup.id : null
     });
-    res
-      .status(201)
-      .json({ message: 'Coupon created successfully!', coupon: newCoupon });
+
+    // 5. ایجاد ارتباط با محصولات خاص (CouponProducts)
+    if (product_ids && product_ids.length > 0) {
+      const products = await Product.findAll({ where: { id: product_ids } });
+      if (products.length !== product_ids.length) {
+        await newCoupon.destroy(); // کوپن را حذف کن اگر همه محصولات پیدا نشدند
+        return res.status(404).json({ message: 'One or more specified products for coupon not found.' });
+      }
+      await newCoupon.setCouponProducts(products); // ایجاد ارتباط Many-to-Many
+    }
+
+    // 6. ایجاد ارتباط با کاربران خاص (UserCoupons)
+    if (user_ids && user_ids.length > 0) {
+      const users = await User.findAll({ where: { id: user_ids } });
+      if (users.length !== user_ids.length) {
+        await newCoupon.destroy(); // کوپن را حذف کن اگر همه کاربران پیدا نشدند
+        return res.status(404).json({ message: 'One or more specified users for coupon not found.' });
+      }
+      await newCoupon.setUserCoupons(users); // ایجاد ارتباط Many-to-Many
+    }
+
+
+    res.status(201).json({ message: 'Coupon created successfully!', coupon: newCoupon });
+
   } catch (error) {
     console.error('Error creating coupon:', error);
-    res
-      .status(500)
-      .json({ message: 'Server error creating coupon', error: error.message });
+    res.status(500).json({ message: 'Server error creating coupon', error: error.message });
   }
 };
 
@@ -84,64 +128,98 @@ exports.getCouponByCode = async (req, res) => {
 
 // تابع برای به‌روزرسانی یک کوپن
 exports.updateCoupon = async (req, res) => {
-  let { code } = req.params; // 👈 از let استفاده کنید و پاکسازی کنید
-  code = sanitizeString(code); // 👈 پاکسازی پارامتر URL
-
+  const { id } = req.params;
   let {
-    new_code,
-    discount_type,
-    discount_value,
-    min_amount,
-    usage_limit,
-    expiry_date,
-    isActive,
-    is_first_purchase_only,
-  } = req.body; // 👈 از let استفاده کنید
-
-  // 👈 اعمال پاکسازی
-  if (new_code) new_code = sanitizeString(new_code);
-  if (discount_type) discount_type = sanitizeString(discount_type);
+    code, discount_type, discount_value, min_amount, usage_limit,
+    expiry_date, isActive, is_first_purchase_only, is_exclusive,
+    max_usage_per_user, coupon_group_id, product_ids, user_ids // فیلدهای جدید و آرایه‌ها
+  } = req.body;
 
   try {
-    const coupon = await Coupon.findOne({ where: { code: code } });
+    const coupon = await db.Coupon.findByPk(id);
     if (!coupon) {
-      return res.status(404).json({ message: 'Coupon not found.' });
+      return res.status(404).json({ message: 'Coupon not found' });
+    }
+
+    // 1. پاکسازی و اعتبارسنجی
+    const sanitizedCode = sanitizeString(code);
+    const sanitizedDiscountType = sanitizeString(discount_type);
+
+    if (!sanitizedCode || !sanitizedDiscountType || discount_value === undefined) {
+      return res.status(400).json({ message: 'Missing required fields: code, discount_type, discount_value.' });
+    }
+    if (!['percentage', 'fixed_amount', 'free_shipping'].includes(sanitizedDiscountType)) {
+      return res.status(400).json({ message: 'Invalid discount_type. Allowed: percentage, fixed_amount, free_shipping.' });
+    }
+    if (sanitizedDiscountType !== 'free_shipping' && (isNaN(parseFloat(discount_value)) || parseFloat(discount_value) <= 0)) {
+      return res.status(400).json({ message: 'discount_value must be a positive number for percentage/fixed coupons.' });
+    }
+    if (min_amount && isNaN(parseFloat(min_amount))) {
+      return res.status(400).json({ message: 'min_amount must be a number.' });
     }
 
     // بررسی کد تکراری در صورت تغییر کد
-    if (new_code && new_code !== coupon.code) {
-      const existingCoupon = await Coupon.findOne({
-        where: { code: new_code },
-      });
+    if (sanitizedCode && sanitizedCode !== coupon.code) {
+      const existingCoupon = await db.Coupon.findOne({ where: { code: sanitizedCode } });
       if (existingCoupon) {
-        return res
-          .status(409)
-          .json({ message: 'Coupon with this new code already exists.' });
+        return res.status(409).json({ message: 'Coupon with this new code already exists.' });
       }
     }
 
-    coupon.code = new_code || coupon.code;
-    coupon.discount_type = discount_type || coupon.discount_type;
-    coupon.discount_value = discount_value || coupon.discount_value;
-    coupon.min_amount =
-      min_amount !== undefined ? min_amount : coupon.min_amount;
-    coupon.usage_limit =
-      usage_limit !== undefined ? usage_limit : coupon.usage_limit;
-    coupon.expiry_date = expiry_date || coupon.expiry_date;
-    coupon.isActive = isActive !== undefined ? isActive : coupon.isActive;
-    coupon.is_first_purchase_only = is_first_purchase_only;
+    // 2. بررسی وجود گروه کوپن
+    let couponGroup = null;
+    if (coupon_group_id) {
+      couponGroup = await CouponGroup.findByPk(coupon_group_id);
+      if (!couponGroup) {
+        return res.status(404).json({ message: 'CouponGroup not found.' });
+      }
+    }
+
+
+    // 3. به‌روزرسانی فیلدهای کوپن
+    coupon.code = sanitizedCode;
+    coupon.discount_type = sanitizedDiscountType;
+    coupon.discount_value = sanitizedDiscountType === 'free_shipping' ? 0 : parseFloat(discount_value);
+    coupon.min_amount = min_amount ? parseFloat(min_amount) : 0;
+    coupon.usage_limit = usage_limit ? parseInt(usage_limit) : null;
+    coupon.expiry_date = expiry_date ? new Date(expiry_date) : null;
+    coupon.isActive = isActive === 'true' || isActive === true;
+    coupon.is_first_purchase_only = is_first_purchase_only === 'true' || is_first_purchase_only === true;
+    coupon.is_exclusive = is_exclusive === 'true' || is_exclusive === true;
+    coupon.max_usage_per_user = max_usage_per_user ? parseInt(max_usage_per_user) : null;
+    coupon.coupon_group_id = couponGroup ? couponGroup.id : null;
+
     await coupon.save();
-    res
-      .status(200)
-      .json({ message: 'Coupon updated successfully!', coupon: coupon });
+
+    // 4. به‌روزرسانی ارتباط با محصولات خاص (CouponProducts)
+    if (product_ids) { // اگر product_ids ارسال شد، روابط را به‌روزرسانی کن
+      const products = await Product.findAll({ where: { id: product_ids } });
+      if (products.length !== product_ids.length) {
+        return res.status(404).json({ message: 'One or more specified products for coupon not found.' });
+      }
+      await coupon.setCouponProducts(products); // به‌روزرسانی ارتباط Many-to-Many
+    } else if (product_ids === null || product_ids === []) { // اگر product_ids به صراحت خالی ارسال شد، همه را حذف کن
+      await coupon.setCouponProducts([]);
+    }
+
+    // 5. به‌روزرسانی ارتباط با کاربران خاص (UserCoupons)
+    if (user_ids) { // اگر user_ids ارسال شد، روابط را به‌روزرسانی کن
+      const users = await User.findAll({ where: { id: user_ids } });
+      if (users.length !== user_ids.length) {
+        return res.status(404).json({ message: 'One or more specified users for coupon not found.' });
+      }
+      await coupon.setUserCoupons(users); // به‌روزرسانی ارتباط Many-to-Many
+    } else if (user_ids === null || user_ids === []) { // اگر user_ids به صراحت خالی ارسال شد، همه را حذف کن
+      await coupon.setUserCoupons([]);
+    }
+
+    res.status(200).json({ message: 'Coupon updated successfully', coupon: coupon });
+
   } catch (error) {
-    console.error('Error updating coupon:', error);
-    res
-      .status(500)
-      .json({ message: 'Server error updating coupon', error: error.message });
+    console.error(`Error updating coupon: ${error.message}`, { stack: error.stack });
+    res.status(500).json({ message: 'Server error updating coupon', error: error.message });
   }
 };
-
 // تابع برای حذف یک کوپن
 exports.deleteCoupon = async (req, res) => {
   let { code } = req.params; // 👈 از let استفاده کنید و پاکسازی کنید

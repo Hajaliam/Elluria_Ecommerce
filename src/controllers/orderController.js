@@ -41,17 +41,22 @@ exports.placeOrder = async (req, res) => {
     // محاسبه قیمت کل
     let totalAmount = 0;
     let totalDiscount = 0;
-    let coupon = null;
+    let shippingCost = 15000; // 👈 هزینه ارسال پیش‌فرض
 
 
     for (const item of cart.cartItems) {
       totalAmount += parseFloat(item.product.price) * item.quantity;
     }
+    let coupon = null;
     // 3. اعتبارسنجی و اعمال کوپن (اگر وجود داشت)
     if (couponCode) {
       coupon = await db.Coupon.findOne({
         where: { code: couponCode, isActive: true },
-        transaction: t,
+        include: [
+          { model: db.CouponProduct, as: 'couponProducts' },
+          { model: db.UserCoupon, as: 'userCoupons' }
+        ],
+        transaction: t
       });
 
       if (!coupon) {
@@ -59,17 +64,26 @@ exports.placeOrder = async (req, res) => {
         return res.status(400).json({ message: 'Invalid or expired coupon.' });
       }
 
-      // 👈 اعتبارسنجی: حداقل مبلغ سفارش
-      if (coupon.min_amount && totalAmount < coupon.min_amount) {
-        await t.rollback();
-        return res
-            .status(400)
-            .json({
-              message: `This coupon requires a minimum order amount of ${coupon.min_amount}.`,
-            });
+      // بررسی محدودیت استفاده برای هر کاربر بدون افزایش شمارش
+      if (coupon.max_usage_per_user !== null) {
+        const userUsage = await db.UserCouponUsage.findOne({
+          where: { user_id: userId, coupon_id: coupon.id },
+          transaction: t
+        });
+
+        if (userUsage && userUsage.usage_count >= coupon.max_usage_per_user) {
+          await t.rollback();
+          return res.status(400).json({ message: 'You have reached the usage limit for this coupon.' });
+        }
       }
 
-      // 👈 اعتبارسنجی: کوپن مخصوص خرید اول
+      // بررسی حداقل مبلغ سفارش
+      if (coupon.min_amount && totalAmount < coupon.min_amount) {
+        await t.rollback();
+        return res.status(400).json({ message: `This coupon requires a minimum order amount of ${coupon.min_amount}.` });
+      }
+
+      // کوپن مخصوص خرید اول
       if (coupon.is_first_purchase_only) {
         const existingOrders = await db.Order.count({
           where: { user_id: userId },
@@ -77,34 +91,66 @@ exports.placeOrder = async (req, res) => {
         });
         if (existingOrders > 0) {
           await t.rollback();
-          return res
-              .status(400)
-              .json({ message: 'This coupon is for first-time purchases only.' });
+          return res.status(400).json({ message: 'This coupon is for first-time purchases only.' });
+        }
+      }
+
+      // کوپن خصوصی برای کاربر خاص
+      if (coupon.userCoupons?.length > 0) {
+        const isUserAllowed = coupon.userCoupons.some(uc => uc.user_id === userId);
+        if (!isUserAllowed) {
+          await t.rollback();
+          return res.status(400).json({ message: 'This coupon is private and not assigned to your account.' });
+        }
+      }
+
+      // کوپن مخصوص محصولات خاص
+      let allowedCartItems = cart.cartItems;
+
+      if (coupon.couponProducts?.length > 0) {
+        const allowedProductIds = coupon.couponProducts.map(cp => cp.product_id);
+
+        allowedCartItems = cart.cartItems.filter(item =>
+            allowedProductIds.includes(item.product_id)
+        );
+
+        if (allowedCartItems.length === 0) {
+          await t.rollback();
+          return res.status(400).json({ message: 'This coupon is not valid for any products in your cart.' });
         }
       }
 
       // محاسبه تخفیف
       if (coupon.discount_type === 'percentage') {
-        totalDiscount = totalAmount * (parseFloat(coupon.discount_value) / 100);
+        const eligibleAmount = allowedCartItems.reduce((sum, item) => {
+          return sum + parseFloat(item.product.price) * item.quantity;
+        }, 0);
+        totalDiscount = (eligibleAmount * parseFloat(coupon.discount_value)) / 100;
+
       } else if (coupon.discount_type === 'fixed_amount') {
         totalDiscount = parseFloat(coupon.discount_value);
+
+      } else if (coupon.discount_type === 'free_shipping') {
+        shippingCost = 0;
+        totalDiscount = 0;
+        logger.info(`Free shipping coupon applied. Shipping cost set to 0`);
       }
 
-      // کاهش تعداد مجاز استفاده از کوپن
-      if (coupon.usage_limit !== null) {
-        coupon.usage_limit -= 1;
-        await coupon.save({ transaction: t });
+      // جلوگیری از تخفیف بیشتر از مبلغ کل
+      if (totalDiscount > totalAmount) {
+        totalDiscount = totalAmount;
       }
+
     }
-
-    const finalAmount = totalAmount - totalDiscount;
-
+    let finalAmount = totalAmount - totalDiscount + shippingCost;
+    if (finalAmount < 0)  finalAmount = 0;
 
     // ثبت سفارش اولیه
     const newOrder = await Order.create({
       user_id: userId,
       status: 'pending',
       shipping_address_id: shippingAddressId, // 👈 استفاده از shippingAddressId
+      coupon_id: coupon?.id || null,
       payment_status: 'unpaid',
       total_amount: finalAmount
     }, { transaction: t });

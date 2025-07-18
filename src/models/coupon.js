@@ -8,6 +8,26 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'coupon_id',
         as: 'orders',
       });
+        // 👈 ارتباط با CouponGroup
+        Coupon.belongsTo(models.CouponGroup, {
+            foreignKey: 'coupon_group_id',
+            as: 'group'
+        });
+        // 👈 ارتباط با CouponProducts
+        Coupon.hasMany(models.CouponProduct, {
+            foreignKey: 'coupon_id',
+            as: 'couponProducts'
+        });
+        // 👈 ارتباط با UserCoupons
+        Coupon.hasMany(models.UserCoupon, {
+            foreignKey: 'coupon_id',
+            as: 'userCoupons'
+        });
+        // 👈 ارتباط با UserCouponUsages
+        Coupon.hasMany(models.UserCouponUsage, {
+            foreignKey: 'coupon_id',
+            as: 'userUsages'
+        });
     }
   }
   Coupon.init(
@@ -38,6 +58,19 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
+        is_exclusive: { // 👈 فیلد جدید
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        max_usage_per_user: { // 👈 فیلد جدید
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        coupon_group_id: { // 👈 فیلد جدید
+            type: DataTypes.INTEGER,
+            allowNull: true
+        }
     },
     {
       sequelize,

@@ -190,3 +190,5 @@ operable program or batch file.
 2025-07-17 23:01:23 ERROR: Unhandled error: invalid csrf token
 2025-07-17 23:50:57 ERROR: Error placing order: notNull Violation: Order.shipping_address_id cannot be null
 2025-07-18 00:03:27 ERROR: Error placing order: InventoryLog is not defined
+2025-07-18 22:11:26 ERROR: HTTP Error POST /api/users/login 200 invalid csrf token
+2025-07-18 22:11:26 ERROR: Unhandled error: invalid csrf token
