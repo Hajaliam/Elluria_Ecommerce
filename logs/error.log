@@ -192,3 +192,20 @@ operable program or batch file.
 2025-07-18 00:03:27 ERROR: Error placing order: InventoryLog is not defined
 2025-07-18 22:11:26 ERROR: HTTP Error POST /api/users/login 200 invalid csrf token
 2025-07-18 22:11:26 ERROR: Unhandled error: invalid csrf token
+2025-07-20 15:46:18 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-20 15:46:18 ERROR: Unhandled error: invalid csrf token
+2025-07-20 16:26:00 ERROR: HTTP Error POST /api/orders/place-order 201 Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:00 ERROR: Unhandled error: Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:08 ERROR: HTTP Error POST /api/orders/place-order 201 Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:08 ERROR: Unhandled error: Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:41:56 ERROR: Error placing order: notNull Violation: OrderItem.price_at_purchase cannot be null
+2025-07-20 16:42:04 ERROR: Error placing order: notNull Violation: OrderItem.price_at_purchase cannot be null
+2025-07-20 16:56:47 ERROR: Error placing order: Missing where attribute in the options parameter
+2025-07-20 23:13:12 ERROR: HTTP Error POST /api/orders/place-order 200 invalid csrf token
+2025-07-20 23:13:12 ERROR: Unhandled error: invalid csrf token
+2025-07-21 15:11:13 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
+2025-07-21 15:11:13 ERROR: Unhandled error: invalid csrf token
+2025-07-21 15:12:06 ERROR: HTTP Error POST /api/cart/add 200 invalid csrf token
+2025-07-21 15:12:07 ERROR: Unhandled error: invalid csrf token
+2025-07-21 15:52:05 ERROR: Error verifying payment for order 4: Validation error
+2025-07-21 15:55:47 ERROR: Error verifying payment for order 5: Validation error

@@ -205,3 +205,339 @@
 2025-07-18 22:12:09 INFO: HTTP GET /api/admin/exports/reports/best-selling [32m200[39m 95ms
 2025-07-18 22:12:31 INFO: HTTP GET /api/admin/exports/reports/best-selling?categoryId=1 [32m200[39m 86ms
 2025-07-18 22:12:38 INFO: HTTP GET /api/admin/exports/reports/best-selling?categoryId=2 [32m200[39m 8ms
+2025-07-20 15:40:14 INFO: Server is running on port 3000
+2025-07-20 15:40:14 INFO: Environment: development
+2025-07-20 15:40:14 INFO: Database User: postgres
+2025-07-20 15:40:14 INFO: Database backup scheduler started.
+2025-07-20 15:40:15 INFO: Expired order cleanup scheduler started.
+2025-07-20 15:40:19 INFO: HTTP GET /api/csrf-token [32m200[39m 7ms
+2025-07-20 15:40:32 INFO: HTTP POST /api/users/login [33m401[39m 649ms
+2025-07-20 15:40:39 INFO: HTTP POST /api/users/login [33m401[39m 4ms
+2025-07-20 15:41:00 INFO: HTTP GET /api-docs/ [32m200[39m 5ms
+2025-07-20 15:41:00 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-20 15:41:00 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 25ms
+2025-07-20 15:41:00 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 20ms
+2025-07-20 15:41:00 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 47ms
+2025-07-20 15:42:00 INFO: HTTP POST /api/users/register [32m201[39m 193ms
+2025-07-20 15:44:10 INFO: HTTP POST /api/users/login [33m401[39m 142ms
+2025-07-20 15:45:07 INFO: HTTP POST /api/users/login [32m200[39m 148ms
+2025-07-20 15:46:18 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-20 15:46:18 ERROR: Unhandled error: invalid csrf token
+2025-07-20 15:46:18 INFO: HTTP POST /api/users/register [33m403[39m 11ms
+2025-07-20 15:46:35 INFO: HTTP POST /api/users/register [32m201[39m 305ms
+2025-07-20 15:48:35 INFO: HTTP POST /api/users/register [32m201[39m 147ms
+2025-07-20 15:51:36 INFO: HTTP POST /api/admin/coupons [33m404[39m 76ms
+2025-07-20 15:52:36 INFO: HTTP POST /api/coupons [32m201[39m 100ms
+2025-07-20 15:54:16 INFO: HTTP POST /api/users/login [32m200[39m 142ms
+2025-07-20 15:55:53 INFO: HTTP POST /api/cart/add [33m404[39m 71ms
+2025-07-20 15:56:33 INFO: HTTP POST /api/cart/add [32m200[39m 171ms
+2025-07-20 16:00:00 INFO: Triggering expired order cleanup.
+2025-07-20 16:00:00 INFO: Running expired orders cleanup job...
+2025-07-20 16:00:00 INFO: No expired pending orders found.
+2025-07-20 16:00:37 INFO: HTTP POST /api/users/3/address [33m404[39m 0ms
+2025-07-20 16:00:51 INFO: HTTP POST /api/users/3/addresses [32m201[39m 65ms
+2025-07-20 16:01:45 INFO: HTTP POST /api/orders/place-order [32m201[39m 202ms
+2025-07-20 16:03:16 INFO: HTTP POST /api/orders/place-order [32m201[39m 90ms
+2025-07-20 16:04:40 INFO: Server is running on port 3000
+2025-07-20 16:04:40 INFO: Environment: development
+2025-07-20 16:04:40 INFO: Database User: postgres
+2025-07-20 16:04:40 INFO: Database backup scheduler started.
+2025-07-20 16:04:40 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:04:49 INFO: HTTP POST /api/orders/place-order [32m201[39m 386ms
+2025-07-20 16:05:50 INFO: Server is running on port 3000
+2025-07-20 16:05:50 INFO: Environment: development
+2025-07-20 16:05:50 INFO: Database User: postgres
+2025-07-20 16:05:50 INFO: Database backup scheduler started.
+2025-07-20 16:05:50 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:05:58 INFO: HTTP POST /api/orders/place-order [32m201[39m 248ms
+2025-07-20 16:06:56 INFO: Server is running on port 3000
+2025-07-20 16:06:56 INFO: Environment: development
+2025-07-20 16:06:56 INFO: Database User: postgres
+2025-07-20 16:06:56 INFO: Database backup scheduler started.
+2025-07-20 16:06:56 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:07:20 INFO: HTTP POST /api/orders/place-order [32m201[39m 212ms
+2025-07-20 16:07:59 INFO: Server is running on port 3000
+2025-07-20 16:07:59 INFO: Environment: development
+2025-07-20 16:07:59 INFO: Database User: postgres
+2025-07-20 16:07:59 INFO: Database backup scheduler started.
+2025-07-20 16:07:59 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:08:01 INFO: HTTP POST /api/orders/place-order [32m201[39m 238ms
+2025-07-20 16:09:08 INFO: HTTP POST /api/orders/place-order [32m201[39m 100ms
+2025-07-20 16:10:07 INFO: Server is running on port 3000
+2025-07-20 16:10:07 INFO: Environment: development
+2025-07-20 16:10:07 INFO: Database User: postgres
+2025-07-20 16:10:07 INFO: Database backup scheduler started.
+2025-07-20 16:10:07 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:10:10 INFO: HTTP POST /api/orders/place-order [32m201[39m 570ms
+2025-07-20 16:10:48 INFO: Server is running on port 3000
+2025-07-20 16:10:48 INFO: Environment: development
+2025-07-20 16:10:48 INFO: Database User: postgres
+2025-07-20 16:10:48 INFO: Database backup scheduler started.
+2025-07-20 16:10:48 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:10:50 INFO: HTTP POST /api/orders/place-order [32m201[39m 210ms
+2025-07-20 16:13:21 INFO: Server is running on port 3000
+2025-07-20 16:13:21 INFO: Environment: development
+2025-07-20 16:13:21 INFO: Database User: postgres
+2025-07-20 16:13:21 INFO: Database backup scheduler started.
+2025-07-20 16:13:21 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:13:26 INFO: HTTP POST /api/orders/place-order [32m201[39m 336ms
+2025-07-20 16:25:57 INFO: Server is running on port 3000
+2025-07-20 16:25:57 INFO: Environment: development
+2025-07-20 16:25:57 INFO: Database User: postgres
+2025-07-20 16:25:57 INFO: Database backup scheduler started.
+2025-07-20 16:25:57 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:26:00 ERROR: HTTP Error POST /api/orders/place-order 201 Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:00 ERROR: Unhandled error: Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:00 INFO: HTTP POST /api/orders/place-order [31m500[39m 223ms
+2025-07-20 16:26:08 ERROR: HTTP Error POST /api/orders/place-order 201 Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:08 ERROR: Unhandled error: Transaction cannot be rolled back because it has been finished with state: commit
+2025-07-20 16:26:08 INFO: HTTP POST /api/orders/place-order [31m500[39m 37ms
+2025-07-20 16:27:48 INFO: Server is running on port 3000
+2025-07-20 16:27:48 INFO: Environment: development
+2025-07-20 16:27:48 INFO: Database User: postgres
+2025-07-20 16:27:48 INFO: Database backup scheduler started.
+2025-07-20 16:27:48 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:27:51 INFO: HTTP POST /api/orders/place-order [32m201[39m 231ms
+2025-07-20 16:27:58 INFO: HTTP POST /api/orders/place-order [32m201[39m 36ms
+2025-07-20 16:28:00 INFO: HTTP POST /api/orders/place-order [32m201[39m 28ms
+2025-07-20 16:41:55 INFO: Server is running on port 3000
+2025-07-20 16:41:55 INFO: Environment: development
+2025-07-20 16:41:55 INFO: Database User: postgres
+2025-07-20 16:41:55 INFO: Database backup scheduler started.
+2025-07-20 16:41:55 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:41:56 ERROR: Error placing order: notNull Violation: OrderItem.price_at_purchase cannot be null
+2025-07-20 16:41:56 INFO: HTTP POST /api/orders/place-order [31m500[39m 213ms
+2025-07-20 16:42:04 ERROR: Error placing order: notNull Violation: OrderItem.price_at_purchase cannot be null
+2025-07-20 16:42:04 INFO: HTTP POST /api/orders/place-order [31m500[39m 21ms
+2025-07-20 16:43:36 INFO: Server is running on port 3000
+2025-07-20 16:43:36 INFO: Environment: development
+2025-07-20 16:43:36 INFO: Database User: postgres
+2025-07-20 16:43:36 INFO: Database backup scheduler started.
+2025-07-20 16:43:36 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:43:38 INFO: HTTP POST /api/orders/place-order [32m201[39m 217ms
+2025-07-20 16:56:43 INFO: Server is running on port 3000
+2025-07-20 16:56:43 INFO: Environment: development
+2025-07-20 16:56:43 INFO: Database User: postgres
+2025-07-20 16:56:43 INFO: Database backup scheduler started.
+2025-07-20 16:56:43 INFO: Expired order cleanup scheduler started.
+2025-07-20 16:56:47 ERROR: Error placing order: Missing where attribute in the options parameter
+2025-07-20 16:56:47 INFO: HTTP POST /api/orders/place-order [31m500[39m 188ms
+2025-07-20 17:00:00 INFO: Triggering expired order cleanup.
+2025-07-20 17:00:00 INFO: Running expired orders cleanup job...
+2025-07-20 17:00:00 INFO: No expired pending orders found.
+2025-07-20 17:00:08 INFO: Server is running on port 3000
+2025-07-20 17:00:08 INFO: Environment: development
+2025-07-20 17:00:08 INFO: Database User: postgres
+2025-07-20 17:00:08 INFO: Database backup scheduler started.
+2025-07-20 17:00:08 INFO: Expired order cleanup scheduler started.
+2025-07-20 17:00:11 INFO: HTTP POST /api/orders/place-order [32m201[39m 225ms
+2025-07-20 17:00:18 INFO: HTTP POST /api/orders/place-order [32m201[39m 22ms
+2025-07-20 23:12:22 INFO: Server is running on port 3000
+2025-07-20 23:12:22 INFO: Environment: development
+2025-07-20 23:12:22 INFO: Database User: postgres
+2025-07-20 23:12:22 INFO: Database backup scheduler started.
+2025-07-20 23:12:22 INFO: Expired order cleanup scheduler started.
+2025-07-20 23:13:12 ERROR: HTTP Error POST /api/orders/place-order 200 invalid csrf token
+2025-07-20 23:13:12 ERROR: Unhandled error: invalid csrf token
+2025-07-20 23:13:12 INFO: HTTP POST /api/orders/place-order [33m403[39m 17ms
+2025-07-20 23:13:17 INFO: HTTP GET /api/csrf-token [32m200[39m 2ms
+2025-07-20 23:13:26 INFO: HTTP POST /api/orders/place-order [32m201[39m 562ms
+2025-07-20 23:14:19 INFO: HTTP POST /api/orders/place-order [32m201[39m 94ms
+2025-07-20 23:15:17 INFO: HTTP POST /api/orders/place-order [32m201[39m 95ms
+2025-07-20 23:17:17 INFO: Server is running on port 3000
+2025-07-20 23:17:17 INFO: Environment: development
+2025-07-20 23:17:17 INFO: Database User: postgres
+2025-07-20 23:17:17 INFO: Database backup scheduler started.
+2025-07-20 23:17:17 INFO: Expired order cleanup scheduler started.
+2025-07-20 23:17:24 INFO: HTTP POST /api/orders/place-order [32m201[39m 265ms
+2025-07-20 23:17:36 INFO: HTTP POST /api/orders/place-order [32m201[39m 109ms
+2025-07-20 23:18:34 INFO: HTTP POST /api/orders/place-order [33m400[39m 210ms
+2025-07-20 23:18:59 INFO: HTTP GET /api-docs/ [32m200[39m 12ms
+2025-07-20 23:19:00 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-20 23:19:00 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 22ms
+2025-07-20 23:19:00 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 13ms
+2025-07-20 23:19:00 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 35ms
+2025-07-20 23:19:01 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 4ms
+2025-07-20 23:19:28 INFO: HTTP POST /api/orders/14/cancel [32m200[39m 129ms
+2025-07-20 23:22:24 INFO: HTTP POST /api/orders/place-order [32m201[39m 97ms
+2025-07-20 23:24:47 INFO: Payment initiated for Order ID: 15. Redirecting to simulated gateway.
+2025-07-20 23:24:47 INFO: HTTP POST /api/payments/initiate [32m200[39m 60ms
+2025-07-20 23:26:00 INFO: ✅ Payment verified and order finalized. Order ID: 15, Tx ID: 32as1d564w6eda561s
+2025-07-20 23:26:00 INFO: HTTP GET /api/payments/verify?Authority=32as1d564w6eda561s&Status=OK&orderId=15 [32m200[39m 103ms
+2025-07-21 01:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 01:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 01:00:00 INFO: No expired pending orders found.
+2025-07-21 02:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 02:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 02:00:00 INFO: No expired pending orders found.
+2025-07-21 03:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 03:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 03:00:00 INFO: No expired pending orders found.
+2025-07-21 04:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 04:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 04:00:00 INFO: No expired pending orders found.
+2025-07-21 05:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 05:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 05:00:00 INFO: No expired pending orders found.
+2025-07-21 06:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 06:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 06:00:00 INFO: No expired pending orders found.
+2025-07-21 07:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 07:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 07:00:00 INFO: No expired pending orders found.
+2025-07-21 08:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 08:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 08:00:00 INFO: No expired pending orders found.
+2025-07-21 09:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 09:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 09:00:00 INFO: No expired pending orders found.
+2025-07-21 14:52:43 INFO: Server is running on port 3000
+2025-07-21 14:52:43 INFO: Environment: development
+2025-07-21 14:52:43 INFO: Database User: postgres
+2025-07-21 14:52:43 INFO: Database backup scheduler started.
+2025-07-21 14:52:43 INFO: Expired order cleanup scheduler started.
+2025-07-21 14:52:48 INFO: HTTP GET /api/csrf-token [32m200[39m 5ms
+2025-07-21 14:53:10 INFO: HTTP GET /api-docs/ [32m200[39m 5ms
+2025-07-21 14:53:10 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 10ms
+2025-07-21 14:53:10 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-21 14:53:10 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 16ms
+2025-07-21 14:53:10 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 35ms
+2025-07-21 14:53:11 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 3ms
+2025-07-21 14:54:00 INFO: HTTP POST /api/users/register [32m201[39m 241ms
+2025-07-21 14:54:35 INFO: HTTP POST /api/users/register [32m201[39m 152ms
+2025-07-21 14:55:10 INFO: HTTP POST /api/users/login [32m200[39m 205ms
+2025-07-21 15:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 15:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 15:00:00 INFO: No expired pending orders found.
+2025-07-21 15:10:35 INFO: Server is running on port 3000
+2025-07-21 15:10:35 INFO: Environment: development
+2025-07-21 15:10:35 INFO: Database User: postgres
+2025-07-21 15:10:35 INFO: Database backup scheduler started.
+2025-07-21 15:10:35 INFO: Expired order cleanup scheduler started.
+2025-07-21 15:10:52 INFO: HTTP POST /api/users/login [32m200[39m 251ms
+2025-07-21 15:11:13 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
+2025-07-21 15:11:13 ERROR: Unhandled error: invalid csrf token
+2025-07-21 15:11:13 INFO: HTTP POST /api/coupons [33m403[39m 5ms
+2025-07-21 15:11:27 INFO: HTTP POST /api/coupons [32m201[39m 89ms
+2025-07-21 15:11:50 INFO: HTTP POST /api/users/login [32m200[39m 140ms
+2025-07-21 15:12:06 ERROR: HTTP Error POST /api/cart/add 200 invalid csrf token
+2025-07-21 15:12:07 ERROR: Unhandled error: invalid csrf token
+2025-07-21 15:12:07 INFO: HTTP POST /api/cart/add [33m403[39m 3ms
+2025-07-21 15:12:18 INFO: HTTP POST /api/cart/add [32m200[39m 193ms
+2025-07-21 15:14:13 INFO: HTTP POST /api/orders/place-order [32m201[39m 171ms
+2025-07-21 15:14:25 INFO: HTTP POST /api/orders/place-order [32m201[39m 79ms
+2025-07-21 15:15:04 INFO: HTTP POST /api/cart/add [32m200[39m 75ms
+2025-07-21 15:15:57 INFO: HTTP GET /api/cart/add [33m404[39m 1ms
+2025-07-21 15:16:06 INFO: HTTP GET /api/cart [32m200[39m 72ms
+2025-07-21 15:16:35 INFO: HTTP POST /api/orders/place-order [32m201[39m 105ms
+2025-07-21 15:29:16 INFO: Server is running on port 3000
+2025-07-21 15:29:16 INFO: Environment: development
+2025-07-21 15:29:16 INFO: Database User: postgres
+2025-07-21 15:29:16 INFO: Database backup scheduler started.
+2025-07-21 15:29:16 INFO: Expired order cleanup scheduler started.
+2025-07-21 15:29:25 INFO: HTTP POST /api/orders/place-order [32m201[39m 229ms
+2025-07-21 15:30:26 INFO: HTTP POST /api/orders/place-order [32m201[39m 96ms
+2025-07-21 15:31:26 INFO: Payment initiated for Order ID: 3. Redirecting to simulated gateway.
+2025-07-21 15:31:26 INFO: HTTP POST /api/payments/initiate [32m200[39m 168ms
+2025-07-21 15:32:31 WARN: Payment verification failed for Order ID: 3. Status: NOK
+2025-07-21 15:32:31 INFO: HTTP GET /api/payments/verify?Authority=611561561695485&Status=NOK&orderId=3 [33m400[39m 2ms
+2025-07-21 15:33:03 INFO: ✅ Payment verified and order finalized. Order ID: 3, Tx ID: 611561561695485
+2025-07-21 15:33:03 INFO: HTTP GET /api/payments/verify?Authority=611561561695485&Status=OK&orderId=3 [32m200[39m 102ms
+2025-07-21 15:39:04 INFO: HTTP POST /api/cart/add [32m200[39m 77ms
+2025-07-21 15:39:12 INFO: HTTP POST /api/cart/add [32m200[39m 12ms
+2025-07-21 15:39:22 INFO: HTTP POST /api/orders/place-order [32m201[39m 48ms
+2025-07-21 15:39:40 INFO: HTTP GET /api/cart [32m200[39m 66ms
+2025-07-21 15:51:04 INFO: Server is running on port 3000
+2025-07-21 15:51:04 INFO: Environment: development
+2025-07-21 15:51:04 INFO: Database User: postgres
+2025-07-21 15:51:04 INFO: Database backup scheduler started.
+2025-07-21 15:51:04 INFO: Expired order cleanup scheduler started.
+2025-07-21 15:51:38 INFO: HTTP POST /api/payments/initiate [33m400[39m 183ms
+2025-07-21 15:51:44 INFO: Payment initiated for Order ID: 4. Redirecting to simulated gateway.
+2025-07-21 15:51:44 INFO: HTTP POST /api/payments/initiate [32m200[39m 17ms
+2025-07-21 15:51:55 INFO: HTTP GET /api/payments/initiate?Authority=611561561695485&Status=OK&orderId=4 [33m404[39m 2ms
+2025-07-21 15:52:05 ERROR: Error verifying payment for order 4: Validation error
+2025-07-21 15:52:05 INFO: HTTP GET /api/payments/verify?Authority=611561561695485&Status=OK&orderId=4 [31m500[39m 91ms
+2025-07-21 15:52:32 INFO:  Payment verified and order finalized. Order ID: 4, Tx ID: 611561561695485Asaldnwo
+2025-07-21 15:52:32 INFO: HTTP GET /api/payments/verify?Authority=611561561695485Asaldnwo&Status=OK&orderId=4 [32m200[39m 114ms
+2025-07-21 15:53:00 INFO: HTTP GET /api/cart [32m200[39m 79ms
+2025-07-21 15:53:18 INFO: HTTP POST /api/cart/add [32m200[39m 100ms
+2025-07-21 15:53:30 INFO: HTTP POST /api/orders/place-order [32m201[39m 91ms
+2025-07-21 15:53:49 INFO: HTTP POST /api/orders/place-order [32m201[39m 74ms
+2025-07-21 15:53:51 INFO: HTTP POST /api/orders/place-order [32m201[39m 19ms
+2025-07-21 15:53:52 INFO: HTTP POST /api/orders/place-order [32m201[39m 17ms
+2025-07-21 15:54:36 INFO: HTTP POST /api/payments/initiate [33m403[39m 3ms
+2025-07-21 15:55:04 INFO: HTTP POST /api/payments/initiate [33m403[39m 2ms
+2025-07-21 15:55:21 INFO: Payment initiated for Order ID: 5. Redirecting to simulated gateway.
+2025-07-21 15:55:21 INFO: HTTP POST /api/payments/initiate [32m200[39m 146ms
+2025-07-21 15:55:33 INFO: HTTP GET /api/payments/initiate?Authority=611561561695485Asaldnwo&Status=OK&orderId=5 [33m404[39m 1ms
+2025-07-21 15:55:47 ERROR: Error verifying payment for order 5: Validation error
+2025-07-21 15:55:47 INFO: HTTP GET /api/payments/verify?Authority=611561561695485Asaldnwo&Status=OK&orderId=5 [31m500[39m 73ms
+2025-07-21 15:55:53 INFO:  Payment verified and order finalized. Order ID: 5, Tx ID: 611561561695485Asaldnwo351
+2025-07-21 15:55:53 INFO: HTTP GET /api/payments/verify?Authority=611561561695485Asaldnwo351&Status=OK&orderId=5 [32m200[39m 34ms
+2025-07-21 15:57:02 INFO: HTTP GET /api/cart [32m200[39m 64ms
+2025-07-21 15:57:10 INFO: HTTP POST /api/cart/add [32m200[39m 10ms
+2025-07-21 15:57:17 INFO: HTTP POST /api/cart/add [32m200[39m 12ms
+2025-07-21 15:57:28 INFO: HTTP GET /api/cart/ [32m200[39m 72ms
+2025-07-21 15:57:44 INFO: HTTP POST /api/orders/place-order [32m201[39m 219ms
+2025-07-21 15:58:05 INFO: HTTP POST /api/cart/add [32m200[39m 81ms
+2025-07-21 15:58:11 INFO: HTTP POST /api/orders/place-order [32m201[39m 46ms
+2025-07-21 15:58:23 INFO: HTTP POST /api/orders/place-order [32m201[39m 94ms
+2025-07-21 15:58:46 INFO: HTTP POST /api/payments/initiate [33m400[39m 72ms
+2025-07-21 15:58:57 INFO: HTTP POST /api/payments/initiate [33m400[39m 67ms
+2025-07-21 15:59:12 INFO: Payment initiated for Order ID: 6. Redirecting to simulated gateway.
+2025-07-21 15:59:12 INFO: HTTP POST /api/payments/initiate [32m200[39m 69ms
+2025-07-21 15:59:26 INFO: HTTP POST /api/payments/verify?Authority=611561561695485Asaldnwo351ujv&Status=OK&orderId=6 [33m404[39m 1ms
+2025-07-21 15:59:33 INFO:  Payment verified and order finalized. Order ID: 6, Tx ID: 611561561695485Asaldnwo351ujv
+2025-07-21 15:59:33 INFO: HTTP GET /api/payments/verify?Authority=611561561695485Asaldnwo351ujv&Status=OK&orderId=6 [32m200[39m 177ms
+2025-07-21 16:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 16:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 16:00:00 INFO: No expired pending orders found.
+2025-07-21 16:09:47 INFO: Server is running on port 3000
+2025-07-21 16:09:47 INFO: Environment: development
+2025-07-21 16:09:47 INFO: Database User: postgres
+2025-07-21 16:09:47 INFO: Database backup scheduler started.
+2025-07-21 16:09:47 INFO: Expired order cleanup scheduler started.
+2025-07-21 16:10:19 INFO: HTTP POST /api/coupons [32m201[39m 301ms
+2025-07-21 16:11:10 INFO: HTTP POST /api/cart/add [32m200[39m 78ms
+2025-07-21 16:11:18 INFO: HTTP GET /api/cart [32m200[39m 16ms
+2025-07-21 16:11:38 INFO: HTTP POST /api/orders/place-order [33m400[39m 74ms
+2025-07-21 16:12:28 INFO: HTTP POST /api/cart/add [32m200[39m 78ms
+2025-07-21 16:12:33 INFO: HTTP GET /api/cart [32m200[39m 7ms
+2025-07-21 16:12:44 INFO: HTTP POST /api/orders/place-order [32m201[39m 114ms
+2025-07-21 16:13:32 INFO: HTTP POST /api/orders/7/cancel [32m200[39m 95ms
+2025-07-21 16:24:34 INFO: Server is running on port 3000
+2025-07-21 16:24:34 INFO: Environment: development
+2025-07-21 16:24:34 INFO: Database User: postgres
+2025-07-21 16:24:34 INFO: Database backup scheduler started.
+2025-07-21 16:24:34 INFO: Expired order cleanup scheduler started.
+2025-07-21 16:24:56 INFO: HTTP GET /api/cart [32m200[39m 225ms
+2025-07-21 16:25:08 INFO: HTTP POST /api/cart/add [32m200[39m 185ms
+2025-07-21 16:25:25 INFO: HTTP POST /api/orders/place-order [32m201[39m 139ms
+2025-07-21 16:25:41 INFO: HTTP GET /api/cart/ [32m200[39m 77ms
+2025-07-21 16:26:05 INFO: HTTP POST /api/orders/8/cancel [32m200[39m 90ms
+2025-07-21 16:39:24 INFO: Server is running on port 3000
+2025-07-21 16:39:24 INFO: Environment: development
+2025-07-21 16:39:24 INFO: Database User: postgres
+2025-07-21 16:39:24 INFO: Database backup scheduler started.
+2025-07-21 16:39:24 INFO: Expired order cleanup scheduler started.
+2025-07-21 16:39:25 INFO: HTTP GET /api/cart/ [32m200[39m 297ms
+2025-07-21 16:41:40 INFO: HTTP PUT /api/cart/7 [32m200[39m 75ms
+2025-07-21 16:41:51 INFO: HTTP PUT /api/cart/8 [32m200[39m 82ms
+2025-07-21 16:41:58 INFO: HTTP GET /api/cart [32m200[39m 6ms
+2025-07-21 16:42:17 INFO: HTTP POST /api/orders/place-order [32m201[39m 143ms
+2025-07-21 16:43:34 INFO: HTTP POST /api/orders/9/cancel [32m200[39m 89ms
+2025-07-21 16:44:32 INFO: HTTP DELETE /api/cart [32m200[39m 83ms
+2025-07-21 16:45:20 INFO: HTTP POST /api/cart/add [32m200[39m 69ms
+2025-07-21 16:45:35 INFO: HTTP GET /api/cart/ [32m200[39m 76ms
+2025-07-21 16:47:26 INFO: HTTP POST /api/orders/place-order [32m201[39m 97ms
+2025-07-21 16:50:02 INFO: Server is running on port 3000
+2025-07-21 16:50:02 INFO: Environment: development
+2025-07-21 16:50:02 INFO: Database User: postgres
+2025-07-21 16:50:02 INFO: Database backup scheduler started.
+2025-07-21 16:50:02 INFO: Expired order cleanup scheduler started.
+2025-07-21 16:50:11 INFO: HTTP DELETE /api/cart/ [32m200[39m 203ms
+2025-07-21 16:50:38 INFO: HTTP POST /api/cart/ [33m404[39m 2ms
+2025-07-21 16:50:49 INFO: HTTP POST /api/cart/add [32m200[39m 83ms
+2025-07-21 16:51:06 INFO: HTTP POST /api/orders/place-order [32m201[39m 119ms
+2025-07-21 16:51:32 INFO: HTTP POST /api/orders/11/cancel [32m200[39m 144ms

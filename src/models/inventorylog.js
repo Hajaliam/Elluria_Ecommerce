@@ -13,12 +13,20 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'changed_by_user_id',
                 as: 'changer'
             });
+            InventoryLog.belongsTo(models.Order, {
+                foreignKey: 'order_id',
+                as: 'order'
+            });
         }
     }
     InventoryLog.init({
         product_id: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        order_id : {
+          type: DataTypes.INTEGER,
+          allowNull: true
         },
         change_type: {
             type: DataTypes.STRING(50),

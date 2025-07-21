@@ -19,6 +19,16 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT' // نباید لاگ حذف شود اگر محصول حذف شود (یا به نوعی مدیریت شود)
       },
+      order_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Orders', // فرض بر اینکه جدول سفارش‌ها اسمش اینه
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
       change_type: { // نوع تغییر (مثلاً 'sale', 'return', 'manual_adjust', 'import')
         type: Sequelize.STRING(50),
         allowNull: false

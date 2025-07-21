@@ -41,8 +41,8 @@ exports.placeOrder = async (req, res) => {
     // محاسبه قیمت کل
     let totalAmount = 0;
     let totalDiscount = 0;
-    let shippingCost = 15000; // 👈 هزینه ارسال پیش‌فرض
-
+    let shippingCost = 10; // 👈 هزینه ارسال پیش‌فرض
+    const orderItemsData = [];
 
     for (const item of cart.cartItems) {
       totalAmount += parseFloat(item.product.price) * item.quantity;
@@ -126,7 +126,6 @@ exports.placeOrder = async (req, res) => {
           return sum + parseFloat(item.product.price) * item.quantity;
         }, 0);
         totalDiscount = (eligibleAmount * parseFloat(coupon.discount_value)) / 100;
-
       } else if (coupon.discount_type === 'fixed_amount') {
         totalDiscount = parseFloat(coupon.discount_value);
 
@@ -145,37 +144,97 @@ exports.placeOrder = async (req, res) => {
     let finalAmount = totalAmount - totalDiscount + shippingCost;
     if (finalAmount < 0)  finalAmount = 0;
 
-    // ثبت سفارش اولیه
-    const newOrder = await Order.create({
-      user_id: userId,
-      status: 'pending',
-      shipping_address_id: shippingAddressId, // 👈 استفاده از shippingAddressId
-      coupon_id: coupon?.id || null,
-      payment_status: 'unpaid',
-      total_amount: finalAmount
-    }, { transaction: t });
+    ///بروز رسانی یا ایجاد سفارش
+    let doReserveFlag;
+    let newOrder = await db.Order.findOne({
+      where: {
+        user_id: userId,
+        payment_status: "unpaid",
+        status: "pending"
+      },
+      transaction: t,
+      lock: t.LOCK.UPDATE
+    });
+    if (newOrder) {
+      await newOrder.update({
+        shipping_address_id: shippingAddressId,
+        coupon_id: coupon?.id || null,
+        total_amount: finalAmount
+      }, { transaction: t });
+      doReserveFlag = false
+    }
 
+    if (!newOrder) {
+      newOrder = await db.Order.create({
+        user_id: userId,
+        status: 'pending',
+        shipping_address_id: shippingAddressId,
+        coupon_id: coupon?.id || null,
+        payment_status: 'unpaid',
+        total_amount: finalAmount
+      }, { transaction: t });
+      doReserveFlag = true
+    }
     // رزرو انبار (کاهش موجودی موقت و ثبت لاگ)
     for (const item of cart.cartItems) {
       const product = await Product.findByPk(item.product_id, { transaction: t });
-
+      const isReservedItem = await db.InventoryLog.findOne({
+          where: {
+            product_id: product.id,
+            order_id: newOrder.id,
+            change_type : "reserve"
+          },
+          transaction: t})
       if (!product || product.stock_quantity < item.quantity) {
         await t.rollback();
         return res.status(400).json({ message: `Insufficient stock for product ${product?.name || item.product_id}` });
       }
 
       const oldStock = product.stock_quantity;
-      product.stock_quantity -= item.quantity;
+      if(!isReservedItem) {
+        orderItemsData.push({
+          product_id: product.id,
+          quantity: item.quantity,
+          price_at_purchase: product.price // ذخیره قیمت در زمان خرید
+        });
+        product.stock_quantity -= item.quantity;
+      }
       await product.save({ transaction: t });
 
-      await db.InventoryLog.create({
-        product_id: product.id,
-        change_type: 'reserve',
-        quantity_change: -item.quantity,
-        old_stock_quantity: oldStock,
-        new_stock_quantity: product.stock_quantity,
-        changed_by_user_id: userId,
-        description: `Order ${newOrder.id} - Reserved ${item.quantity} units of ${product.id} for unpaid order.`,
+
+      await db.InventoryLog.findOrCreate({
+        where: {
+          product_id: product.id,
+          order_id: newOrder.id,
+          change_type: 'reserve'
+        },
+        defaults: {
+          quantity_change: -item.quantity,
+          old_stock_quantity: oldStock,
+          new_stock_quantity: product.stock_quantity,
+          changed_by_user_id: userId,
+          description: `Order ${newOrder.id} - Reserved ${item.quantity} units of ${product.id} for unpaid order.`
+        },
+        transaction: t
+      });
+      // await db.InventoryLog.create({
+      //   product_id: product.id,
+      //   order_id : newOrder.id,
+      //   change_type: 'reserve',
+      //   quantity_change: -item.quantity,
+      //   old_stock_quantity: oldStock,
+      //   new_stock_quantity: product.stock_quantity,
+      //   changed_by_user_id: userId,
+      //   description: `Order ${newOrder.id} - Reserved ${item.quantity} units of ${product.id} for unpaid order.`,
+      // }, { transaction: t });
+      //
+    }
+    for (const itemData of orderItemsData) {
+      await OrderItem.create({
+        order_id: newOrder.id,
+        product_id: itemData.product_id,
+        quantity: itemData.quantity,
+        price_at_purchase: itemData.price_at_purchase
       }, { transaction: t });
     }
 
@@ -184,7 +243,7 @@ exports.placeOrder = async (req, res) => {
     res.status(201).json({
       message: 'Order placed and stock reserved. Awaiting payment...',
       orderId: newOrder.id,
-      totalAmount,
+      totalAmount : finalAmount,
     });
 
   } catch (error) {
@@ -395,6 +454,7 @@ exports.cancelOrder = async (req, res) => {
     }
 
     for (const item of order.orderItems) {
+      console.log("item exist in line : ",444)
       const product = await Product.findByPk(item.product_id, {
         transaction: t,
       });

@@ -142,7 +142,25 @@ exports.verifyPayment = async (req, res) => {
                 changed_by_user_id: order.user_id,
                 description: `Sold ${item.quantity} units for order ${order.id}`
             }, { transaction: t });
+
+            //ثبت لاگ سوابق خرید
+            await db.OrderHistory.create(
+                {
+                    order_id: order.id,
+                    status: 'completed', // 👈 این هم باید پاکسازی شود (اگر از ورودی کاربر می‌آید)
+                    changed_by: userId,
+                    changed_at: new Date(),
+                },
+                { transaction: t },
+            );
         }
+
+        ///خالی کردن سبد خرید
+
+        await CartItem.destroy({
+            where: {cart_id : cart.id},
+            transaction: t
+        })
 
         //5. به روزرسانی تعداد استفاده از کوپن در صورت وجود
         if (order.coupon_id) {
@@ -169,7 +187,7 @@ exports.verifyPayment = async (req, res) => {
 
         await t.commit();
 
-        logger.info(`✅ Payment verified and order finalized. Order ID: ${order.id}, Tx ID: ${Authority}`);
+        logger.info(` Payment verified and order finalized. Order ID: ${order.id}, Tx ID: ${Authority}`);
         res.status(200).json({
             message: 'Payment verified and order finalized.',
             orderId: order.id,
