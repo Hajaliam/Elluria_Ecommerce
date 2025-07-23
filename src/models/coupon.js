@@ -28,6 +28,22 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'coupon_id',
             as: 'userUsages'
         });
+        Coupon.hasMany(models.CouponCategory, {
+            foreignKey: 'coupon_id',
+            as: 'couponCategories'
+        });
+        Coupon.belongsToMany(models.Product, {
+            through: models.CouponProduct,
+            foreignKey: 'coupon_id',
+            otherKey: 'product_id',
+            as: 'products'
+        });
+        Coupon.belongsToMany(models.User, {
+            through: models.UserCoupon,
+            foreignKey: 'coupon_id',
+            otherKey: 'user_id',
+            as: 'users'
+        });
     }
   }
   Coupon.init(

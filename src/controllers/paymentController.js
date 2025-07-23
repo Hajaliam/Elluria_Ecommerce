@@ -54,7 +54,6 @@ exports.initiatePayment = async (req, res) => {
 // این روت توسط درگاه پرداخت (مثلاً زرین‌پال) فراخوانی می‌شود
 exports.verifyPayment = async (req, res) => {
     const { Authority, Status, orderId } = req.query;
-
     if (Status !== 'OK') {
         logger.warn(`Payment verification failed for Order ID: ${orderId}. Status: ${Status}`);
         return res.status(400).json({ message: 'Payment failed or cancelled by user.' });
@@ -144,11 +143,12 @@ exports.verifyPayment = async (req, res) => {
             }, { transaction: t });
 
             //ثبت لاگ سوابق خرید
+
             await db.OrderHistory.create(
                 {
                     order_id: order.id,
                     status: 'completed', // 👈 این هم باید پاکسازی شود (اگر از ورودی کاربر می‌آید)
-                    changed_by: userId,
+                    changed_by: order.user_id,
                     changed_at: new Date(),
                 },
                 { transaction: t },

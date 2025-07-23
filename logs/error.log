@@ -209,3 +209,8 @@ operable program or batch file.
 2025-07-21 15:12:07 ERROR: Unhandled error: invalid csrf token
 2025-07-21 15:52:05 ERROR: Error verifying payment for order 4: Validation error
 2025-07-21 15:55:47 ERROR: Error verifying payment for order 5: Validation error
+2025-07-21 20:40:34 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-21 20:40:34 ERROR: Unhandled error: invalid csrf token
+2025-07-21 21:20:45 ERROR: Error verifying payment for order 15: userId is not defined
+2025-07-21 21:22:28 ERROR: HTTP Error GET /api/payments/verify?Authority=SDF4e6915fvc&Status=OK&orderId=15 200 Cannot read properties of undefined (reading 'id')
+2025-07-21 21:22:28 ERROR: Unhandled error: Cannot read properties of undefined (reading 'id')

@@ -41,6 +41,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'changed_by', // ستونی که به User اشاره می‌کند
         as: 'orderChanges',
       });
+      User.belongsToMany(models.Coupon, {
+           through: models.UserCoupon,
+           foreignKey: 'user_id',
+           otherKey: 'coupon_id',
+           as: 'coupons'
+      });
     }
 
     // متدی برای مقایسه پسورد (در کنترلرها استفاده می‌شود)

@@ -4,21 +4,24 @@ const db = require('../../models');
 const Coupon = db.Coupon;
 const User = db.User; // برای کوپن‌های خصوصی
 const Product = db.Product; // برای کوپن‌های محصول خاص
+const Category = db.Category; //برای کوپن هاید مخصوص دسته بندی های خاص
 const CouponGroup = db.CouponGroup; // برای گروه‌بندی کوپن‌ها
 const Sequelize = db.Sequelize;
+const { getDescendantCategoryIds } = require('../utils/descendantCategoryIds');
 const { sanitizeString } = require('../utils/sanitizer');
 // تابع برای ایجاد کوپن جدید
 exports.createCoupon = async (req, res) => {
   let {
     code, discount_type, discount_value, min_amount, usage_limit,
     expiry_date, isActive, is_first_purchase_only, is_exclusive,
-    max_usage_per_user, coupon_group_id, product_ids, user_ids // فیلدهای جدید و آرایه‌ها
+    max_usage_per_user, coupon_group_id, product_ids, user_ids ,category_ids// فیلدهای جدید و آرایه‌ها
   } = req.body;
 
   try {
     // 1. پاکسازی و اعتبارسنجی اولیه
     const sanitizedCode = sanitizeString(code);
     const sanitizedDiscountType = sanitizeString(discount_type);
+    const allCategories = await Category.findAll({ attributes: ['id', 'parent_id'] });
 
     if (!sanitizedCode || !sanitizedDiscountType || discount_value === undefined) {
       return res.status(400).json({ message: 'Missing required fields: code, discount_type, discount_value.' });
@@ -32,10 +35,21 @@ exports.createCoupon = async (req, res) => {
     if (min_amount && isNaN(parseFloat(min_amount))) {
       return res.status(400).json({ message: 'min_amount must be a number.' });
     }
+    if (category_ids && category_ids.length > 0) {
+      const expandedCategoryIds = new Set();
+
+      for (const categoryId of category_ids) {
+        const allChildIds = getDescendantCategoryIds(categoryId, allCategories);
+        allChildIds.forEach(id => expandedCategoryIds.add(id));
+      }
+
+      category_ids = [...expandedCategoryIds];
+    }
+
 
 
     // 2. بررسی وجود کوپن با کد تکراری
-    const existingCoupon = await Coupon.findOne({ where: { code: sanitizedCode } });
+    const existingCoupon = await Coupon.findOne({ where: { code: sanitizedCode } ,transaction: t});
     if (existingCoupon) {
       return res.status(409).json({ message: 'Coupon with this code already exists.' });
     }
@@ -72,7 +86,7 @@ exports.createCoupon = async (req, res) => {
         await newCoupon.destroy(); // کوپن را حذف کن اگر همه محصولات پیدا نشدند
         return res.status(404).json({ message: 'One or more specified products for coupon not found.' });
       }
-      await newCoupon.setCouponProducts(products); // ایجاد ارتباط Many-to-Many
+      await newCoupon.setProducts(products.map(p => p.id)); // ایجاد ارتباط Many-to-Many
     }
 
     // 6. ایجاد ارتباط با کاربران خاص (UserCoupons)
@@ -82,7 +96,16 @@ exports.createCoupon = async (req, res) => {
         await newCoupon.destroy(); // کوپن را حذف کن اگر همه کاربران پیدا نشدند
         return res.status(404).json({ message: 'One or more specified users for coupon not found.' });
       }
-      await newCoupon.setUserCoupons(users); // ایجاد ارتباط Many-to-Many
+      await newCoupon.setUsers(users.map(user => user.id)); // ایجاد ارتباط Many-to-Many
+    }
+    /// ایجاد ارتباط با دسته بندی خاص
+    if (category_ids && category_ids.length > 0) {
+      const categories = await Category.findAll({ where: { id: category_ids } });
+      if (categories.length !== category_ids.length) {
+        await newCoupon.destroy(); // حذف کوپن اگر دسته‌ای پیدا نشد
+        return res.status(404).json({ message: 'One or more specified categories for coupon not found.' });
+      }
+      await newCoupon.setCategories(categories.map(cat => cat.id)); // اتصال Many-to-Many
     }
 
 
@@ -197,9 +220,9 @@ exports.updateCoupon = async (req, res) => {
       if (products.length !== product_ids.length) {
         return res.status(404).json({ message: 'One or more specified products for coupon not found.' });
       }
-      await coupon.setCouponProducts(products); // به‌روزرسانی ارتباط Many-to-Many
+      await coupon.setProducts(products.map(p => p.id)); // به‌روزرسانی ارتباط Many-to-Many
     } else if (product_ids === null || product_ids === []) { // اگر product_ids به صراحت خالی ارسال شد، همه را حذف کن
-      await coupon.setCouponProducts([]);
+      await coupon.setProducts([]);
     }
 
     // 5. به‌روزرسانی ارتباط با کاربران خاص (UserCoupons)

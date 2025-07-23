@@ -7,11 +7,13 @@ const { sanitizeString } = require('../utils/sanitizer'); // 👈 این خط ر
 
 // تابع برای ایجاد دسته‌بندی جدید
 exports.createCategory = async (req, res) => {
-  let { name, description } = req.body; // 👈 از let استفاده کنید
+  let { name, description , parent_id} = req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی به فیلدهای متنی
   name = sanitizeString(name);
   description = sanitizeString(description);
+
+  const parentIdInt = parent_id ? parseInt(parent_id) : null;
 
   try {
     // بررسی وجود دسته‌بندی با نام تکراری
@@ -21,8 +23,14 @@ exports.createCategory = async (req, res) => {
         .status(409)
         .json({ message: 'Category with this name already exists.' });
     }
+    if (parentIdInt) {
+      const parentExists = await Category.findByPk(parentIdInt);
+      if (!parentExists) {
+        return res.status(400).json({ message: 'Parent category not found.' });
+      }
+    }
 
-    const newCategory = await Category.create({ name, description });
+    const newCategory = await Category.create({ name, description , parentIdInt });
     res.status(201).json({
       message: 'Category created successfully!',
       category: newCategory,
@@ -39,12 +47,29 @@ exports.createCategory = async (req, res) => {
 // تابع برای دریافت لیست همه دسته‌بندی‌ها
 exports.getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.findAll();
-    res.status(200).json({ categories: categories });
+    // مرحله اول: همه دسته‌ها رو بگیر
+    const categories = await Category.findAll({
+      raw: true,
+      order: [['id', 'ASC']],
+    });
+
+    // مرحله دوم: دسته‌ها رو به شکل درختی بساز
+    const buildTree = (items, parentId = null) => {
+      return items
+          .filter(item => item.parent_id === parentId)
+          .map(item => ({
+            ...item,
+            children: buildTree(items, item.id),
+          }));
+    };
+
+    const tree = buildTree(categories);
+
+    res.status(200).json({ categories: tree });
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('Error building category tree:', error);
     res.status(500).json({
-      message: 'Server error fetching categories',
+      message: 'Server error fetching category tree',
       error: error.message,
     });
   }
@@ -52,16 +77,32 @@ exports.getAllCategories = async (req, res) => {
 
 // تابع برای دریافت یک دسته‌بندی بر اساس ID
 exports.getCategoryById = async (req, res) => {
-  const { id } = req.params; // ID از پارامترهای URL گرفته می‌شود
+  const { id } = req.params;
 
   try {
-    const category = await Category.findByPk(id);
+    // اول بررسی وجود دسته‌بندی
+    const category = await Category.findByPk(id, { raw: true });
     if (!category) {
       return res.status(404).json({ message: 'Category not found.' });
     }
-    res.status(200).json({ category: category });
+
+    // همه دسته‌ها رو بگیر برای ساخت درخت
+    const allCategories = await Category.findAll({ raw: true });
+
+    // تابع بازگشتی برای ساخت children
+    const buildTree = (parent) => {
+      const children = allCategories.filter(cat => cat.parent_id === parent.id);
+      return {
+        ...parent,
+        children: children.map(child => buildTree(child)),
+      };
+    };
+
+    const categoryTree = buildTree(category);
+
+    res.status(200).json({ category: categoryTree });
   } catch (error) {
-    console.error('Error fetching category by ID:', error);
+    console.error('Error fetching category with children:', error);
     res.status(500).json({
       message: 'Server error fetching category',
       error: error.message,
@@ -72,11 +113,18 @@ exports.getCategoryById = async (req, res) => {
 // تابع برای به‌روزرسانی یک دسته‌بندی
 exports.updateCategory = async (req, res) => {
   const { id } = req.params;
-  let { name, description } = req.body; // 👈 از let استفاده کنید
+  let { name, description , parent_id } = req.body; // 👈 از let استفاده کنید
 
+  //چک کردن این که آیا واقعا آیدی والد عدد هست یا نه
+  const parentIdInt = parent_id ? parseInt(parent_id) : null;
+  //جلوگیری از circular reference
+  if (parent_id && parseInt(parent_id) === parseInt(id)) {
+    return res.status(400).json({ message: 'A category cannot be its own parent.' });
+  }
   // 👈 اعمال پاکسازی به فیلدهای متنی
   if (name) name = sanitizeString(name);
   if (description) description = sanitizeString(description);
+
 
   try {
     const category = await Category.findByPk(id);
@@ -98,6 +146,7 @@ exports.updateCategory = async (req, res) => {
 
     category.name = name || category.name; // اگر نام جدیدی ارسال شد، به‌روزرسانی کن
     category.description = description || category.description; // اگر توضیحات جدیدی ارسال شد، به‌روزرسانی کن
+    category.parent_id = parentIdInt || category.parent_id // اگر والد جدیدی اضافه شد ، به روزرسانی کن
     await category.save(); // ذخیره تغییرات در دیتابیس
 
     res

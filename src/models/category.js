@@ -8,12 +8,33 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'category_id',
         as: 'products',
       });
+      Category.hasMany(models.CouponCategory, {
+        foreignKey: 'category_id',
+        as: 'couponCategories'
+      });
+      Category.belongsTo(models.Category, {
+        foreignKey: 'parent_id',
+        as: 'parent',
+      });
+      Category.hasMany(models.Category, {
+        foreignKey: 'parent_id',
+        as: 'children',
+      });
     }
   }
   Category.init(
     {
       name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
       description: { type: DataTypes.TEXT },
+      parent_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Categories', // توجه: باید با نام جدولت (tableName) بخونه
+          key: 'id',
+        },
+        onDelete: 'SET NULL', // یا CASCADE، بستگی به نیازت داره
+      }
     },
     {
       sequelize,

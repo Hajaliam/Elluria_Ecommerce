@@ -9,6 +9,7 @@ const OrderItem = db.OrderItem;
 const Address = db.Address; // برای بررسی آدرس ارسال
 const Coupon = db.Coupon; // برای اعمال کوپن
 const Sequelize = db.Sequelize;
+const { Op } = require('sequelize');
 const { sanitizeString } = require('../utils/sanitizer');
 const logger = require('../config/logger');
 
@@ -86,7 +87,12 @@ exports.placeOrder = async (req, res) => {
       // کوپن مخصوص خرید اول
       if (coupon.is_first_purchase_only) {
         const existingOrders = await db.Order.count({
-          where: { user_id: userId },
+          where: {
+            user_id: userId ,
+            status: {
+              [Op.ne]: 'cancelled'
+            }
+          },
           transaction: t,
         });
         if (existingOrders > 0) {
@@ -105,11 +111,14 @@ exports.placeOrder = async (req, res) => {
       }
 
       // کوپن مخصوص محصولات خاص
+
       let allowedCartItems = cart.cartItems;
 
       if (coupon.couponProducts?.length > 0) {
+        console.log("I'm running ...")
         const allowedProductIds = coupon.couponProducts.map(cp => cp.product_id);
-
+        console.log(allowedProductIds)
+        console.log("All cart items product_ids:", cart.cartItems.map(i => i.product_id));
         allowedCartItems = cart.cartItems.filter(item =>
             allowedProductIds.includes(item.product_id)
         );
@@ -142,10 +151,13 @@ exports.placeOrder = async (req, res) => {
 
     }
     let finalAmount = totalAmount - totalDiscount + shippingCost;
+    console.log("Final Amount: ", finalAmount);
+    console.log("Total Discount: ", totalDiscount);
+    console.log("total amount: ", totalAmount);
     if (finalAmount < 0)  finalAmount = 0;
 
     ///بروز رسانی یا ایجاد سفارش
-    let doReserveFlag;
+
     let newOrder = await db.Order.findOne({
       where: {
         user_id: userId,
@@ -161,7 +173,7 @@ exports.placeOrder = async (req, res) => {
         coupon_id: coupon?.id || null,
         total_amount: finalAmount
       }, { transaction: t });
-      doReserveFlag = false
+
     }
 
     if (!newOrder) {
@@ -173,7 +185,7 @@ exports.placeOrder = async (req, res) => {
         payment_status: 'unpaid',
         total_amount: finalAmount
       }, { transaction: t });
-      doReserveFlag = true
+
     }
     // رزرو انبار (کاهش موجودی موقت و ثبت لاگ)
     for (const item of cart.cartItems) {

@@ -541,3 +541,223 @@
 2025-07-21 16:50:49 INFO: HTTP POST /api/cart/add [32m200[39m 83ms
 2025-07-21 16:51:06 INFO: HTTP POST /api/orders/place-order [32m201[39m 119ms
 2025-07-21 16:51:32 INFO: HTTP POST /api/orders/11/cancel [32m200[39m 144ms
+2025-07-21 20:39:30 INFO: Server is running on port 3000
+2025-07-21 20:39:30 INFO: Environment: development
+2025-07-21 20:39:30 INFO: Database User: postgres
+2025-07-21 20:39:31 INFO: Database backup scheduler started.
+2025-07-21 20:39:31 INFO: Expired order cleanup scheduler started.
+2025-07-21 20:39:56 INFO: HTTP GET /api-docs/ [32m200[39m 13ms
+2025-07-21 20:39:57 INFO: HTTP GET /api-docs/ [36m304[39m 1ms
+2025-07-21 20:39:57 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 1ms
+2025-07-21 20:39:57 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 19ms
+2025-07-21 20:39:57 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 18ms
+2025-07-21 20:39:57 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 35ms
+2025-07-21 20:39:58 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 3ms
+2025-07-21 20:40:34 ERROR: HTTP Error POST /api/users/register 200 invalid csrf token
+2025-07-21 20:40:34 ERROR: Unhandled error: invalid csrf token
+2025-07-21 20:40:34 INFO: HTTP POST /api/users/register [33m403[39m 16ms
+2025-07-21 20:40:38 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-21 20:40:50 INFO: HTTP POST /api/users/register [32m201[39m 911ms
+2025-07-21 20:41:27 INFO: HTTP POST /api/users/login [32m200[39m 173ms
+2025-07-21 20:42:46 INFO: HTTP POST /api/users/login [32m200[39m 145ms
+2025-07-21 20:43:11 INFO: HTTP POST /api/coupons [32m201[39m 80ms
+2025-07-21 20:43:28 INFO: HTTP POST /api/cart/add [32m200[39m 101ms
+2025-07-21 20:44:39 INFO: New session_id generated and set: 380a5937-a652-4771-92be-449c33abb8c4
+2025-07-21 20:44:39 INFO: HTTP POST /api/orders/place-order [32m201[39m 247ms
+2025-07-21 20:47:01 INFO: HTTP GET /api/cart/ [32m200[39m 72ms
+2025-07-21 21:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 21:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 21:00:00 INFO: No expired pending orders found.
+2025-07-21 21:02:58 INFO: Server is running on port 3000
+2025-07-21 21:02:58 INFO: Environment: development
+2025-07-21 21:02:58 INFO: Database User: postgres
+2025-07-21 21:02:58 INFO: Database backup scheduler started.
+2025-07-21 21:02:58 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:03:02 INFO: HTTP POST /api/orders/place-order [33m400[39m 365ms
+2025-07-21 21:03:56 INFO: HTTP POST /api/orders/place-order [32m201[39m 150ms
+2025-07-21 21:04:43 INFO: Server is running on port 3000
+2025-07-21 21:04:43 INFO: Environment: development
+2025-07-21 21:04:43 INFO: Database User: postgres
+2025-07-21 21:04:44 INFO: Database backup scheduler started.
+2025-07-21 21:04:44 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:04:55 INFO: HTTP POST /api/orders/place-order [32m201[39m 250ms
+2025-07-21 21:05:44 INFO: HTTP POST /api/orders/14/cancel [32m200[39m 163ms
+2025-07-21 21:06:01 INFO: HTTP POST /api/cart/add [32m200[39m 79ms
+2025-07-21 21:06:08 INFO: HTTP GET /api/cart [32m200[39m 9ms
+2025-07-21 21:07:05 INFO: HTTP DELETE /api/cart [32m200[39m 65ms
+2025-07-21 21:07:08 INFO: HTTP GET /api/cart [32m200[39m 10ms
+2025-07-21 21:07:20 INFO: HTTP POST /api/cart/add [32m200[39m 85ms
+2025-07-21 21:07:27 INFO: HTTP GET /api/cart [32m200[39m 7ms
+2025-07-21 21:15:36 INFO: HTTP POST /api/coupons [32m201[39m 83ms
+2025-07-21 21:17:29 INFO: HTTP GET /api/cart [32m200[39m 168ms
+2025-07-21 21:17:55 INFO: HTTP POST /api/orders/place-order [32m201[39m 107ms
+2025-07-21 21:19:34 INFO: HTTP POST /api/payments/initiate [33m403[39m 69ms
+2025-07-21 21:19:53 INFO: Payment initiated for Order ID: 15. Redirecting to simulated gateway.
+2025-07-21 21:19:53 INFO: HTTP POST /api/payments/initiate [32m200[39m 81ms
+2025-07-21 21:20:45 ERROR: Error verifying payment for order 15: userId is not defined
+2025-07-21 21:20:45 INFO: HTTP GET /api/payments/verify?Authority=SDF4e6915fvc&Status=OK&orderId=15 [31m500[39m 95ms
+2025-07-21 21:22:25 INFO: Server is running on port 3000
+2025-07-21 21:22:25 INFO: Environment: development
+2025-07-21 21:22:25 INFO: Database User: postgres
+2025-07-21 21:22:25 INFO: Database backup scheduler started.
+2025-07-21 21:22:25 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:22:28 ERROR: HTTP Error GET /api/payments/verify?Authority=SDF4e6915fvc&Status=OK&orderId=15 200 Cannot read properties of undefined (reading 'id')
+2025-07-21 21:22:28 ERROR: Unhandled error: Cannot read properties of undefined (reading 'id')
+2025-07-21 21:22:28 INFO: HTTP GET /api/payments/verify?Authority=SDF4e6915fvc&Status=OK&orderId=15 [31m500[39m 10ms
+2025-07-21 21:24:17 INFO: Server is running on port 3000
+2025-07-21 21:24:17 INFO: Environment: development
+2025-07-21 21:24:17 INFO: Database User: postgres
+2025-07-21 21:24:17 INFO: Database backup scheduler started.
+2025-07-21 21:24:17 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:24:22 INFO:  Payment verified and order finalized. Order ID: 15, Tx ID: SDF4e6915fvc
+2025-07-21 21:24:22 INFO: HTTP GET /api/payments/verify?Authority=SDF4e6915fvc&Status=OK&orderId=15 [32m200[39m 235ms
+2025-07-21 21:24:49 INFO: HTTP POST /api/cart/add [32m200[39m 89ms
+2025-07-21 21:25:00 INFO: HTTP POST /api/orders/place-order [32m201[39m 191ms
+2025-07-21 21:26:16 INFO: HTTP GET /api/payments/initiate [33m404[39m 3ms
+2025-07-21 21:26:20 INFO: Payment initiated for Order ID: 16. Redirecting to simulated gateway.
+2025-07-21 21:26:20 INFO: HTTP POST /api/payments/initiate [32m200[39m 70ms
+2025-07-21 21:26:39 INFO:  Payment verified and order finalized. Order ID: 16, Tx ID: SDF4e6915fvc12
+2025-07-21 21:26:39 INFO: HTTP GET /api/payments/verify?Authority=SDF4e6915fvc12&Status=OK&orderId=16 [32m200[39m 107ms
+2025-07-21 21:27:05 INFO: HTTP POST /api/cart/add [32m200[39m 76ms
+2025-07-21 21:27:10 INFO: HTTP POST /api/orders/place-order [33m400[39m 16ms
+2025-07-21 21:28:22 INFO: HTTP POST /api/coupons [31m500[39m 124ms
+2025-07-21 21:35:59 INFO: Server is running on port 3000
+2025-07-21 21:35:59 INFO: Environment: development
+2025-07-21 21:35:59 INFO: Database User: postgres
+2025-07-21 21:35:59 INFO: Database backup scheduler started.
+2025-07-21 21:35:59 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:36:03 INFO: HTTP POST /api/coupons [33m409[39m 186ms
+2025-07-21 21:37:04 INFO: HTTP POST /api/coupons [32m201[39m 87ms
+2025-07-21 21:44:22 INFO: Server is running on port 3000
+2025-07-21 21:44:22 INFO: Environment: development
+2025-07-21 21:44:22 INFO: Database User: postgres
+2025-07-21 21:44:22 INFO: Database backup scheduler started.
+2025-07-21 21:44:22 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:44:40 INFO: HTTP POST /api/coupons [32m201[39m 189ms
+2025-07-21 21:45:16 INFO: HTTP GET /api/cart [32m200[39m 74ms
+2025-07-21 21:45:34 INFO: HTTP DELETE /api/cart [32m200[39m 77ms
+2025-07-21 21:45:38 INFO: HTTP GET /api/cart [32m200[39m 9ms
+2025-07-21 21:45:50 INFO: HTTP GET /api/cart/add [33m404[39m 2ms
+2025-07-21 21:45:54 INFO: HTTP POST /api/cart/add [32m200[39m 74ms
+2025-07-21 21:46:14 INFO: HTTP POST /api/orders/place-order [32m201[39m 111ms
+2025-07-21 21:46:41 INFO: HTTP POST /api/orders/17/cancel [32m200[39m 164ms
+2025-07-21 21:46:57 INFO: HTTP POST /api/cart/add [32m200[39m 76ms
+2025-07-21 21:47:08 INFO: HTTP POST /api/orders/place-order [32m201[39m 104ms
+2025-07-21 21:51:01 INFO: Server is running on port 3000
+2025-07-21 21:51:01 INFO: Environment: development
+2025-07-21 21:51:01 INFO: Database User: postgres
+2025-07-21 21:51:01 INFO: Database backup scheduler started.
+2025-07-21 21:51:01 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:51:06 INFO: HTTP POST /api/orders/place-order [32m201[39m 350ms
+2025-07-21 21:54:31 INFO: Server is running on port 3000
+2025-07-21 21:54:31 INFO: Environment: development
+2025-07-21 21:54:31 INFO: Database User: postgres
+2025-07-21 21:54:31 INFO: Database backup scheduler started.
+2025-07-21 21:54:31 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:54:40 INFO: HTTP POST /api/orders/place-order [32m201[39m 225ms
+2025-07-21 21:55:31 INFO: Server is running on port 3000
+2025-07-21 21:55:31 INFO: Environment: development
+2025-07-21 21:55:31 INFO: Database User: postgres
+2025-07-21 21:55:31 INFO: Database backup scheduler started.
+2025-07-21 21:55:31 INFO: Expired order cleanup scheduler started.
+2025-07-21 21:56:07 INFO: HTTP GET /api/cart [32m200[39m 196ms
+2025-07-21 21:56:28 INFO: HTTP DELETE /api/cart/14 [32m200[39m 82ms
+2025-07-21 21:56:36 INFO: HTTP GET /api/cart [32m200[39m 10ms
+2025-07-21 21:56:43 INFO: HTTP POST /api/orders/place-order [33m400[39m 25ms
+2025-07-21 21:57:06 INFO: HTTP GET /api/cart/add [33m404[39m 2ms
+2025-07-21 21:57:09 INFO: HTTP POST /api/cart/add [32m200[39m 86ms
+2025-07-21 21:57:13 INFO: HTTP POST /api/orders/place-order [32m201[39m 40ms
+2025-07-21 21:57:23 INFO: HTTP GET /api/cart [32m200[39m 7ms
+2025-07-21 21:59:53 INFO: HTTP POST /api/orders/18/cancel [32m200[39m 171ms
+2025-07-21 22:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 22:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 22:00:00 INFO: No expired pending orders found.
+2025-07-21 22:00:49 INFO: HTTP POST /api/coupons [31m500[39m 199ms
+2025-07-21 22:08:37 INFO: Server is running on port 3000
+2025-07-21 22:08:37 INFO: Environment: development
+2025-07-21 22:08:37 INFO: Database User: postgres
+2025-07-21 22:08:37 INFO: Database backup scheduler started.
+2025-07-21 22:08:37 INFO: Expired order cleanup scheduler started.
+2025-07-21 22:08:41 INFO: HTTP POST /api/coupons [33m409[39m 171ms
+2025-07-21 22:08:59 INFO: HTTP POST /api/coupons [32m201[39m 97ms
+2025-07-21 22:09:09 INFO: HTTP GET /api/cart [32m200[39m 76ms
+2025-07-21 22:09:28 INFO: HTTP POST /api/orders/18/cancel [33m400[39m 86ms
+2025-07-21 22:09:45 INFO: HTTP POST /api/orders/place-order [33m400[39m 87ms
+2025-07-21 22:10:17 INFO: HTTP GET /api/cart [32m200[39m 86ms
+2025-07-21 22:10:25 INFO: HTTP POST /api/cart/add [32m200[39m 15ms
+2025-07-21 22:10:33 INFO: HTTP POST /api/orders/place-order [32m201[39m 46ms
+2025-07-21 22:10:47 INFO: HTTP POST /api/orders/19/cancel [32m200[39m 166ms
+2025-07-21 22:11:26 INFO: HTTP POST /api/coupons [32m201[39m 171ms
+2025-07-21 22:11:50 INFO: Free shipping coupon applied. Shipping cost set to 0
+2025-07-21 22:11:50 INFO: HTTP POST /api/orders/place-order [32m201[39m 98ms
+2025-07-21 23:00:00 INFO: Triggering expired order cleanup.
+2025-07-21 23:00:00 INFO: Running expired orders cleanup job...
+2025-07-21 23:00:00 INFO: No expired pending orders found.
+2025-07-22 00:00:00 INFO: Running daily database backup...
+2025-07-22 00:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 00:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 00:00:00 INFO: No expired pending orders found.
+2025-07-22 00:00:01 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Lamora_project\backups\elluria_20250722_000000.sql
+2025-07-22 01:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 01:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 01:00:00 INFO: No expired pending orders found.
+2025-07-22 02:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 02:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 02:00:00 INFO: No expired pending orders found.
+2025-07-22 03:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 03:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 03:00:00 INFO: No expired pending orders found.
+2025-07-22 04:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 04:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 04:00:00 INFO: No expired pending orders found.
+2025-07-22 05:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 05:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 05:00:00 INFO: No expired pending orders found.
+2025-07-22 06:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 06:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 06:00:00 INFO: No expired pending orders found.
+2025-07-22 07:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 07:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 07:00:00 INFO: No expired pending orders found.
+2025-07-22 08:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 08:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 08:00:00 INFO: No expired pending orders found.
+2025-07-22 09:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 09:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 09:00:00 INFO: No expired pending orders found.
+2025-07-22 10:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 10:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 10:00:00 INFO: No expired pending orders found.
+2025-07-22 11:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 11:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 11:00:00 INFO: No expired pending orders found.
+2025-07-22 12:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 12:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 12:00:00 INFO: No expired pending orders found.
+2025-07-22 13:06:26 INFO: Server is running on port 3000
+2025-07-22 13:06:26 INFO: Environment: development
+2025-07-22 13:06:26 INFO: Database User: postgres
+2025-07-22 13:06:26 INFO: Database backup scheduler started.
+2025-07-22 13:06:26 INFO: Expired order cleanup scheduler started.
+2025-07-22 13:07:19 INFO: New session_id generated and set: d6dd463d-7798-4627-8f9d-b7b3008f6472
+2025-07-22 13:07:19 INFO: HTTP GET /api/api/categories [33m404[39m 5ms
+2025-07-22 13:07:51 INFO: HTTP GET /api/categories [32m200[39m 153ms
+2025-07-22 13:09:03 INFO: Server is running on port 3000
+2025-07-22 13:09:03 INFO: Environment: development
+2025-07-22 13:09:03 INFO: Database User: postgres
+2025-07-22 13:09:03 INFO: Database backup scheduler started.
+2025-07-22 13:09:03 INFO: Expired order cleanup scheduler started.
+2025-07-22 13:09:04 INFO: HTTP GET /api/categories [32m200[39m 158ms
+2025-07-22 13:16:59 INFO: HTTP GET /api/categories/3 [32m200[39m 67ms
+2025-07-22 13:17:08 INFO: Server is running on port 3000
+2025-07-22 13:17:08 INFO: Environment: development
+2025-07-22 13:17:08 INFO: Database User: postgres
+2025-07-22 13:17:08 INFO: Database backup scheduler started.
+2025-07-22 13:17:08 INFO: Expired order cleanup scheduler started.
+2025-07-22 13:17:10 INFO: HTTP GET /api/categories/3 [32m200[39m 171ms
+2025-07-22 15:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 15:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 15:00:00 INFO: No expired pending orders found.
+2025-07-22 16:00:00 INFO: Triggering expired order cleanup.
+2025-07-22 16:00:00 INFO: Running expired orders cleanup job...
+2025-07-22 16:00:00 INFO: No expired pending orders found.
