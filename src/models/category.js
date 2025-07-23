@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'parent_id',
         as: 'children',
       });
+      Category.belongsToMany(models.Coupon, {
+        through: models.CouponCategory,
+        foreignKey: 'category_id',
+        otherKey: 'coupon_id',
+        as: 'coupons'
+      });
     }
   }
   Category.init(

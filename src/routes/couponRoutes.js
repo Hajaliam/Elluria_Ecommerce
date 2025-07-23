@@ -26,7 +26,7 @@ const router = express.Router();
  *           example: NEWYEAR2025
  *         discount_type:
  *           type: string
- *           enum: [percentage, fixed_amount]
+ *           enum: [percentage, fixed_amount, free_shipping]
  *           example: percentage
  *         discount_value:
  *           type: number
@@ -48,6 +48,33 @@ const router = express.Router();
  *         isActive:
  *           type: boolean
  *           example: true
+ *         is_first_purchase_only:
+ *           type: boolean
+ *           example: false
+ *         is_exclusive:
+ *           type: boolean
+ *           example: false
+ *         max_usage_per_user:
+ *           type: integer
+ *           example: 1
+ *         coupon_group_id:
+ *           type: integer
+ *           example: 2
+ *         product_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [1, 3]
+ *         user_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [4, 5]
+ *         category_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [2, 6]
  *
  *     Coupon:
  *       type: object
@@ -60,6 +87,7 @@ const router = express.Router();
  *           example: NEWYEAR2025
  *         discount_type:
  *           type: string
+ *           enum: [percentage, fixed_amount, free_shipping]
  *           example: percentage
  *         discount_value:
  *           type: number
@@ -84,6 +112,33 @@ const router = express.Router();
  *         isActive:
  *           type: boolean
  *           example: true
+ *         is_first_purchase_only:
+ *           type: boolean
+ *           example: false
+ *         is_exclusive:
+ *           type: boolean
+ *           example: false
+ *         max_usage_per_user:
+ *           type: integer
+ *           example: 1
+ *         coupon_group_id:
+ *           type: integer
+ *           example: 2
+ *         product_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [1, 3]
+ *         user_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [4, 5]
+ *         category_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [2, 6]
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -95,9 +150,12 @@ const router = express.Router();
 /**
  * @swagger
  * /api/coupons:
- *    post:
+ *   post:
  *     summary: Create a new coupon (Admin only)
  *     tags: [Coupons]
+ *     description: >
+ *       Creates a new coupon with optional restrictions such as product-specific, user-specific,
+ *       category-specific (with automatic inclusion of subcategories), usage limits, and free shipping.
  *     security:
  *       - bearerAuth: []
  *       - csrfToken: []
@@ -114,10 +172,10 @@ const router = express.Router();
  *             properties:
  *               code:
  *                 type: string
- *                 example: SUMMER2024
+ *                 example: SUMMER2025
  *               discount_type:
  *                 type: string
- *                 enum: [percentage, fixed]
+ *                 enum: [percentage, fixed_amount, free_shipping]
  *                 example: percentage
  *               discount_value:
  *                 type: number
@@ -138,15 +196,56 @@ const router = express.Router();
  *               is_first_purchase_only:
  *                 type: boolean
  *                 example: false
+ *               is_exclusive:
+ *                 type: boolean
+ *                 example: true
+ *               max_usage_per_user:
+ *                 type: integer
+ *                 example: 1
+ *               coupon_group_id:
+ *                 type: integer
+ *                 example: 2
+ *               max_discount_amount:
+ *                 type: integer
+ *                 example: 100
+ *               product_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [101, 102]
+ *               user_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2]
+ *               category_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [5, 6]
  *     responses:
  *       201:
  *         description: Coupon created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Coupon created successfully!
+ *                 coupon:
+ *                   $ref: '#/components/schemas/Coupon'
  *       400:
- *         description: Bad Request
+ *         description: Bad Request - missing or invalid fields
  *       401:
  *         description: Unauthorized
  *       403:
  *         description: Forbidden
+ *       404:
+ *         description: Not Found - product/user/category not found
+ *       409:
+ *         description: Conflict - duplicate coupon code
  *       500:
  *         description: Server error
  */
@@ -231,30 +330,37 @@ router.get(
 
 /**
  * @swagger
- * /api/coupons/{code}:
+ * /api/coupons/{id}:
  *   put:
- *     summary: Update an existing coupon by code (Admin only)
+ *     summary: Update an existing coupon by ID (Admin only)
  *     tags : [Coupons]
  *     security:
  *       - bearerAuth: []
  *       - csrfToken: []
  *     parameters:
  *       - in: path
- *         name: code
+ *         name: id
  *         required: true
  *         schema:
- *           type: string
- *         description: The unique coupon code (e.g. SUMMER2024)
+ *           type: integer
+ *         description: The ID of the coupon to update
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - code
+ *               - discount_type
+ *               - discount_value
  *             properties:
+ *               code:
+ *                 type: string
+ *                 example: SUMMER2024
  *               discount_type:
  *                 type: string
- *                 enum: [percentage, fixed]
+ *                 enum: [percentage, fixed_amount, free_shipping]
  *                 example: percentage
  *               discount_value:
  *                 type: number
@@ -275,6 +381,33 @@ router.get(
  *               is_first_purchase_only:
  *                 type: boolean
  *                 example: false
+ *               is_exclusive:
+ *                 type: boolean
+ *                 example: false
+ *               max_usage_per_user:
+ *                 type: integer
+ *                 example: 2
+ *               coupon_group_id:
+ *                 type: integer
+ *                 example: 3
+ *               max_discount_amount:
+ *                 type: integer
+ *                 example: 100
+ *               product_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
+ *               user_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [5, 10]
+ *               category_ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [7, 12]
  *     responses:
  *       200:
  *         description: Coupon updated successfully
@@ -290,7 +423,7 @@ router.get(
  *         description: Server error
  */
 router.put(
-  '/:code',
+  '/:id',
   authMiddleware.authenticateToken,
   authMiddleware.authorizeRoles('admin'),
   couponController.updateCoupon,

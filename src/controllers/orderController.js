@@ -4,6 +4,7 @@ const db = require('../../models');
 const Cart = db.Cart;
 const CartItem = db.CartItem;
 const Product = db.Product;
+const Category = db.Category;
 const Order = db.Order;
 const OrderItem = db.OrderItem;
 const Address = db.Address; // برای بررسی آدرس ارسال
@@ -29,7 +30,11 @@ exports.placeOrder = async (req, res) => {
       include: {
         model: CartItem,
         as: 'cartItems',
-        include: ['product']
+        include: [{
+          model: Product,
+          as: 'product',
+          include: [{ model: Category, as: 'category' }] // 👈 اضافه کردن include برای Category
+        }]
       },
       transaction: t
     });
@@ -55,7 +60,9 @@ exports.placeOrder = async (req, res) => {
         where: { code: couponCode, isActive: true },
         include: [
           { model: db.CouponProduct, as: 'couponProducts' },
-          { model: db.UserCoupon, as: 'userCoupons' }
+          { model: db.UserCoupon, as: 'userCoupons' },
+          { model: db.UserCouponUsage, as: 'userUsages' },
+          { model: db.CouponCategory, as: 'couponCategories' }
         ],
         transaction: t
       });
@@ -111,14 +118,9 @@ exports.placeOrder = async (req, res) => {
       }
 
       // کوپن مخصوص محصولات خاص
-
       let allowedCartItems = cart.cartItems;
-
       if (coupon.couponProducts?.length > 0) {
-        console.log("I'm running ...")
         const allowedProductIds = coupon.couponProducts.map(cp => cp.product_id);
-        console.log(allowedProductIds)
-        console.log("All cart items product_ids:", cart.cartItems.map(i => i.product_id));
         allowedCartItems = cart.cartItems.filter(item =>
             allowedProductIds.includes(item.product_id)
         );
@@ -129,12 +131,32 @@ exports.placeOrder = async (req, res) => {
         }
       }
 
+      // 👈 اعتبارسنجی: کوپن مخصوص دسته‌بندی محصولات خاص 👈 منطق جدید
+      if (coupon.couponCategories && coupon.couponCategories.length > 0) {
+        const allowedCategoryIds = coupon.couponCategories.map(cc => cc.category_id);
+        allowedCartItems = cart.cartItems.filter(item =>
+            allowedCategoryIds.includes(item.product.category_id)
+        );
+
+        if (allowedCartItems.length < 1) {
+          await t.rollback();
+          return res.status(400).json({ message: `To use this coupon, there must be at least one product from the relevant category` });
+        }
+      }
+
       // محاسبه تخفیف
       if (coupon.discount_type === 'percentage') {
+        if (coupon.couponProducts?.length > 0 && coupon.couponCategories?.length > 0) {
+          await t.rollback();
+          return res.status(400).json({ message: 'Coupon cannot be assigned to both products and categories at the same time.' });
+        }
         const eligibleAmount = allowedCartItems.reduce((sum, item) => {
           return sum + parseFloat(item.product.price) * item.quantity;
         }, 0);
         totalDiscount = (eligibleAmount * parseFloat(coupon.discount_value)) / 100;
+        if (coupon.max_discount_amount !== null && totalDiscount > parseFloat(coupon.max_discount_amount)) {
+          totalDiscount = parseFloat(coupon.max_discount_amount);
+        }
       } else if (coupon.discount_type === 'fixed_amount') {
         totalDiscount = parseFloat(coupon.discount_value);
 

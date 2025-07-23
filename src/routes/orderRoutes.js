@@ -165,9 +165,17 @@ const router = express.Router();
  * @swagger
  * /api/orders/place-order:
  *   post:
- *     summary: Place a new order from the cart
+ *     summary: Place or update an unpaid order from the cart
  *     tags: [Orders]
- *     description: Finalizes the current cart for the authenticated user and creates an order.
+ *     description: >
+ *       Finalizes the current cart for the authenticated user, applies coupon rules,
+ *       reserves inventory, and creates or updates an unpaid order.
+ *       Supports various types of coupons including:
+ *       - Product-specific coupons
+ *       - Category-specific coupons
+ *       - Free shipping coupons
+ *       - First-purchase-only coupons
+ *       - Private user-specific coupons
  *     security:
  *       - bearerAuth: []
  *       - csrfToken: []
@@ -176,10 +184,17 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/OrderInput'
+ *             type: object
+ *             properties:
+ *               shippingAddressId:
+ *                 type: integer
+ *                 example: 1
+ *               couponCode:
+ *                 type: string
+ *                 example: "NEWUSER20"
  *     responses:
  *       201:
- *         description: Order placed successfully
+ *         description: Order placed or updated successfully, with inventory reserved
  *         content:
  *           application/json:
  *             schema:
@@ -187,17 +202,20 @@ const router = express.Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Order placed successfully!
- *                 order:
- *                   $ref: '#/components/schemas/Order'
+ *                   example: Order placed and stock reserved. Awaiting payment...
+ *                 orderId:
+ *                   type: integer
+ *                   example: 123
+ *                 totalAmount:
+ *                   type: number
+ *                   format: float
+ *                   example: 149.99
  *       400:
- *         description: Bad Request
+ *         description: Bad Request - Cart empty, invalid coupon, stock issues, or coupon restrictions
  *       401:
  *         description: Unauthorized
  *       403:
  *         description: Forbidden
- *       404:
- *         description: Shipping address not found
  *       500:
  *         description: Server error
  */
@@ -299,8 +317,12 @@ router.get(
  * @swagger
  * /api/orders/{id}/status:
  *   put:
- *     summary: Update order status (Admin only)
+ *     summary: Update the status of an order (Admin only)
  *     tags: [Orders]
+ *     description: >
+ *       Updates the status of an existing order by its ID.
+ *       Allowed status values include: `pending`, `processing`, `shipped`, `delivered`, `cancelled`, and `refunded`.
+ *       Also logs the status change to OrderHistory for auditing.
  *     security:
  *       - bearerAuth: []
  *       - csrfToken: []
@@ -310,24 +332,39 @@ router.get(
  *         schema:
  *           type: integer
  *         required: true
- *         description: Numeric ID of the order to update
+ *         description: ID of the order to update
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/OrderStatusUpdate'
+ *             type: object
+ *             required:
+ *               - status
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 enum: [pending, processing, shipped, delivered, cancelled, refunded]
+ *                 example: shipped
  *     responses:
  *       200:
  *         description: Order status updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Order'
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Order status updated successfully!
+ *                 order:
+ *                   $ref: '#/components/schemas/Order'
+ *       400:
+ *         description: Invalid status value
  *       401:
  *         description: Unauthorized
  *       403:
- *         description: Forbidden
+ *         description: Forbidden (admin access required)
  *       404:
  *         description: Order not found
  *       500:

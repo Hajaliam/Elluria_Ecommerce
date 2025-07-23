@@ -44,6 +44,12 @@ module.exports = (sequelize, DataTypes) => {
             otherKey: 'user_id',
             as: 'users'
         });
+        Coupon.belongsToMany(models.Category, {
+            through: models.CouponCategory,
+            foreignKey: 'coupon_id',
+            otherKey: 'category_id',
+            as: 'categories'
+        });
     }
   }
   Coupon.init(
@@ -69,23 +75,27 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: true,
       },
       is_first_purchase_only: {
-        // 👈 این فیلد جدید
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
-        is_exclusive: { // 👈 فیلد جدید
+        is_exclusive: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         },
-        max_usage_per_user: { // 👈 فیلد جدید
+        max_usage_per_user: {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        coupon_group_id: { // 👈 فیلد جدید
+        coupon_group_id: {
             type: DataTypes.INTEGER,
             allowNull: true
+        },
+        max_discount_amount: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: true,
+            defaultValue: null
         }
     },
     {
