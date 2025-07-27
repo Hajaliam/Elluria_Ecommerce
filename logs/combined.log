@@ -862,3 +862,261 @@
 2025-07-23 23:00:00 INFO: Triggering expired order cleanup.
 2025-07-23 23:00:00 INFO: Running expired orders cleanup job...
 2025-07-23 23:00:00 INFO: No expired pending orders found.
+2025-07-24 16:36:40 INFO: Server is running on port 3000
+2025-07-24 16:36:40 INFO: Environment: development
+2025-07-24 16:36:40 INFO: Database User: postgres
+2025-07-24 16:36:40 INFO: Database backup scheduler started.
+2025-07-24 16:36:40 INFO: Expired order cleanup scheduler started.
+2025-07-24 16:38:46 INFO: HTTP GET /api/coupons [32m200[39m 210ms
+2025-07-24 16:39:14 INFO: HTTP GET /api/products [32m200[39m 110ms
+2025-07-24 16:40:18 INFO: HTTP PUT /api/products/1 [32m200[39m 220ms
+2025-07-24 16:44:54 INFO: Server is running on port 3000
+2025-07-24 16:44:54 INFO: Environment: development
+2025-07-24 16:44:54 INFO: Database User: postgres
+2025-07-24 16:44:54 INFO: Database backup scheduler started.
+2025-07-24 16:44:54 INFO: Expired order cleanup scheduler started.
+2025-07-24 16:45:00 INFO: HTTP GET /api/products [32m200[39m 550ms
+2025-07-24 16:45:12 ERROR: HTTP Error PUT /api/products/1 200 invalid csrf token
+2025-07-24 16:45:12 ERROR: Unhandled error: invalid csrf token
+2025-07-24 16:45:12 INFO: HTTP PUT /api/products/1 [33m403[39m 9ms
+2025-07-24 16:45:16 INFO: HTTP GET /api/csrf-token [32m200[39m 0ms
+2025-07-24 16:45:29 INFO: HTTP PUT /api/products/1 [32m200[39m 103ms
+2025-07-24 16:46:06 INFO: Server is running on port 3000
+2025-07-24 16:46:06 INFO: Environment: development
+2025-07-24 16:46:06 INFO: Database User: postgres
+2025-07-24 16:46:06 INFO: Database backup scheduler started.
+2025-07-24 16:46:06 INFO: Expired order cleanup scheduler started.
+2025-07-24 16:46:21 INFO: HTTP PUT /api/products/1 [32m200[39m 336ms
+2025-07-24 16:49:50 INFO: Server is running on port 3000
+2025-07-24 16:49:50 INFO: Environment: development
+2025-07-24 16:49:50 INFO: Database User: postgres
+2025-07-24 16:49:50 INFO: Database backup scheduler started.
+2025-07-24 16:49:50 INFO: Expired order cleanup scheduler started.
+2025-07-24 16:49:53 INFO: HTTP PUT /api/products/1 [32m200[39m 202ms
+2025-07-24 16:50:32 INFO: HTTP PUT /api/products/1 [32m200[39m 87ms
+2025-07-26 13:13:58 INFO: Server is running on port 3000
+2025-07-26 13:13:58 INFO: Environment: development
+2025-07-26 13:13:58 INFO: Database User: postgres
+2025-07-26 13:13:58 INFO: Database backup scheduler started.
+2025-07-26 13:13:58 INFO: Expired order cleanup scheduler started.
+2025-07-26 13:14:19 INFO: HTTP GET /api/cart [33m403[39m 33ms
+2025-07-26 13:14:25 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-26 13:15:08 INFO: HTTP POST /api/users/login [32m200[39m 661ms
+2025-07-26 13:16:42 INFO: HTTP GET /api/products/1 [32m200[39m 138ms
+2025-07-26 13:18:01 INFO: HTTP PUT /api/products/1 [32m200[39m 138ms
+2025-07-26 13:29:48 INFO: HTTP GET /api/products/1 [32m200[39m 68ms
+2025-07-26 13:35:22 INFO: HTTP PUT /api/products/1 [32m200[39m 76ms
+2025-07-26 13:46:49 INFO: Server is running on port 3000
+2025-07-26 13:46:49 INFO: Environment: development
+2025-07-26 13:46:49 INFO: Database User: postgres
+2025-07-26 13:46:49 INFO: Database backup scheduler started.
+2025-07-26 13:46:49 INFO: Expired order cleanup scheduler started.
+2025-07-26 13:47:06 INFO: HTTP PUT /api/products/1 [32m200[39m 208ms
+2025-07-26 13:48:23 INFO: HTTP PUT /api/products/1 [32m200[39m 230ms
+2025-07-26 13:51:08 INFO: HTTP PUT /api/products/1 [32m200[39m 77ms
+2025-07-26 14:00:00 INFO: Triggering expired order cleanup.
+2025-07-26 14:00:00 INFO: Running expired orders cleanup job...
+2025-07-26 14:00:00 INFO: Found 1 expired pending orders.
+2025-07-26 14:00:00 INFO: Order 22 - Status pending changed to expired by system due to expired order.
+2025-07-26 14:00:00 INFO: Order 22 expired and stock returned.
+2025-07-26 14:00:00 INFO: Expired orders cleanup job completed successfully.
+2025-07-26 14:46:43 INFO: Server is running on port 3000
+2025-07-26 14:46:43 INFO: Environment: development
+2025-07-26 14:46:43 INFO: Database User: postgres
+2025-07-26 14:46:43 INFO: Database backup scheduler started.
+2025-07-26 14:46:43 INFO: Expired order cleanup scheduler started.
+2025-07-26 14:47:17 INFO: HTTP POST /api/users/login [32m200[39m 255ms
+2025-07-26 14:47:36 INFO: HTTP GET /api/cart [32m200[39m 87ms
+2025-07-26 14:47:53 INFO: HTTP GET /api-docs/ [36m304[39m 6ms
+2025-07-26 14:47:53 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-07-26 14:47:53 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-07-26 14:47:53 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 6ms
+2025-07-26 14:47:53 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 1ms
+2025-07-26 14:48:50 INFO: HTTP DELETE /api/cart [32m200[39m 79ms
+2025-07-26 14:48:53 INFO: HTTP GET /api/cart [32m200[39m 9ms
+2025-07-26 14:49:18 INFO: HTTP POST /api/cart/add [32m200[39m 183ms
+2025-07-26 14:49:28 INFO: HTTP GET /api/cart [32m200[39m 8ms
+2025-07-26 14:50:34 INFO: HTTP POST /api/orders/place-order [32m201[39m 137ms
+2025-07-26 15:00:00 INFO: Triggering expired order cleanup.
+2025-07-26 15:00:00 INFO: Running expired orders cleanup job...
+2025-07-26 15:00:00 INFO: No expired pending orders found.
+2025-07-26 15:07:49 INFO: Server is running on port 3000
+2025-07-26 15:07:49 INFO: Environment: development
+2025-07-26 15:07:49 INFO: Database User: postgres
+2025-07-26 15:07:49 INFO: Database backup scheduler started.
+2025-07-26 15:07:49 INFO: Expired order cleanup scheduler started.
+2025-07-26 15:08:35 INFO: Payment initiated for Order ID: 23. Redirecting to simulated gateway.
+2025-07-26 15:08:35 INFO: HTTP POST /api/payments/initiate [32m200[39m 324ms
+2025-07-26 15:09:34 INFO:  Payment verified and order finalized. Order ID: 23, Tx ID: 32495848948649jhgv
+2025-07-26 15:09:34 INFO: HTTP GET /api/payments/verify?Authority=32495848948649jhgv&Status=OK&orderId=23 [32m200[39m 156ms
+2025-07-26 15:27:14 INFO: Server is running on port 3000
+2025-07-26 15:27:14 INFO: Environment: development
+2025-07-26 15:27:14 INFO: Database User: postgres
+2025-07-26 15:27:14 INFO: Database backup scheduler started.
+2025-07-26 15:27:14 INFO: Expired order cleanup scheduler started.
+2025-07-26 15:27:21 INFO: HTTP GET /api-docs/ [36m304[39m 15ms
+2025-07-26 15:27:22 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 7ms
+2025-07-26 15:27:22 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 40ms
+2025-07-26 15:27:22 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 50ms
+2025-07-26 15:27:22 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 99ms
+2025-07-26 15:27:24 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-07-26 15:28:59 INFO: Server is running on port 3000
+2025-07-26 15:28:59 INFO: Environment: development
+2025-07-26 15:28:59 INFO: Database User: postgres
+2025-07-26 15:28:59 INFO: Database backup scheduler started.
+2025-07-26 15:29:00 INFO: Expired order cleanup scheduler started.
+2025-07-26 15:29:02 INFO: HTTP GET /api-docs/ [36m304[39m 16ms
+2025-07-26 15:29:04 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 4ms
+2025-07-26 15:29:04 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 53ms
+2025-07-26 15:29:04 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 63ms
+2025-07-26 15:29:04 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 128ms
+2025-07-26 15:29:10 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-07-26 15:31:21 INFO: HTTP GET /api/admin/profit-report [33m400[39m 307ms
+2025-07-26 15:31:49 INFO: HTTP GET /api/admin/profit-report?format=json [32m200[39m 109ms
+2025-07-26 16:00:00 INFO: Triggering expired order cleanup.
+2025-07-26 16:00:00 INFO: Running expired orders cleanup job...
+2025-07-26 16:00:00 INFO: No expired pending orders found.
+2025-07-26 16:13:45 INFO: HTTP GET /api/products/3 [32m200[39m 92ms
+2025-07-26 16:14:20 INFO: HTTP PUT /api/products/3 [32m200[39m 88ms
+2025-07-26 16:14:39 INFO: HTTP GET /api/cart/add [33m404[39m 1ms
+2025-07-26 16:14:44 INFO: HTTP POST /api/cart/add [32m200[39m 78ms
+2025-07-26 16:14:54 INFO: HTTP GET /api/products/4 [32m200[39m 10ms
+2025-07-26 16:15:11 INFO: HTTP POST /api/products/4 [33m404[39m 1ms
+2025-07-26 16:15:16 INFO: HTTP PUT /api/products/4 [32m200[39m 87ms
+2025-07-26 16:16:28 INFO: HTTP POST /api/cart/add [32m200[39m 82ms
+2025-07-26 16:16:35 INFO: HTTP GET /api/cart [32m200[39m 10ms
+2025-07-26 16:17:20 INFO: HTTP GET /api/coupon [33m404[39m 0ms
+2025-07-26 16:17:41 INFO: HTTP GET /api/coupons [32m200[39m 168ms
+2025-07-26 16:18:41 INFO: HTTP POST /api/orders/place-order [32m201[39m 139ms
+2025-07-26 16:18:59 INFO: HTTP GET /api/payments/initiate [33m404[39m 0ms
+2025-07-26 16:19:04 INFO: Payment initiated for Order ID: 24. Redirecting to simulated gateway.
+2025-07-26 16:19:04 INFO: HTTP POST /api/payments/initiate [32m200[39m 173ms
+2025-07-26 16:20:26 INFO:  Payment verified and order finalized. Order ID: 24, Tx ID: SDFlQhWESPFDFS56
+2025-07-26 16:20:26 INFO: HTTP GET /api/payments/verify?Authority=SDFlQhWESPFDFS56&Status=OK&orderId=24 [32m200[39m 96ms
+2025-07-26 16:20:59 INFO: HTTP GET /api/admin/profit-report?format=json [32m200[39m 76ms
+2025-07-26 16:30:14 INFO: Server is running on port 3000
+2025-07-26 16:30:14 INFO: Environment: development
+2025-07-26 16:30:14 INFO: Database User: postgres
+2025-07-26 16:30:14 INFO: Database backup scheduler started.
+2025-07-26 16:30:14 INFO: Expired order cleanup scheduler started.
+2025-07-26 16:30:28 INFO: HTTP GET /api/admin/profit-report?format=json [32m200[39m 337ms
+2025-07-26 16:31:11 INFO: Excel export completed for profit report.
+2025-07-26 16:31:11 INFO: HTTP GET /api/admin/profit-report?format=excel [32m200[39m 228ms
+2025-07-26 16:32:17 INFO: HTTP GET /api/admin/profit-report?format=json [32m200[39m 93ms
+2025-07-26 16:35:24 INFO: Server is running on port 3000
+2025-07-26 16:35:24 INFO: Environment: development
+2025-07-26 16:35:24 INFO: Database User: postgres
+2025-07-26 16:35:24 INFO: Database backup scheduler started.
+2025-07-26 16:35:24 INFO: Expired order cleanup scheduler started.
+2025-07-26 16:36:28 INFO: HTTP GET /api/admin/profit-report?format=json [32m200[39m 269ms
+2025-07-26 16:36:38 INFO: HTTP GET /api/admin/profit-report?format=csv [32m200[39m 20ms
+2025-07-26 16:36:38 INFO: CSV export completed for profit report.
+2025-07-26 16:36:47 INFO: Excel export completed for profit report.
+2025-07-26 16:36:47 INFO: HTTP GET /api/admin/profit-report?format=excel [32m200[39m 151ms
+2025-07-26 19:51:43 INFO: Server is running on port 3000
+2025-07-26 19:51:43 INFO: Environment: development
+2025-07-26 19:51:43 INFO: Database User: postgres
+2025-07-26 19:51:43 INFO: Database backup scheduler started.
+2025-07-26 19:51:43 INFO: Expired order cleanup scheduler started.
+2025-07-26 19:52:46 INFO: HTTP GET /api-docs/ [36m304[39m 13ms
+2025-07-26 19:52:46 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-07-26 19:52:46 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-07-26 19:52:46 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 14ms
+2025-07-26 19:52:46 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 15ms
+2025-07-26 19:53:23 INFO: HTTP GET /api/admin/profit-report?format=json&groupBy=week [32m200[39m 295ms
+2025-07-26 19:53:52 INFO: HTTP GET /api/admin/profit-report?format=json&groupBy=day [32m200[39m 176ms
+2025-07-26 19:55:14 INFO: HTTP GET /api/admin/profit-report?format=json [32m200[39m 86ms
+2025-07-27 12:55:23 INFO: Server is running on port 3000
+2025-07-27 12:55:23 INFO: Environment: development
+2025-07-27 12:55:23 INFO: Database User: postgres
+2025-07-27 12:55:23 INFO: Database backup scheduler started.
+2025-07-27 12:55:23 INFO: Expired order cleanup scheduler started.
+2025-07-27 13:00:00 INFO: Triggering expired order cleanup.
+2025-07-27 13:00:00 INFO: Running expired orders cleanup job...
+2025-07-27 13:00:00 INFO: No expired pending orders found.
+2025-07-27 13:06:46 INFO: Server is running on port 3000
+2025-07-27 13:06:46 INFO: Environment: development
+2025-07-27 13:06:46 INFO: Database User: postgres
+2025-07-27 13:06:46 INFO: Database backup scheduler started.
+2025-07-27 13:06:46 INFO: Expired order cleanup scheduler started.
+2025-07-27 13:08:05 INFO: HTTP GET /api/coupons [32m200[39m 202ms
+2025-07-27 13:09:00 ERROR: HTTP Error POST /api/cart/add 200 invalid csrf token
+2025-07-27 13:09:00 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:09:00 INFO: HTTP POST /api/cart/add [33m403[39m 8ms
+2025-07-27 13:09:05 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-07-27 13:09:16 INFO: HTTP POST /api/cart/add [32m200[39m 99ms
+2025-07-27 13:09:24 INFO: HTTP GET /api/cart [32m200[39m 16ms
+2025-07-27 13:09:45 ERROR: HTTP Error POST /api/orders/place-order 200 invalid csrf token
+2025-07-27 13:09:45 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:09:45 INFO: HTTP POST /api/orders/place-order [33m403[39m 4ms
+2025-07-27 13:09:52 INFO: HTTP POST /api/orders/place-order [32m201[39m 152ms
+2025-07-27 13:10:30 INFO: HTTP GET /api/payments/verify?Authority=SDFlQhWESPFDFS56&Status=OK&orderId=24 [32m200[39m 64ms
+2025-07-27 13:10:46 INFO: Payment initiated for Order ID: 25. Redirecting to simulated gateway.
+2025-07-27 13:10:46 INFO: HTTP POST /api/payments/initiate [32m200[39m 71ms
+2025-07-27 13:11:49 INFO:  Payment verified and order finalized. Order ID: 25, Tx ID: adslxcknhhsiouwjflxkadcws895
+2025-07-27 13:11:49 INFO: HTTP GET /api/payments/verify?Authority=adslxcknhhsiouwjflxkadcws895&Status=OK&orderId=25 [32m200[39m 109ms
+2025-07-27 13:13:24 INFO: Shipping status for Order ID: 25 updated to In Transit.
+2025-07-27 13:13:24 INFO: HTTP PUT /api/shipping/25 [32m200[39m 101ms
+2025-07-27 13:14:27 ERROR: Error updating shipping status for order 25: notNull Violation: ShipmentTracking.provider_name cannot be null
+2025-07-27 13:14:27 INFO: HTTP PUT /api/shipping/25 [31m500[39m 239ms
+2025-07-27 13:23:44 INFO: Server is running on port 3000
+2025-07-27 13:23:44 INFO: Environment: development
+2025-07-27 13:23:44 INFO: Database User: postgres
+2025-07-27 13:23:44 INFO: Database backup scheduler started.
+2025-07-27 13:23:44 INFO: Expired order cleanup scheduler started.
+2025-07-27 13:27:19 INFO: HTTP PUT /api/shipping/25 [33m403[39m 18ms
+2025-07-27 13:27:35 ERROR: HTTP Error POST /api/users/login 200 invalid csrf token
+2025-07-27 13:27:35 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:27:35 INFO: HTTP POST /api/users/login [33m403[39m 7ms
+2025-07-27 13:27:49 INFO: HTTP POST /api/users/login [32m200[39m 362ms
+2025-07-27 13:28:08 INFO: Shipping status for Order ID: 25 updated to Delivered.
+2025-07-27 13:28:08 INFO: HTTP PUT /api/shipping/25 [32m200[39m 105ms
+2025-07-27 13:28:19 INFO: HTTP GET /api/shipping/25 [32m200[39m 89ms
+2025-07-27 13:28:27 INFO: HTTP GET /api/shipping/ [33m404[39m 0ms
+2025-07-27 13:28:32 INFO: HTTP GET /api/shipping/25 [32m200[39m 67ms
+2025-07-27 13:29:12 ERROR: HTTP Error GET /api/shipping/25 200 Cannot read properties of null (reading 'id')
+2025-07-27 13:29:12 ERROR: Unhandled error: Cannot read properties of null (reading 'id')
+2025-07-27 13:29:12 INFO: HTTP GET /api/shipping/25 [31m500[39m 3ms
+2025-07-27 13:29:18 ERROR: HTTP Error GET /api/shipping/25 200 Cannot read properties of null (reading 'id')
+2025-07-27 13:29:18 ERROR: Unhandled error: Cannot read properties of null (reading 'id')
+2025-07-27 13:29:18 INFO: HTTP GET /api/shipping/25 [31m500[39m 2ms
+2025-07-27 13:29:23 INFO: HTTP GET /api/shipping/25 [32m200[39m 72ms
+2025-07-27 13:29:47 INFO: HTTP GET /api/shipping/25 [33m403[39m 9ms
+2025-07-27 13:30:10 INFO: HTTP POST /api/users/login [32m200[39m 151ms
+2025-07-27 13:30:20 INFO: HTTP GET /api/shipping/25 [32m200[39m 11ms
+2025-07-27 13:31:21 INFO: HTTP POST /api/users/register [32m201[39m 157ms
+2025-07-27 13:31:44 INFO: HTTP POST /api/users/login [32m200[39m 147ms
+2025-07-27 13:31:54 INFO: HTTP GET /api/shipping/25 [33m403[39m 68ms
+2025-07-27 13:47:57 INFO: Server is running on port 3000
+2025-07-27 13:47:57 INFO: Environment: development
+2025-07-27 13:47:57 INFO: Database User: postgres
+2025-07-27 13:47:57 INFO: Database backup scheduler started.
+2025-07-27 13:47:57 INFO: Expired order cleanup scheduler started.
+2025-07-27 13:51:07 INFO: HTTP POST /api/users/login [32m200[39m 310ms
+2025-07-27 13:52:19 INFO: HTTP POST /api/admin/brands [32m201[39m 113ms
+2025-07-27 13:52:35 INFO: HTTP GET /api/admin/brands [32m200[39m 83ms
+2025-07-27 13:53:08 INFO: HTTP GET /api/admin/brands/1 [32m200[39m 100ms
+2025-07-27 13:53:24 INFO: HTTP GET /api/admin/brands/2 [33m404[39m 77ms
+2025-07-27 13:53:48 INFO: HTTP PUT /api/admin/brands/1 [32m200[39m 88ms
+2025-07-27 13:53:59 INFO: HTTP DELETE /api/admin/brands/1 [32m200[39m 95ms
+2025-07-27 14:00:00 INFO: Triggering expired order cleanup.
+2025-07-27 14:00:00 INFO: Running expired orders cleanup job...
+2025-07-27 14:00:00 INFO: No expired pending orders found.
+2025-07-27 14:03:08 INFO: HTTP GET /api/admin/brands/ [32m200[39m 101ms
+2025-07-27 14:03:15 INFO: HTTP POST /api/admin/brands/ [32m201[39m 16ms
+2025-07-27 14:03:20 INFO: HTTP GET /api/admin/brands/ [32m200[39m 8ms
+2025-07-27 14:03:28 INFO: Server is running on port 3000
+2025-07-27 14:03:28 INFO: Environment: development
+2025-07-27 14:03:28 INFO: Database User: postgres
+2025-07-27 14:03:28 INFO: Database backup scheduler started.
+2025-07-27 14:03:28 INFO: Expired order cleanup scheduler started.
+2025-07-27 14:03:31 INFO: HTTP GET /api/admin/brands/ [32m200[39m 207ms
+2025-07-27 14:03:41 INFO: HTTP GET /api/admin/brands/2 [32m200[39m 100ms
+2025-07-27 16:00:00 INFO: Triggering expired order cleanup.
+2025-07-27 16:00:00 INFO: Running expired orders cleanup job...
+2025-07-27 16:00:00 INFO: No expired pending orders found.
+2025-07-27 16:44:51 INFO: Server is running on port 3000
+2025-07-27 16:44:51 INFO: Environment: development
+2025-07-27 16:44:51 INFO: Database User: postgres
+2025-07-27 16:44:51 INFO: Database backup scheduler started.
+2025-07-27 16:44:51 INFO: Expired order cleanup scheduler started.

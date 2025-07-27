@@ -33,6 +33,11 @@ const couponRoutes = require('./src/routes/couponRoutes');
 const searchRoutes = require('./src/routes/searchRoutes');
 const settingRoutes = require('./src/routes/settingRoutes');
 const paymentRoutes = require('./src/routes/paymentRoutes');
+const shippingRoutes = require('./src/routes/shippingRoutes');
+const brandRoutes = require('./src/routes/brandRoutes');
+const campaignRoutes = require('./src/routes/campaignRoutes');
+
+
 
 // ایمپورت Logger (برای لاگ‌گیری)
 const logger = require('./src/config/logger');
@@ -139,6 +144,11 @@ app.use('/api/search', searchRoutes);
 app.post('/api/admin/backup', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), manualBackup);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/settings', settingRoutes);
+app.use('/api/shipping', shippingRoutes);
+app.use('/api/admin/brands', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), brandRoutes); // 👈 روت‌های مدیریت برند (فقط ادمین)
+app.use('/api/brands', brandRoutes);
+app.use('/api/admin/campaigns', campaignRoutes); // برای مدیریت کمپین‌ها توسط ادمین
+app.use('/api/campaigns', campaignRoutes);
 
 // ** WebSocket (Socket.IO) Logic for Online Advice (AI Chat) **
 // Map برای ذخیره موقت تاریخچه مکالمه هر نشست (برای AI با حافظه کوتاه مدت)

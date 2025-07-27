@@ -854,6 +854,42 @@ const swaggerOptions = {
             },
           },
         },
+        Campaign: {
+          type: 'object',
+          properties: {
+            id: { type: 'integer', description: 'The auto-generated ID of the campaign' },
+            title: { type: 'string', description: 'Campaign title', example: 'Summer Sale' },
+            description: { type: 'string', description: 'Campaign description', example: 'Big discounts for summer products.' },
+            slug: { type: 'string', description: 'Unique URL-friendly identifier', example: 'summer-sale' },
+            banner_image_url: { type: 'string', format: 'url', description: 'URL of the campaign banner image', example: '/banners/summer_sale.jpg' },
+            campaign_type: { type: 'string', description: 'Type of campaign (e.g., seasonal, bestsellers, clearance)', example: 'seasonal' },
+            start_date: { type: 'string', format: 'date-time', description: 'Campaign start date', example: '2025-07-01T00:00:00Z' },
+            end_date: { type: 'string', format: 'date-time', description: 'Campaign end date', example: '2025-07-31T23:59:59Z' },
+            show_countdown: { type: 'boolean', description: 'Whether to show a countdown timer', example: true },
+            priority: { type: 'integer', description: 'Display priority (lower number for higher priority)', example: 100 },
+            cta_link: { type: 'string', format: 'url', description: 'Call to action link', example: '/products/summer-collection' },
+            is_active: { type: 'boolean', description: 'Whether the campaign is currently active', example: true },
+            createdAt: { type: 'string', format: 'date-time', description: 'Record creation timestamp', example: '2025-06-25T12:00:00Z' },
+            updatedAt: { type: 'string', format: 'date-time', description: 'Record last update timestamp', example: '2025-06-30T09:00:00Z' }
+          },
+          example: {
+            id: 1,
+            title: 'Summer Sale',
+            description: 'Big discounts for summer products.',
+            slug: 'summer-sale',
+            banner_image_url: '/banners/summer_sale.jpg',
+            campaign_type: 'seasonal',
+            start_date: '2025-07-01T00:00:00Z',
+            end_date: '2025-07-31T23:59:59Z',
+            show_countdown: true,
+            priority: 100,
+            cta_link: '/products/summer-collection',
+            is_active: true,
+            createdAt: '2025-06-25T12:00:00Z',
+            updatedAt: '2025-06-30T09:00:00Z'
+          }
+        }
+
       },
     },
   },

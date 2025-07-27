@@ -52,6 +52,7 @@ exports.createProduct = async (req, res) => {
     category_id,
     slug,
     brand_id,
+    buy_price,
   } = req.body; // 👈 از let استفاده کنید
 
   // 👈 اعمال پاکسازی به فیلدهای متنی
@@ -100,6 +101,7 @@ exports.createProduct = async (req, res) => {
       category_id,
       slug,
       brand_id,
+      buy_price: buy_price ? parseFloat(buy_price) : 0 // 👈 ذخیره buy_price
     });
     await db.InventoryLog.create({
       product_id: newProduct.id,
@@ -251,6 +253,7 @@ exports.updateProduct = async (req, res) => {
     category_id,
     slug,
     brand_id,
+    buy_price
   } = req.body;
 
   // 👈 پاکسازی رشته‌ها
@@ -261,16 +264,26 @@ exports.updateProduct = async (req, res) => {
   const image_url = req.file ? `/uploads/products/${req.file.filename}` : null;
 
   try {
-    const product = await Product.findByPk(id);
+    const product = await Product.findByPk(id , { transaction: t });
     if (!product) {
       return res.status(404).json({ message: 'Product not found.' });
     }
 
     // بررسی دسته‌بندی جدید (در صورت تغییر)
     if (category_id && category_id !== product.category_id) {
-      const category = await Category.findByPk(category_id);
+      const category = await Category.findByPk(category_id, { transaction: t });
       if (!category) {
         return res.status(404).json({ message: 'New category not found.' });
+      }
+    }
+
+
+    // بررسی برند جدید (در صورت تغییر)
+    if (brand_id && brand_id !== product.brand_id) {
+      const brand = await db.Brand.findByPk(brand_id, { transaction: t }); // 👈 دریافت با تراکنش
+      if (!brand) {
+        await t.rollback();
+        return res.status(404).json({ message: 'Brand not found.' });
       }
     }
 
@@ -283,7 +296,7 @@ exports.updateProduct = async (req, res) => {
             { slug: slug || product.slug },
           ],
           id: { [Sequelize.Op.ne]: id },
-        },
+        }, transaction : t ,
       });
       if (existingProduct) {
         if (req.file) {
@@ -296,32 +309,89 @@ exports.updateProduct = async (req, res) => {
       }
     }
 
+
+    let oldStock = product.stock_quantity;
+    let oldBuyPrice = product.buy_price; // 👈 قیمت خرید قبلی
+
+
     // آپدیت فیلدها به صورت ایمن و بدون نادیده گرفتن مقادیر ۰
     if (name) product.name = name;
     if (description) product.description = description;
     if (slug) product.slug = slug;
     if (brand_id) product.brand_id = brand_id;
     if (price !== undefined && price !== null) product.price = price;
-    if ('stock_quantity' in req.body) {
-      let oldStock = product.stock_quantity;
-      product.stock_quantity = stock_quantity;
-      await db.InventoryLog.create({
-        product_id: product.id,
-        change_type: 'product_stock_update',
-        quantity_change: -Number(oldStock)+Number(stock_quantity),
-        old_stock_quantity: oldStock,
-        new_stock_quantity: stock_quantity,
-        changed_by_user_id: req.user.id, // کاربر تغییر دهنده
-        description: `Product ${product.id} - Changed  ${stock_quantity} units.`
-      });
-    }
+    // if ('stock_quantity' in req.body) {
+    //   let oldStock = product.stock_quantity;
+    //   product.stock_quantity = stock_quantity;
+    //   await db.InventoryLog.create({
+    //     product_id: product.id,
+    //     change_type: 'product_stock_update',
+    //     quantity_change: -Number(oldStock)+Number(stock_quantity),
+    //     old_stock_quantity: oldStock,
+    //     new_stock_quantity: stock_quantity,
+    //     changed_by_user_id: req.user.id, // کاربر تغییر دهنده
+    //     description: `Product ${product.id} - Changed  ${stock_quantity} units.`
+    //   });
+    // }
     if (image_url) product.image_url = image_url;
     if (category_id) product.category_id = category_id;
 
+    // 👈 منطق محاسبه میانگین وزنی buy_price
+    if ('stock_quantity' in req.body && stock_quantity !== null && stock_quantity !== undefined) {
+      const quantityChange = parseInt(stock_quantity, 10);
+      const newStockQuantity = oldStock + quantityChange;
+
+      //const newStockQuantity = parseInt(stock_quantity, 10);
+      //const quantityAdded = newStockQuantity - oldStock;
+      if (newStockQuantity < 0) {
+        await t.rollback();
+        return res.status(400).json({ message: 'Stock quantity cannot be negative.' });
+      }
+      if (buy_price !== undefined && buy_price !== null) { // اگر buy_price جدیدی هم ارسال شده
+        const newBuyPriceInput = parseFloat(buy_price);
+
+        if (quantityChange > 0 && oldStock > 0 && oldBuyPrice > 0) { // افزایش موجودی و قبلاً هم موجودی داشته
+          // محاسبه میانگین وزنی
+          product.buy_price = ((oldStock * oldBuyPrice) + (quantityChange * newBuyPriceInput)) / (oldStock + quantityChange);
+        } else if (quantityChange > 0) { // افزایش موجودی از صفر یا از موجودی بدون قیمت خرید
+          product.buy_price = newBuyPriceInput;
+        } else if (quantityChange <= 0 && newBuyPriceInput !== oldBuyPrice) { // کاهش موجودی یا تغییر بدون تغییر موجودی، اما قیمت خرید تغییر کرده
+          product.buy_price = newBuyPriceInput;
+        }
+      } else { // اگر buy_price جدیدی ارسال نشده، اما موجودی تغییر کرده
+        product.buy_price = oldBuyPrice; // قیمت خرید قبلی را حفظ کن
+      }
+      product.stock_quantity = newStockQuantity;
+
+      // 👈 لاگ انبارداری برای تغییر موجودی (با جزئیات قیمت خرید)
+      await db.InventoryLog.create({
+        product_id: product.id,
+        change_type: quantityChange > 0 ? 'restock' : (quantityChange < 0 ? 'manual_decrease' : 'manual_adjustment'),
+        quantity_change: quantityChange,
+        old_stock_quantity: oldStock,
+        new_stock_quantity: newStockQuantity,
+        changed_by_user_id: req.user.id, // کاربر تغییر دهنده
+        description: `Product ${product.id} - Stock changed. Old Buy Price: ${oldBuyPrice}, New Buy Price: ${product.buy_price}`
+      }, { transaction: t });
+
+    } else if (buy_price !== undefined && buy_price !== null) { // فقط buy_price تغییر کرده، موجودی نه
+      product.buy_price = parseFloat(buy_price);
+      await db.InventoryLog.create({
+        product_id: product.id,
+        change_type: 'buy_price_update',
+        quantity_change: 0,
+        old_stock_quantity: oldStock,
+        new_stock_quantity: oldStock,
+        changed_by_user_id: req.user.id,
+        description: `Product ${product.id} - Buy price updated from ${oldBuyPrice} to ${product.buy_price}`
+      }, { transaction: t });
+    }
 
 
-    await product.save();
 
+
+    await product.save({ transaction: t });
+    await t.commit();
     return res.status(200).json({
       message: 'Product updated successfully!',
       product,

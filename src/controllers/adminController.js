@@ -1872,6 +1872,213 @@ exports.getBestSellingProducts = async (req, res) => {
   }
 };
 
+//تابع برای دریافت سود حاصل از فروش در بازه زمانی انتخابی
+exports.getProfitReport = async (req, res) => {
+  const { startDate, endDate, format , groupBy } = req.query; // فیلترها و فرمت خروجی
+  const allowedFormats = ['json', 'csv', 'excel'];
+
+  if (!format || !allowedFormats.includes(format.toLowerCase())) {
+    return res.status(400).json({ message: 'Invalid or missing format. Allowed formats are: json, csv, excel.' });
+  }
+
+  const filenameBase = `profit_report_export_${Date.now()}`;
+  res.status(200);
+
+  const whereClause = {};
+  if (startDate) {
+    whereClause.transaction_date = { [db.Sequelize.Op.gte]: moment(startDate).startOf('day').toDate() };
+  }
+  if (endDate) {
+    whereClause.transaction_date = { ...whereClause.transaction_date, [db.Sequelize.Op.lte]: moment(endDate).endOf('day').toDate() };
+  }
+
+  try {
+    const profitLogs = await db.ProfitLog.findAll({
+      where: whereClause,
+      attributes: [
+        'order_id', 'order_item_id', 'product_id', 'item_quantity',
+        'sell_price_at_purchase', 'buy_price_at_purchase', 'profit_per_item',
+        'total_profit_amount', 'transaction_date'
+      ],
+      include: [
+        { model: db.Product, as: 'product', attributes: ['name', 'slug'] }, // برای جزئیات محصول
+        { model: db.Order, as: 'order', attributes: ['total_amount', 'status', 'payment_status'] } // برای جزئیات سفارش
+      ],
+      order: [['transaction_date', 'DESC']]
+    });
+    const uniqueOrderCount = new Set(profitLogs.map(log => log.order_id)).size;
+
+    //منطق دسته بندی بر اساس روز و هفته و ماه
+    let groupedSummary = [];
+    if (groupBy && ['day', 'week', 'month'].includes(groupBy)) {
+      const groupedMap = new Map();
+
+      for (const log of profitLogs) {
+        let key;
+        switch (groupBy) {
+          case 'day':
+            key = moment(log.transaction_date).format('YYYY-MM-DD');
+            break;
+          case 'week':
+            key = moment(log.transaction_date).startOf('isoWeek').format('YYYY-[W]WW');
+            break;
+          case 'month':
+            key = moment(log.transaction_date).format('YYYY-MM');
+            break;
+        }
+
+        if (!groupedMap.has(key)) {
+          groupedMap.set(key, 0);
+        }
+        groupedMap.set(key, groupedMap.get(key) + parseFloat(log.total_profit_amount));
+      }
+
+      groupedSummary = Array.from(groupedMap.entries()).map(([period, total_profit]) => ({
+        period,
+        total_profit: total_profit.toFixed(2)
+      }));
+    }
+
+    const profitData = profitLogs.map(log => ({
+      order_id: log.order_id,
+      order_item_id: log.order_item_id,
+      product_id: log.product_id,
+      product_name: log.product ? log.product.name : 'N/A',
+      item_quantity: log.item_quantity,
+      sell_price_at_purchase: parseFloat(log.sell_price_at_purchase),
+      buy_price_at_purchase: parseFloat(log.buy_price_at_purchase),
+      profit_per_item: parseFloat(log.profit_per_item),
+      total_profit_amount: parseFloat(log.total_profit_amount),
+      transaction_date: log.transaction_date.toISOString(),
+      order_total_amount: log.order ? parseFloat(log.order.total_amount) : 'N/A',
+      order_status: log.order ? log.order.status : 'N/A',
+      order_payment_status: log.order ? log.order.payment_status : 'N/A',
+    }));
+
+    // محاسبه مجموع سود کلی و تعداد لاگ‌ها برای خلاصه (اگر JSON باشد)
+    const totalProfitOverall = profitLogs.reduce((sum, log) => sum + parseFloat(log.total_profit_amount), 0);
+    const totalLogsCount = profitLogs.length;
+
+    switch (format.toLowerCase()) {
+      case 'json':
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.json`);
+        res.send(JSON.stringify({
+          profit_report: profitData,
+          summary: {
+            total_profit_overall: totalProfitOverall.toFixed(2),
+            total_profit_logs_count: totalLogsCount,
+            total_unique_orders: uniqueOrderCount,
+            ...(groupedSummary.length > 0 && { grouped_summary: groupedSummary })
+          }
+        }, null, 2));
+        break;
+
+      case 'csv':
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.csv`);
+
+        const csvStringifier = createCsvStringifier({
+          header: [
+            { id: 'order_id', title: 'Order ID' },
+            { id: 'order_item_id', title: 'Order Item ID' },
+            { id: 'product_id', title: 'Product ID' },
+            { id: 'product_name', title: 'Product Name' },
+            { id: 'item_quantity', title: 'Quantity' },
+            { id: 'sell_price_at_purchase', title: 'Sell Price' },
+            { id: 'buy_price_at_purchase', title: 'Buy Price' },
+            { id: 'profit_per_item', title: 'Profit Per Item' },
+            { id: 'total_profit_amount', title: 'Total Profit' },
+            { id: 'transaction_date', title: 'Date' },
+            { id: 'order_total_amount', title: 'Order Total' },
+            { id: 'order_status', title: 'Order Status' },
+            { id: 'order_payment_status', title: 'Payment Status' }
+          ]
+        });
+        res.write(`Total Profit Overall,${totalProfitOverall.toFixed(2)}\n`);
+        res.write(`Total Profit Logs Count,${totalLogsCount}\n`);
+        res.write(`Total Unique Orders,${uniqueOrderCount}\n`);
+        // افزودن خلاصه گروه‌بندی‌شده (اگه وجود داره)
+        if (groupedSummary.length > 0) {
+          res.write(`\nGrouped Summary by ${groupBy.toUpperCase()}\n`);
+          res.write('Period,Total Profit\n');
+          groupedSummary.forEach(({ period, total_profit }) => {
+            res.write(`${period},${total_profit}\n`);
+          });
+        }
+
+        res.write('\n'); // فاصله قبل از هدر جدول اصلی
+        res.write(csvStringifier.getHeaderString());
+        profitData.forEach(row => {
+          res.write(csvStringifier.stringifyRecords([row]));
+        });
+        res.end();
+        logger.info(`CSV export completed for profit report.`);
+        break;
+
+      case 'excel':
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=${filenameBase}.xlsx`);
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Profit Report');
+
+        worksheet.columns = [
+          { header: 'Order ID', key: 'order_id', width: 10 },
+          { header: 'Order Item ID', key: 'order_item_id', width: 15 },
+          { header: 'Product ID', key: 'product_id', width: 15 },
+          { header: 'Product Name', key: 'product_name', width: 30 },
+          { header: 'Quantity', key: 'item_quantity', width: 10 },
+          { header: 'Sell Price', key: 'sell_price_at_purchase', width: 15 },
+          { header: 'Buy Price', key: 'buy_price_at_purchase', width: 15 },
+          { header: 'Profit Per Item', key: 'profit_per_item', width: 15 },
+          { header: 'Total Profit', key: 'total_profit_amount', width: 15 },
+          { header: 'Date', key: 'transaction_date', width: 25 },
+          { header: 'Order Total', key: 'order_total_amount', width: 15 },
+          { header: 'Order Status', key: 'order_status', width: 15 },
+          { header: 'Payment Status', key: 'order_payment_status', width: 15 }
+        ];
+
+        // ساخت شیت خلاصه
+        const summarySheet = workbook.addWorksheet('Summary');
+
+        summarySheet.columns = [
+          { header: 'Metric', key: 'metric', width: 30 },
+          { header: 'Value', key: 'value', width: 20 }
+        ];
+
+        summarySheet.addRows([
+          { metric: 'Total Profit Overall', value: totalProfitOverall.toFixed(2) },
+          { metric: 'Total Profit Logs Count', value: totalLogsCount },
+          { metric: 'Total Unique Orders', value: uniqueOrderCount }
+        ]);
+
+
+        worksheet.addRows(profitData);
+        if (groupedSummary.length > 0) {
+          const groupedSheet = workbook.addWorksheet('Grouped Summary');
+          groupedSheet.columns = [
+            { header: groupBy.charAt(0).toUpperCase() + groupBy.slice(1), key: 'period', width: 20 },
+            { header: 'Total Profit', key: 'total_profit', width: 20 }
+          ];
+          groupedSheet.addRows(groupedSummary);
+        }
+        await workbook.xlsx.write(res);
+        logger.info(`Excel export completed for profit report.`);
+        break;
+
+      default:
+        return res.status(400).json({ message: 'Unsupported format.' });
+    }
+  } catch (error) {
+    logger.error(`Error exporting profit report: ${error.message}`, { stack: error.stack });
+    if (!res.headersSent) {
+      res.status(500).json({ message: 'Server error during export', error: error.message });
+    } else {
+      res.end();
+    }
+  }
+};
 
 /////توابع ایمپورتی
 

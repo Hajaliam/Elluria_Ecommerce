@@ -78,6 +78,17 @@ exports.verifyPayment = async (req, res) => {
         order.payment_status = 'paid';
         order.status = 'processing';
         await order.save({ transaction: t });
+        //ثبت لاگ سوابق خرید
+
+        await db.OrderHistory.create(
+            {
+                order_id: order.id,
+                status: 'paid', // 👈 این هم باید پاکسازی شود (اگر از ورودی کاربر می‌آید)
+                changed_by: order.user_id,
+                changed_at: new Date(),
+            },
+            { transaction: t },
+        );
 
         // 2. ثبت پرداخت
         const payment = await Payment.create({
@@ -116,20 +127,8 @@ exports.verifyPayment = async (req, res) => {
                 return res.status(404).json({ message: `Product with ID ${item.product_id} not found.` });
             }
 
-            // ثبت آیتم سفارش
-            await OrderItem.create({
-                order_id: order.id,
-                product_id: product.id,
-                quantity: item.quantity,
-                price_at_purchase: parseFloat(product.price),
-            }, { transaction: t });
-
             // افزایش sold_count
-            const oldSoldCount = product.sold_count || 0;
-            console.log("OldSold Count", oldSoldCount);
-            product.sold_count = oldSoldCount + item.quantity;
-            console.log("NewSold Count", product.sold_count);
-            await product.save({ transaction: t });
+            await product.increment('sold_count', { by: item.quantity, transaction: t });
 
             // ثبت لاگ فروش در موجودی
             await InventoryLog.create({
@@ -142,17 +141,34 @@ exports.verifyPayment = async (req, res) => {
                 description: `Sold ${item.quantity} units for order ${order.id}`
             }, { transaction: t });
 
-            //ثبت لاگ سوابق خرید
 
-            await db.OrderHistory.create(
-                {
-                    order_id: order.id,
-                    status: 'completed', // 👈 این هم باید پاکسازی شود (اگر از ورودی کاربر می‌آید)
-                    changed_by: order.user_id,
-                    changed_at: new Date(),
+            const itemSellPrice = parseFloat(item.product.price);
+            const itemBuyPrice = parseFloat(item.product.buy_price || 0); // 👈 قیمت خرید محصول
+            const itemProfit = (itemSellPrice - itemBuyPrice) * item.quantity;
+            const existingProfitLog = await db.ProfitLog.findOne({
+                where: {
+                    order_id : order.id ,
+                    order_item_id: item.id,
+                    product_id: item.product.id,
                 },
-                { transaction: t },
-            );
+                transaction: t
+            });
+            if(!existingProfitLog) {
+                await db.ProfitLog.create({
+                    order_id: order.id,
+                    order_item_id: item.id, // ID آیتم سفارش (اگر نیاز به لینک مستقیم بود)
+                    product_id: item.product.id,
+                    item_quantity: item.quantity,
+                    sell_price_at_purchase: itemSellPrice,
+                    buy_price_at_purchase: itemBuyPrice,
+                    profit_per_item: itemSellPrice - itemBuyPrice,
+                    total_profit_amount: itemProfit,
+                    transaction_date: new Date(),
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                }, { transaction: t });
+            }
+
         }
 
         ///خالی کردن سبد خرید

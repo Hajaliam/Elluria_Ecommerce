@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'order_id',
         as: 'history',
       });
+      Order.hasOne(models.ShipmentTracking, {
+        foreignKey: 'order_id',
+        as: 'shipment'
+      });
     }
   }
   Order.init(
@@ -39,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
       shipping_address_id: { type: DataTypes.INTEGER, allowNull: false },
       payment_status: { type: DataTypes.STRING(50), allowNull: false },
       coupon_id: { type: DataTypes.INTEGER, allowNull: true },
+      discount_amount: {type: DataTypes.DECIMAL(10, 2), allowNull: true,},
+      shipping_cost: {type: DataTypes.DECIMAL(10, 2), allowNull: true,},
+      total_profit_amount: {type: DataTypes.DECIMAL(10,2), allowNull: true,},
+
     },
     {
       sequelize,

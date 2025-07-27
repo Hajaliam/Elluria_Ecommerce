@@ -812,6 +812,116 @@ router.get('/exports/inventory', adminController.exportInventory); // 👈 صا�
 
 /**
  * @swagger
+ * /api/admin/profit-report:
+ *   get:
+ *     summary: Get profit report in a given date range (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Start date for the report (YYYY-MM-DD)
+ *         example: 2025-01-01
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: End date for the report (YYYY-MM-DD)
+ *         example: 2025-12-31
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [json, csv, excel]
+ *         required: true
+ *         description: Desired export format
+ *         example: json
+ *       - in: query
+ *         name: groupBy
+ *         schema:
+ *           type: string
+ *           enum: [day, week, month]
+ *         required: false
+ *         description: Group profit report by day, week, or month (optional)
+ *         example: week
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved profit report.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 profit_report:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       order_id:
+ *                         type: integer
+ *                       order_item_id:
+ *                         type: integer
+ *                       product_id:
+ *                         type: integer
+ *                       product_name:
+ *                         type: string
+ *                       item_quantity:
+ *                         type: integer
+ *                       sell_price_at_purchase:
+ *                         type: number
+ *                       buy_price_at_purchase:
+ *                         type: number
+ *                       profit_per_item:
+ *                         type: number
+ *                       total_profit_amount:
+ *                         type: number
+ *                       transaction_date:
+ *                         type: string
+ *                         format: date-time
+ *                       order_total_amount:
+ *                         type: number
+ *                       order_status:
+ *                         type: string
+ *                       order_payment_status:
+ *                         type: string
+ *                 summary:
+ *                   type: object
+ *                   properties:
+ *                     total_profit_overall:
+ *                       type: number
+ *                     total_profit_logs_count:
+ *                       type: integer
+ *                     total_unique_orders:
+ *                       type: integer
+ *                     grouped_summary:
+ *                       type: array
+ *                       description: Summary of total profit grouped by day/week/month (only present if groupBy is provided)
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           period:
+ *                             type: string
+ *                             example: "2025-W30"
+ *                           total_profit:
+ *                             type: string
+ *                             example: "1234.56"
+ *       500:
+ *         description: Server error
+ */
+router.get('/profit-report',
+    authMiddleware.authenticateToken,
+    authMiddleware.authorizeRoles('admin'),
+    adminController.getProfitReport);
+
+
+
+/**
+ * @swagger
  * /api/admin/imports/categories:
  *   post:
  *     summary: Import categories from CSV or Excel file (Admin only)

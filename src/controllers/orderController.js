@@ -48,10 +48,19 @@ exports.placeOrder = async (req, res) => {
     let totalAmount = 0;
     let totalDiscount = 0;
     let shippingCost = 10; // 👈 هزینه ارسال پیش‌فرض
+    let totalProfit = 0;
     const orderItemsData = [];
 
     for (const item of cart.cartItems) {
-      totalAmount += parseFloat(item.product.price) * item.quantity;
+      const productSellPrice = parseFloat(item.product.price);
+      const productBuyPrice = parseFloat(item.product.buy_price || 0); // 👈 قیمت خرید محصول
+      const itemQuantity = item.quantity;
+
+      totalAmount += productSellPrice * itemQuantity;
+
+      const profitPerItem = productSellPrice - productBuyPrice;
+      const itemProfit = profitPerItem * itemQuantity;
+      totalProfit += itemProfit;
     }
     let coupon = null;
     // 3. اعتبارسنجی و اعمال کوپن (اگر وجود داشت)
@@ -173,9 +182,6 @@ exports.placeOrder = async (req, res) => {
 
     }
     let finalAmount = totalAmount - totalDiscount + shippingCost;
-    console.log("Final Amount: ", finalAmount);
-    console.log("Total Discount: ", totalDiscount);
-    console.log("total amount: ", totalAmount);
     if (finalAmount < 0)  finalAmount = 0;
 
     ///بروز رسانی یا ایجاد سفارش
@@ -193,7 +199,8 @@ exports.placeOrder = async (req, res) => {
       await newOrder.update({
         shipping_address_id: shippingAddressId,
         coupon_id: coupon?.id || null,
-        total_amount: finalAmount
+        total_amount: finalAmount,
+        total_profit_amount: totalProfit,
       }, { transaction: t });
 
     }
@@ -205,7 +212,10 @@ exports.placeOrder = async (req, res) => {
         shipping_address_id: shippingAddressId,
         coupon_id: coupon?.id || null,
         payment_status: 'unpaid',
-        total_amount: finalAmount
+        total_amount: finalAmount,
+        discount_amount: totalDiscount,
+        shipping_cost: shippingCost,
+        total_profit_amount: totalProfit,
       }, { transaction: t });
 
     }
@@ -264,12 +274,23 @@ exports.placeOrder = async (req, res) => {
       //
     }
     for (const itemData of orderItemsData) {
-      await OrderItem.create({
-        order_id: newOrder.id,
-        product_id: itemData.product_id,
-        quantity: itemData.quantity,
-        price_at_purchase: itemData.price_at_purchase
-      }, { transaction: t });
+      const [orderItem, created] = await OrderItem.findOrCreate({
+        where: {
+          order_id: newOrder.id,
+          product_id: itemData.product_id
+        },
+        defaults: {
+          quantity: itemData.quantity,
+          price_at_purchase: itemData.price_at_purchase
+        },
+        transaction: t
+      });
+
+      if (!created) {
+        // اگر آیتم قبلاً وجود داشته، می‌تونی مقدار quantity رو افزایش بدی یا نه، بستگی به نیازت داره
+        orderItem.quantity += itemData.quantity;
+        await orderItem.save({ transaction: t });
+      }
     }
 
     await t.commit();
@@ -528,6 +549,11 @@ exports.cancelOrder = async (req, res) => {
       },
       { transaction: t },
     );
+
+    await db.OrderItem.destroy({
+      where : {id : order.id},
+        }
+    )
 
     await t.commit();
     res

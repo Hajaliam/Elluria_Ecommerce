@@ -216,3 +216,16 @@ operable program or batch file.
 2025-07-21 21:22:28 ERROR: Unhandled error: Cannot read properties of undefined (reading 'id')
 2025-07-23 21:51:47 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
 2025-07-23 21:51:47 ERROR: Unhandled error: invalid csrf token
+2025-07-24 16:45:12 ERROR: HTTP Error PUT /api/products/1 200 invalid csrf token
+2025-07-24 16:45:12 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:09:00 ERROR: HTTP Error POST /api/cart/add 200 invalid csrf token
+2025-07-27 13:09:00 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:09:45 ERROR: HTTP Error POST /api/orders/place-order 200 invalid csrf token
+2025-07-27 13:09:45 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:14:27 ERROR: Error updating shipping status for order 25: notNull Violation: ShipmentTracking.provider_name cannot be null
+2025-07-27 13:27:35 ERROR: HTTP Error POST /api/users/login 200 invalid csrf token
+2025-07-27 13:27:35 ERROR: Unhandled error: invalid csrf token
+2025-07-27 13:29:12 ERROR: HTTP Error GET /api/shipping/25 200 Cannot read properties of null (reading 'id')
+2025-07-27 13:29:12 ERROR: Unhandled error: Cannot read properties of null (reading 'id')
+2025-07-27 13:29:18 ERROR: HTTP Error GET /api/shipping/25 200 Cannot read properties of null (reading 'id')
+2025-07-27 13:29:18 ERROR: Unhandled error: Cannot read properties of null (reading 'id')
