@@ -33,7 +33,12 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'product_id',
           otherKey: 'coupon_id',
           as: 'coupons'
+      })
+      Product.hasOne(models.CampaignProduct, {
+          foreignKey: 'product_id',
+          as: 'campaignProduct',
       });
+
     }
   }
   Product.init(

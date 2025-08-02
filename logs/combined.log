@@ -1120,3 +1120,216 @@
 2025-07-27 16:44:51 INFO: Database User: postgres
 2025-07-27 16:44:51 INFO: Database backup scheduler started.
 2025-07-27 16:44:51 INFO: Expired order cleanup scheduler started.
+2025-08-02 15:30:31 INFO: Server is running on port 3000
+2025-08-02 15:30:31 INFO: Environment: development
+2025-08-02 15:30:31 INFO: Database User: postgres
+2025-08-02 15:30:31 INFO: Database backup scheduler started.
+2025-08-02 15:30:31 INFO: Expired order cleanup scheduler started.
+2025-08-02 15:31:06 INFO: New session_id generated and set: 4cbb57e8-2f43-427f-8362-75c6f49b90d6
+2025-08-02 15:31:06 INFO: HTTP GET /api/csrf-token [32m200[39m 11ms
+2025-08-02 15:31:18 INFO: HTTP POST /api/users/login [32m200[39m 371ms
+2025-08-02 15:33:01 INFO: HTTP POST /api/admin/campaigns [32m201[39m 159ms
+2025-08-02 15:33:27 INFO: HTTP GET /api/admin/campaigns [32m200[39m 100ms
+2025-08-02 15:34:05 INFO: HTTP GET /api/admin/campaigns/1 [32m200[39m 70ms
+2025-08-02 15:34:58 INFO: HTTP PUT /api/admin/campaigns/1 [32m200[39m 90ms
+2025-08-02 15:35:08 INFO: HTTP GET /api/admin/campaigns/1 [32m200[39m 78ms
+2025-08-02 16:24:52 INFO: Server is running on port 3000
+2025-08-02 16:24:52 INFO: Environment: development
+2025-08-02 16:24:52 INFO: Database User: postgres
+2025-08-02 16:24:52 INFO: Database backup scheduler started.
+2025-08-02 16:24:52 INFO: Expired order cleanup scheduler started.
+2025-08-02 16:24:57 INFO: New session_id generated and set: 90717050-3c21-4edd-9bc9-ff963b6ce64d
+2025-08-02 16:24:57 INFO: HTTP GET /api-docs/ [36m304[39m 11ms
+2025-08-02 16:24:57 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-08-02 16:24:57 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 4ms
+2025-08-02 16:24:57 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 4ms
+2025-08-02 16:24:57 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 6ms
+2025-08-02 16:24:58 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-08-02 16:33:34 INFO: Server is running on port 3000
+2025-08-02 16:33:34 INFO: Environment: development
+2025-08-02 16:33:34 INFO: Database User: postgres
+2025-08-02 16:33:34 INFO: Database backup scheduler started.
+2025-08-02 16:33:34 INFO: Expired order cleanup scheduler started.
+2025-08-02 16:33:34 INFO: HTTP GET /api-docs/ [36m304[39m 11ms
+2025-08-02 16:33:34 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 4ms
+2025-08-02 16:33:35 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-08-02 16:33:35 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 10ms
+2025-08-02 16:33:35 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 2ms
+2025-08-02 16:33:35 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-08-02 16:54:43 INFO: Server is running on port 3000
+2025-08-02 16:54:43 INFO: Environment: development
+2025-08-02 16:54:43 INFO: Database User: postgres
+2025-08-02 16:54:43 INFO: Database backup scheduler started.
+2025-08-02 16:54:43 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:06:46 INFO: Server is running on port 3000
+2025-08-02 19:06:46 INFO: Environment: development
+2025-08-02 19:06:46 INFO: Database User: postgres
+2025-08-02 19:06:46 INFO: Database backup scheduler started.
+2025-08-02 19:06:46 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:07:00 INFO: HTTP GET /api-docs/ [32m200[39m 9ms
+2025-08-02 19:07:00 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 15ms
+2025-08-02 19:07:00 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 18ms
+2025-08-02 19:07:00 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 28ms
+2025-08-02 19:07:00 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-08-02 19:07:41 INFO: HTTP GET /api/products [32m200[39m 831ms
+2025-08-02 19:20:09 INFO: HTTP GET /api/products [32m200[39m 120ms
+2025-08-02 19:20:22 INFO: Server is running on port 3000
+2025-08-02 19:20:22 INFO: Environment: development
+2025-08-02 19:20:22 INFO: Database User: postgres
+2025-08-02 19:20:22 INFO: Database backup scheduler started.
+2025-08-02 19:20:22 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:20:25 INFO: HTTP GET /api/products [32m200[39m 237ms
+2025-08-02 19:20:49 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-08-02 19:21:33 INFO: HTTP POST /api/users/login [32m200[39m 192ms
+2025-08-02 19:21:50 INFO: HTTP GET /api-docs/ [36m304[39m 3ms
+2025-08-02 19:21:50 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-08-02 19:21:50 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 4ms
+2025-08-02 19:21:50 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-08-02 19:21:50 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 8ms
+2025-08-02 19:21:51 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 6ms
+2025-08-02 19:24:23 INFO: HTTP POST /api/admin/campaigns [32m201[39m 274ms
+2025-08-02 19:24:30 INFO: HTTP GET /api/products [32m200[39m 19ms
+2025-08-02 19:30:17 INFO: HTTP GET /api/products [32m200[39m 103ms
+2025-08-02 19:30:34 INFO: Server is running on port 3000
+2025-08-02 19:30:34 INFO: Environment: development
+2025-08-02 19:30:34 INFO: Database User: postgres
+2025-08-02 19:30:34 INFO: Database backup scheduler started.
+2025-08-02 19:30:34 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:30:40 INFO: HTTP GET /api/products [32m200[39m 2746ms
+2025-08-02 19:33:11 INFO: Server is running on port 3000
+2025-08-02 19:33:11 INFO: Environment: development
+2025-08-02 19:33:11 INFO: Database User: postgres
+2025-08-02 19:33:11 INFO: Database backup scheduler started.
+2025-08-02 19:33:11 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:33:14 INFO: HTTP GET /api/products [32m200[39m 269ms
+2025-08-02 19:36:58 INFO: HTTP GET /api/products [32m200[39m 164ms
+2025-08-02 19:38:26 INFO: HTTP GET /api/products [32m200[39m 108ms
+2025-08-02 19:41:08 INFO: Server is running on port 3000
+2025-08-02 19:41:08 INFO: Environment: development
+2025-08-02 19:41:08 INFO: Database User: postgres
+2025-08-02 19:41:08 INFO: Database backup scheduler started.
+2025-08-02 19:41:08 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:41:14 INFO: HTTP GET /api/products [31m500[39m 372ms
+2025-08-02 19:42:41 INFO: Server is running on port 3000
+2025-08-02 19:42:41 INFO: Environment: development
+2025-08-02 19:42:41 INFO: Database User: postgres
+2025-08-02 19:42:41 INFO: Database backup scheduler started.
+2025-08-02 19:42:41 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:42:43 INFO: HTTP GET /api/products [31m500[39m 309ms
+2025-08-02 19:44:14 INFO: Server is running on port 3000
+2025-08-02 19:44:14 INFO: Environment: development
+2025-08-02 19:44:14 INFO: Database User: postgres
+2025-08-02 19:44:14 INFO: Database backup scheduler started.
+2025-08-02 19:44:14 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:44:21 INFO: HTTP GET /api/products [31m500[39m 387ms
+2025-08-02 19:44:49 INFO: Server is running on port 3000
+2025-08-02 19:44:49 INFO: Environment: development
+2025-08-02 19:44:49 INFO: Database User: postgres
+2025-08-02 19:44:49 INFO: Database backup scheduler started.
+2025-08-02 19:44:49 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:44:54 INFO: HTTP GET /api/products [31m500[39m 364ms
+2025-08-02 19:46:12 INFO: Server is running on port 3000
+2025-08-02 19:46:12 INFO: Environment: development
+2025-08-02 19:46:12 INFO: Database User: postgres
+2025-08-02 19:46:12 INFO: Database backup scheduler started.
+2025-08-02 19:46:12 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:46:15 INFO: HTTP GET /api/products [31m500[39m 505ms
+2025-08-02 19:47:41 INFO: Server is running on port 3000
+2025-08-02 19:47:41 INFO: Environment: development
+2025-08-02 19:47:41 INFO: Database User: postgres
+2025-08-02 19:47:41 INFO: Database backup scheduler started.
+2025-08-02 19:47:41 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:47:52 INFO: HTTP GET /api/products [32m200[39m 381ms
+2025-08-02 19:52:57 INFO: Server is running on port 3000
+2025-08-02 19:52:57 INFO: Environment: development
+2025-08-02 19:52:57 INFO: Database User: postgres
+2025-08-02 19:52:57 INFO: Database backup scheduler started.
+2025-08-02 19:52:57 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:53:01 INFO: HTTP GET /api/products [32m200[39m 308ms
+2025-08-02 19:54:41 INFO: Server is running on port 3000
+2025-08-02 19:54:41 INFO: Environment: development
+2025-08-02 19:54:41 INFO: Database User: postgres
+2025-08-02 19:54:41 INFO: Database backup scheduler started.
+2025-08-02 19:54:41 INFO: Expired order cleanup scheduler started.
+2025-08-02 19:54:44 INFO: HTTP GET /api/products [32m200[39m 490ms
+2025-08-02 20:00:00 INFO: Triggering expired order cleanup.
+2025-08-02 20:00:00 INFO: Running expired orders cleanup job...
+2025-08-02 20:00:00 INFO: No expired pending orders found.
+2025-08-02 20:01:17 INFO: HTTP POST /api/admin/campaigns/2 [33m404[39m 68ms
+2025-08-02 20:01:22 INFO: HTTP PUT /api/admin/campaigns/2 [32m200[39m 31ms
+2025-08-02 20:01:29 INFO: Server is running on port 3000
+2025-08-02 20:01:29 INFO: Environment: development
+2025-08-02 20:01:29 INFO: Database User: postgres
+2025-08-02 20:01:30 INFO: Database backup scheduler started.
+2025-08-02 20:01:30 INFO: Expired order cleanup scheduler started.
+2025-08-02 20:01:38 INFO: HTTP GET /api/products [32m200[39m 413ms
+2025-08-02 20:04:41 INFO: HTTP GET /api/products/3 [32m200[39m 80ms
+2025-08-02 20:04:50 INFO: HTTP GET /api/products [32m200[39m 133ms
+2025-08-02 20:12:10 INFO: HTTP PUT /api/admin/campaigns/2 [32m200[39m 93ms
+2025-08-02 20:12:20 INFO: HTTP GET /api/products [32m200[39m 210ms
+2025-08-02 21:00:00 INFO: Triggering expired order cleanup.
+2025-08-02 21:00:00 INFO: Running expired orders cleanup job...
+2025-08-02 21:00:00 INFO: No expired pending orders found.
+2025-08-02 22:00:00 INFO: Triggering expired order cleanup.
+2025-08-02 22:00:00 INFO: Running expired orders cleanup job...
+2025-08-02 22:00:00 INFO: No expired pending orders found.
+2025-08-02 23:00:00 INFO: Triggering expired order cleanup.
+2025-08-02 23:00:00 INFO: Running expired orders cleanup job...
+2025-08-02 23:00:00 INFO: No expired pending orders found.
+2025-08-03 00:00:00 INFO: Running daily database backup...
+2025-08-03 00:00:00 INFO: Triggering expired order cleanup.
+2025-08-03 00:00:00 INFO: Running expired orders cleanup job...
+2025-08-03 00:00:00 INFO: Deleted old backup file: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\elluria_20250722_000000.sql
+2025-08-03 00:00:00 INFO: Deleted old backup file: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\lamora_20250718_000000.sql
+2025-08-03 00:00:00 INFO: No expired pending orders found.
+2025-08-03 00:00:01 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\elluria_20250803_000000.sql
+2025-08-03 01:00:00 INFO: Triggering expired order cleanup.
+2025-08-03 01:00:00 INFO: Running expired orders cleanup job...
+2025-08-03 01:00:00 INFO: No expired pending orders found.
+2025-08-03 01:12:16 INFO: Server is running on port 3000
+2025-08-03 01:12:16 INFO: Environment: development
+2025-08-03 01:12:16 INFO: Database User: postgres
+2025-08-03 01:12:16 INFO: Database backup scheduler started.
+2025-08-03 01:12:16 INFO: Expired order cleanup scheduler started.
+2025-08-03 01:16:56 INFO: Server is running on port 3000
+2025-08-03 01:16:56 INFO: Environment: development
+2025-08-03 01:16:56 INFO: Database User: postgres
+2025-08-03 01:16:56 INFO: Database backup scheduler started.
+2025-08-03 01:16:56 INFO: Expired order cleanup scheduler started.
+2025-08-03 01:17:00 INFO: HTTP GET /api-docs/ [36m304[39m 8ms
+2025-08-03 01:17:00 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-08-03 01:17:00 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-08-03 01:17:00 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 11ms
+2025-08-03 01:17:00 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 11ms
+2025-08-03 01:17:01 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 7ms
+2025-08-03 01:26:41 ERROR: HTTP Error POST /api/admin/campaigns 200 Cannot destructure property 'title' of 'req.body' as it is undefined.
+2025-08-03 01:26:41 ERROR: Unhandled error: Cannot destructure property 'title' of 'req.body' as it is undefined.
+2025-08-03 01:26:41 INFO: HTTP POST /api/admin/campaigns [31m500[39m 220ms
+2025-08-03 01:31:04 INFO: HTTP GET /api-docs/ [36m304[39m 2ms
+2025-08-03 01:31:04 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 2ms
+2025-08-03 01:31:04 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 2ms
+2025-08-03 01:31:04 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 2ms
+2025-08-03 01:31:04 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 2ms
+2025-08-03 01:31:05 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 3ms
+2025-08-03 01:45:23 INFO: Server is running on port 3000
+2025-08-03 01:45:23 INFO: Environment: development
+2025-08-03 01:45:23 INFO: Database User: postgres
+2025-08-03 01:45:23 INFO: Database backup scheduler started.
+2025-08-03 01:45:23 INFO: Expired order cleanup scheduler started.
+2025-08-03 01:45:26 INFO: HTTP GET /api-docs/ [36m304[39m 14ms
+2025-08-03 01:45:26 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 3ms
+2025-08-03 01:45:26 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-08-03 01:45:26 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 13ms
+2025-08-03 01:45:26 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 14ms
+2025-08-03 01:45:27 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 2ms
+2025-08-03 01:46:39 INFO: Server is running on port 3000
+2025-08-03 01:46:39 INFO: Environment: development
+2025-08-03 01:46:39 INFO: Database User: postgres
+2025-08-03 01:46:39 INFO: Database backup scheduler started.
+2025-08-03 01:46:39 INFO: Expired order cleanup scheduler started.
+2025-08-03 01:46:39 INFO: HTTP GET /api-docs/ [36m304[39m 12ms
+2025-08-03 01:46:39 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 5ms
+2025-08-03 01:46:39 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 3ms
+2025-08-03 01:46:39 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 3ms
+2025-08-03 01:46:39 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-08-03 01:46:40 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 4ms

@@ -35,6 +35,7 @@ const router = express.Router();
  *               - campaign_type
  *               - start_date
  *               - end_date
+ *               - products
  *             properties:
  *               title:
  *                 type: string
@@ -71,12 +72,23 @@ const router = express.Router();
  *               is_active:
  *                 type: boolean
  *                 example: true
- *               product_ids:
+ *               products:
  *                 type: array
- *                 description: List of product IDs to associate with this campaign
+ *                 description: List of products with campaign pricing details
  *                 items:
- *                   type: integer
- *                 example: [1, 5, 10]
+ *                   type: object
+ *                   required:
+ *                     - product_id
+ *                   properties:
+ *                     product_id:
+ *                       type: integer
+ *                       example: 1
+ *                     campaign_price:
+ *                       type: number
+ *                       example: 19900
+ *                     original_price:
+ *                       type: number
+ *                       example: 25000
  *     responses:
  *       201:
  *         description: Campaign created successfully
@@ -97,9 +109,80 @@ router.post('/', authMiddleware.authenticateToken, authMiddleware.authorizeRoles
 
 /**
  * @swagger
+ * /api/admin/campaigns/{campaignId}/import-products:
+ *   post:
+ *     summary: Import products to a campaign from CSV or Excel file (Admin only)
+ *     tags: [Campaigns]
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     parameters:
+ *       - in: path
+ *         name: campaignId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the campaign to import products into
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *               - format
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file containing campaign products data (product_slug, campaign_price, original_price)
+ *               format:
+ *                 type: string
+ *                 enum: [csv, excel]
+ *                 description: Format of the uploaded file
+ *                 example: csv
+ *     responses:
+ *       200:
+ *         description: Campaign products imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 importedCount:
+ *                   type: integer
+ *                 updatedCount:
+ *                   type: integer
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       record:
+ *                         type: object
+ *                       error:
+ *                         type: string
+ *       400:
+ *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (unauthorized role or CSRF)
+ *       404:
+ *         description: Campaign or Product not found
+ *       500:
+ *         description: Server error
+ */
+router.post('/campaigns/:campaignId/import-products', campaignController.uploadImport.single('file'), campaignController.importCampaignProducts);
+
+/**
+ * @swagger
  * /api/admin/campaigns/{id}:
  *   put:
- *     summary: Update an existing campaign (Admin only)
+ *     summary: Update a campaign by ID (Admin only)
  *     tags: [Campaigns]
  *     security:
  *       - bearerAuth: []
@@ -107,10 +190,10 @@ router.post('/', authMiddleware.authenticateToken, authMiddleware.authorizeRoles
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: integer
- *         description: ID of the campaign to update
+ *         required: true
+ *         description: Numeric ID of the campaign to update
  *     requestBody:
  *       required: true
  *       content:
@@ -120,63 +203,80 @@ router.post('/', authMiddleware.authenticateToken, authMiddleware.authorizeRoles
  *             properties:
  *               title:
  *                 type: string
- *                 description: Campaign title
- *                 example: Fall Collection
+ *                 example: Summer Sale Updated
  *               description:
  *                 type: string
- *                 example: Discounts on fall products.
+ *                 example: Updated description for summer sale campaign.
  *               slug:
  *                 type: string
- *                 example: fall-collection
+ *                 example: summer-sale-updated
  *               banner_image_url:
  *                 type: string
- *                 example: /banners/fall_sale.jpg
+ *                 example: /banners/summer_sale_updated.jpg
  *               campaign_type:
  *                 type: string
  *                 example: seasonal
  *               start_date:
  *                 type: string
  *                 format: date-time
- *                 example: 2025-09-01T00:00:00Z
+ *                 example: 2025-07-01T00:00:00Z
  *               end_date:
  *                 type: string
  *                 format: date-time
- *                 example: 2025-11-30T23:59:59Z
+ *                 example: 2025-07-31T23:59:59Z
  *               show_countdown:
  *                 type: boolean
- *                 example: false
+ *                 example: true
  *               priority:
  *                 type: integer
  *                 example: 50
  *               cta_link:
  *                 type: string
- *                 example: /products/fall-collection
+ *                 example: /products/summer-collection
  *               is_active:
  *                 type: boolean
  *                 example: true
- *               product_ids:
+ *               products:
  *                 type: array
- *                 description: List of product IDs to associate with this campaign (send empty array to remove all)
+ *                 description: List of products with optional campaign pricing
  *                 items:
- *                   type: integer
- *                 example: [2, 4]
+ *                   type: object
+ *                   required:
+ *                     - product_id
+ *                   properties:
+ *                     product_id:
+ *                       type: integer
+ *                       example: 1
+ *                     campaign_price:
+ *                       type: number
+ *                       nullable: true
+ *                       example: 79.99
+ *                     original_price:
+ *                       type: number
+ *                       nullable: true
+ *                       example: 99.99
  *     responses:
  *       200:
  *         description: Campaign updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Campaign updated successfully.
+ *                 campaign:
+ *                   $ref: '#/components/schemas/Campaign'
  *       400:
- *         description: Bad Request (validation errors)
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Forbidden
+ *         description: Invalid input or date validation error
  *       404:
- *         description: Campaign or Product not found
+ *         description: Campaign or one or more products not found
  *       409:
- *         description: Conflict (slug already exists)
+ *         description: Slug already in use by another campaign
  *       500:
  *         description: Server error
  */
-
 router.put('/:id', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), campaignController.updateCampaign);
 
 /**
@@ -209,6 +309,51 @@ router.put('/:id', authMiddleware.authenticateToken, authMiddleware.authorizeRol
  */
 
 router.delete('/:id', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), campaignController.deleteCampaign);
+
+/**
+ * @swagger
+ * /api/admin/campaigns/{campaignId}/products/{productId}:
+ *   delete:
+ *     summary: Remove a product from a specific campaign (Admin only)
+ *     tags:
+ *       - Campaigns
+ *     security:
+ *       - bearerAuth: []
+ *       - csrfToken: []
+ *     parameters:
+ *       - in: path
+ *         name: campaignId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the campaign
+ *       - in: path
+ *         name: productId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the product to remove from the campaign
+ *     responses:
+ *       200:
+ *         description: Product removed from campaign successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Product removed from campaign successfully.
+ *       404:
+ *         description: Campaign or product not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campaign not found.
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       500:
+ *         description: Server error
+ */
+router.delete('/:campaignId/products/:productId', authMiddleware.authenticateToken, authMiddleware.authorizeRoles('admin'), campaignController.removeProductFromCampaign);
 
 /**
  * @swagger

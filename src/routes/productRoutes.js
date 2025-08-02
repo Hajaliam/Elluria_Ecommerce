@@ -143,6 +143,11 @@ router.post(
  *           type: integer
  *         description: Filter by category ID
  *       - in: query
+ *         name: brand_id
+ *         schema:
+ *           type: integer
+ *         description: Filter by brand ID
+ *       - in: query
  *         name: search
  *         schema:
  *           type: string
@@ -152,29 +157,35 @@ router.post(
  *         schema:
  *           type: number
  *           format: float
+ *         description: Minimum product price
  *       - in: query
  *         name: maxPrice
  *         schema:
  *           type: number
  *           format: float
+ *         description: Maximum product price
  *       - in: query
  *         name: sortBy
  *         schema:
  *           type: string
  *           enum: [name, price, stock_quantity, views_count, sold_count, createdAt]
+ *         description: Field to sort by
  *       - in: query
  *         name: sortOrder
  *         schema:
  *           type: string
  *           enum: [ASC, DESC]
+ *         description: Sorting order (ascending or descending)
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
+ *         description: Number of results to return
  *       - in: query
  *         name: offset
  *         schema:
  *           type: integer
+ *         description: Number of results to skip
  *     responses:
  *       200:
  *         description: A list of products
@@ -192,7 +203,51 @@ router.post(
  *                 products:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Product'
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       name:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       price:
+ *                         type: number
+ *                         format: float
+ *                       stock_quantity:
+ *                         type: integer
+ *                       image_url:
+ *                         type: string
+ *                       category_id:
+ *                         type: integer
+ *                       brand_id:
+ *                         type: integer
+ *                       slug:
+ *                         type: string
+ *                       views_count:
+ *                         type: integer
+ *                       sold_count:
+ *                         type: integer
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                       display_price:
+ *                         type: number
+ *                         format: float
+ *                         description: Final price shown to user (campaign price if available)
+ *                       original_price:
+ *                         type: number
+ *                         format: float
+ *                         nullable: true
+ *                         description: Original product price before campaign (used for discount calculation)
+ *                       campaign_price:
+ *                         type: number
+ *                         format: float
+ *                         nullable: true
+ *                         description: Active campaign price if applicable
  *       500:
  *         description: Server error
  */

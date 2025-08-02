@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'product_id',
                 as: 'product'
             });
+
         }
     }
     CampaignProduct.init({
@@ -27,6 +28,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true // می‌تواند بخشی از primary key کامپوزیت باشد
+        },
+        original_price: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: false
+        },
+        campaign_price: {                  // افزودن فیلد قیمت کمپین
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: true
         }
     }, {
         sequelize,

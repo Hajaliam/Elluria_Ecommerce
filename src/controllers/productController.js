@@ -9,6 +9,9 @@ const multer = require('multer'); // برای آپلود فایل
 const path = require('path'); // برای کار با مسیرهای فایل
 const { sanitizeString } = require('../utils/sanitizer'); // 👈 این خط باید وجود داشته باشد و استفاده شود
 // const fs = require('fs'); // اگر می‌خواهید حذف فایل‌های قدیمی را فعال کنید، این خط را اضافه کنید
+const moment = require('moment');
+const CampaignProduct = db.CampaignProduct;
+const Campaign = db.Campaign;
 
 
 
@@ -141,6 +144,9 @@ exports.getAllProducts = async (req, res) => {
     limit,
     offset,
   } = req.query;
+
+  const now = new Date();
+
   const whereClause = {};
   let orderClause = [];
 
@@ -151,19 +157,21 @@ exports.getAllProducts = async (req, res) => {
     whereClause.brand_id = brand_id;
   }
   if (search) {
-    whereClause.name = { [Sequelize.Op.iLike]: `%${sanitizeString(search)}%` }; // 👈 جستجو هم پاکسازی شود
-  }
-  if (minPrice && maxPrice) {
-    whereClause.price = { [Sequelize.Op.between]: [minPrice, maxPrice] };
-  } else if (minPrice) {
-    whereClause.price = { [Sequelize.Op.gte]: minPrice };
-  } else if (maxPrice) {
-    whereClause.price = { [Sequelize.Op.lte]: maxPrice };
+    whereClause.name = { [Sequelize.Op.iLike]: `%${sanitizeString(search)}%` };
   }
 
-  // مرتب‌سازی
+  const minP = minPrice ? parseFloat(minPrice) : undefined;
+  const maxP = maxPrice ? parseFloat(maxPrice) : undefined;
+
+  if (minP !== undefined && maxP !== undefined) {
+    whereClause.price = { [Sequelize.Op.between]: [minP, maxP] };
+  } else if (minP !== undefined) {
+    whereClause.price = { [Sequelize.Op.gte]: minP };
+  } else if (maxP !== undefined) {
+    whereClause.price = { [Sequelize.Op.lte]: maxP };
+  }
+
   if (sortBy) {
-    // اطمینان از اینکه sortBy یک ستون معتبر است
     const validSortFields = [
       'name',
       'price',
@@ -179,28 +187,71 @@ exports.getAllProducts = async (req, res) => {
       ]);
     }
   } else {
-    orderClause.push(['createdAt', 'DESC']); // مرتب‌سازی پیش‌فرض بر اساس جدیدترین
+    orderClause.push(['createdAt', 'DESC']);
   }
 
   try {
     const products = await Product.findAndCountAll({
       where: whereClause,
       order: orderClause,
-      limit: limit ? parseInt(limit) : undefined, // صفحه‌بندی
-      offset: offset ? parseInt(offset) : undefined, // صفحه‌بندی
+      limit: limit ? parseInt(limit) : undefined,
+      offset: offset ? parseInt(offset) : undefined,
       include: [
         {
           model: Category,
           as: 'category',
           attributes: ['name'],
         },
+        {
+          model: CampaignProduct,
+          as: 'campaignProduct',
+          required: false,
+          include: [
+            {
+              model: Campaign,
+              as: 'campaign',
+              where: {
+                is_active: true,
+                start_date: { [Sequelize.Op.lte]: now },
+                end_date: { [Sequelize.Op.gte]: now },
+              },
+              required: true,
+              attributes: ['id', 'title', 'start_date', 'end_date'],
+            },
+          ],
+          attributes: ['campaign_price', 'original_price'],
+        },
       ],
     });
+
+    const productsWithPrices = products.rows.map((product) => {
+      const plainProduct = product.get({ plain: true });
+      const cp = plainProduct.campaignProduct
+      // محصول داخل کمپین هست
+      if (cp && cp.campaign && cp.campaign_price != null) {
+        return {
+          ...plainProduct,
+          display_price: cp.campaign_price,
+          campaign_price: cp.campaign_price,
+          original_price: plainProduct.price,
+          campaign_id: cp.campaign.id,
+        };
+      }
+      delete plainProduct.campaignProduct
+      // محصول کمپین نداره → فیلدهای کمپین اضافه نشن
+      return {
+        ...plainProduct,
+        display_price: plainProduct.price,
+
+      };
+    });
+
+
     res.status(200).json({
       total: products.count,
       limit: limit ? parseInt(limit) : products.count,
       offset: offset ? parseInt(offset) : 0,
-      products: products.rows,
+      products: productsWithPrices,
     });
   } catch (error) {
     console.error('Error fetching products:', error);
