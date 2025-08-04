@@ -265,6 +265,7 @@ exports.getAllProducts = async (req, res) => {
 // تابع برای دریافت یک محصول بر اساس ID
 exports.getProductById = async (req, res) => {
   const { id } = req.params;
+  const now = new Date(); // برای بررسی تاریخ کمپین
 
   try {
     const product = await Product.findByPk(id, {
@@ -274,24 +275,74 @@ exports.getProductById = async (req, res) => {
           as: 'category',
           attributes: ['name'],
         },
+        // 💎 START: این بلاک برای واکشی اطلاعات کمپین فعال اضافه شده است
+        {
+          model: CampaignProduct,
+          as: 'campaignProduct',
+          required: false, // LEFT JOIN
+          include: [
+            {
+              model: Campaign,
+              as: 'campaign',
+              where: {
+                is_active: true,
+                start_date: { [Sequelize.Op.lte]: now },
+                end_date: { [Sequelize.Op.gte]: now },
+              },
+              required: true,
+              attributes: ['id', 'title'],
+            },
+          ],
+          attributes: ['campaign_price'],
+        },
+        // 💎 END: پایان بلاک اضافه شده
       ],
     });
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found.' });
     }
-    // افزایش تعداد بازدید (optional)
+
+    // افزایش تعداد بازدید روی نمونه اصلی Sequelize
     product.views_count += 1;
     await product.save();
 
-    res.status(200).json({ product: product });
+    // 💎 START: منطق تبدیل قیمت برای نمایش
+    const plainProduct = product.get({ plain: true });
+    let productResponse;
+
+    const cp = plainProduct.campaignProduct;
+    if (cp && cp.campaign && cp.campaign_price != null) {
+      // محصول در یک کمپین فعال قرار دارد
+      productResponse = {
+        ...plainProduct,
+        display_price: cp.campaign_price, // قیمت نمایشی همان قیمت کمپین است
+        campaign_price: cp.campaign_price,
+        original_price: plainProduct.price, // قیمت اصلی محصول
+        campaign_info: {
+          id: cp.campaign.id,
+          title: cp.campaign.title
+        },
+      };
+    } else {
+      // محصول در کمپین فعال نیست
+      productResponse = {
+        ...plainProduct,
+        display_price: plainProduct.price, // قیمت نمایشی همان قیمت اصلی است
+      };
+    }
+    delete productResponse.campaignProduct; // حذف آبجکت اضافی از پاسخ نهایی
+    // 💎 END: پایان منطق تبدیل
+
+    res.status(200).json({ product: productResponse });
+
   } catch (error) {
     console.error('Error fetching product by ID:', error);
     res
-      .status(500)
-      .json({ message: 'Server error fetching product', error: error.message });
+        .status(500)
+        .json({ message: 'Server error fetching product', error: error.message });
   }
 };
-
 // تابع برای به‌روزرسانی یک محصول
 exports.updateProduct = async (req, res) => {
   const t = await db.sequelize.transaction();

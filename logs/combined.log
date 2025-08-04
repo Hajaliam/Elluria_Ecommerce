@@ -1333,3 +1333,128 @@
 2025-08-03 01:46:39 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 3ms
 2025-08-03 01:46:39 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
 2025-08-03 01:46:40 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 4ms
+2025-08-03 20:29:56 INFO: Server is running on port 3000
+2025-08-03 20:29:56 INFO: Environment: development
+2025-08-03 20:29:56 INFO: Database User: postgres
+2025-08-03 20:29:56 INFO: Database backup scheduler started.
+2025-08-03 20:29:56 INFO: Expired order cleanup scheduler started.
+2025-08-03 20:29:57 INFO: HTTP GET /api/csrf-token [32m200[39m 6ms
+2025-08-03 20:30:25 INFO: HTTP POST /api/users/login [32m200[39m 686ms
+2025-08-03 20:56:53 INFO: HTTP POST /api/admin/campaigns [33m409[39m 180ms
+2025-08-03 20:57:10 ERROR: Error creating campaign: products is not iterable
+2025-08-03 20:57:10 INFO: HTTP POST /api/admin/campaigns [31m500[39m 71ms
+2025-08-03 20:57:29 INFO: HTTP POST /api/admin/campaigns [33m404[39m 67ms
+2025-08-03 20:58:18 ERROR: Error creating campaign: products is not iterable
+2025-08-03 20:58:18 INFO: HTTP POST /api/admin/campaigns [31m500[39m 81ms
+2025-08-03 20:58:34 INFO: Server is running on port 3000
+2025-08-03 20:58:34 INFO: Environment: development
+2025-08-03 20:58:34 INFO: Database User: postgres
+2025-08-03 20:58:34 INFO: Database backup scheduler started.
+2025-08-03 20:58:34 INFO: Expired order cleanup scheduler started.
+2025-08-03 20:58:37 ERROR: Error creating campaign: products is not defined
+2025-08-03 20:58:37 INFO: HTTP POST /api/admin/campaigns [31m500[39m 211ms
+2025-08-03 20:59:13 INFO: HTTP GET /api-docs/ [32m200[39m 4ms
+2025-08-03 20:59:13 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 11ms
+2025-08-03 20:59:13 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 35ms
+2025-08-03 20:59:13 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 52ms
+2025-08-03 20:59:13 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-08-03 20:59:58 ERROR: Error creating campaign: products is not defined
+2025-08-03 20:59:58 INFO: HTTP POST /api/admin/campaigns [31m500[39m 97ms
+2025-08-03 21:00:00 INFO: Triggering expired order cleanup.
+2025-08-03 21:00:00 INFO: Running expired orders cleanup job...
+2025-08-03 21:00:00 INFO: No expired pending orders found.
+2025-08-03 21:00:05 INFO: Server is running on port 3000
+2025-08-03 21:00:05 INFO: Environment: development
+2025-08-03 21:00:05 INFO: Database User: postgres
+2025-08-03 21:00:05 INFO: Database backup scheduler started.
+2025-08-03 21:00:05 INFO: Expired order cleanup scheduler started.
+2025-08-03 21:00:12 INFO: HTTP POST /api/admin/campaigns [33m400[39m 774ms
+2025-08-03 21:00:26 INFO: HTTP POST /api/admin/campaigns [32m201[39m 219ms
+2025-08-03 22:00:00 INFO: Triggering expired order cleanup.
+2025-08-03 22:00:00 INFO: Running expired orders cleanup job...
+2025-08-03 22:00:00 INFO: No expired pending orders found.
+2025-08-03 23:00:00 INFO: Triggering expired order cleanup.
+2025-08-03 23:00:00 INFO: Running expired orders cleanup job...
+2025-08-03 23:00:00 INFO: No expired pending orders found.
+2025-08-04 00:00:00 INFO: Running daily database backup...
+2025-08-04 00:00:00 INFO: Triggering expired order cleanup.
+2025-08-04 00:00:00 INFO: Running expired orders cleanup job...
+2025-08-04 00:00:00 INFO: No expired pending orders found.
+2025-08-04 00:00:00 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\elluria_20250804_000000.sql
+2025-08-04 01:00:00 INFO: Triggering expired order cleanup.
+2025-08-04 01:00:00 INFO: Running expired orders cleanup job...
+2025-08-04 01:00:00 INFO: No expired pending orders found.
+2025-08-04 02:00:00 INFO: Triggering expired order cleanup.
+2025-08-04 02:00:00 INFO: Running expired orders cleanup job...
+2025-08-04 02:00:00 INFO: No expired pending orders found.
+2025-08-04 15:36:52 INFO: Server is running on port 3000
+2025-08-04 15:36:52 INFO: Environment: development
+2025-08-04 15:36:52 INFO: Database User: postgres
+2025-08-04 15:36:52 INFO: Database backup scheduler started.
+2025-08-04 15:36:52 INFO: Expired order cleanup scheduler started.
+2025-08-04 15:37:32 INFO: HTTP POST /api/admin/campaigns [33m409[39m 292ms
+2025-08-04 15:37:44 INFO: HTTP POST /api/admin/campaigns [32m201[39m 128ms
+2025-08-04 15:39:28 INFO: HTTP POST /api/admin/campaigns [33m409[39m 92ms
+2025-08-04 15:43:50 INFO: Server is running on port 3000
+2025-08-04 15:43:50 INFO: Environment: development
+2025-08-04 15:43:50 INFO: Database User: postgres
+2025-08-04 15:43:50 INFO: Database backup scheduler started.
+2025-08-04 15:43:50 INFO: Expired order cleanup scheduler started.
+2025-08-04 15:44:25 INFO: HTTP GET /api/admin/campaigns [32m200[39m 261ms
+2025-08-04 15:46:21 INFO: HTTP GET /api/admin/campaigns/4 [32m200[39m 107ms
+2025-08-04 16:00:00 INFO: Triggering expired order cleanup.
+2025-08-04 16:00:00 INFO: Running expired orders cleanup job...
+2025-08-04 16:00:00 INFO: No expired pending orders found.
+2025-08-04 16:03:16 INFO: HTTP PUT /api/admin/campaigns/4 [33m409[39m 663ms
+2025-08-04 16:06:22 INFO: HTTP PUT /api/admin/campaigns/4 [32m200[39m 216ms
+2025-08-04 16:16:35 INFO: Server is running on port 3000
+2025-08-04 16:16:35 INFO: Environment: development
+2025-08-04 16:16:35 INFO: Database User: postgres
+2025-08-04 16:16:35 INFO: Database backup scheduler started.
+2025-08-04 16:16:35 INFO: Expired order cleanup scheduler started.
+2025-08-04 16:17:12 INFO: HTTP PUT /api/admin/campaigns/4 [32m200[39m 363ms
+2025-08-04 16:17:22 INFO: HTTP PUT /api/admin/campaigns/4 [32m200[39m 43ms
+2025-08-04 16:17:36 INFO: HTTP GET /api/admin/campaigns/4 [32m200[39m 120ms
+2025-08-04 16:20:15 INFO: HTTP GET /api/admin/campaigns/4 [32m200[39m 108ms
+2025-08-04 16:20:21 INFO: HTTP PUT /api/admin/campaigns/4 [33m409[39m 23ms
+2025-08-04 16:23:18 INFO: HTTP DELETE /api/admin/campaigns/4 [32m200[39m 116ms
+2025-08-04 16:24:58 INFO: HTTP GET /api/products/1 [32m200[39m 79ms
+2025-08-04 16:25:45 INFO: HTTP GET /api/products [32m200[39m 175ms
+2025-08-04 16:29:56 INFO: Server is running on port 3000
+2025-08-04 16:29:56 INFO: Environment: development
+2025-08-04 16:29:56 INFO: Database User: postgres
+2025-08-04 16:29:56 INFO: Database backup scheduler started.
+2025-08-04 16:29:56 INFO: Expired order cleanup scheduler started.
+2025-08-04 16:29:59 INFO: HTTP GET /api/products/1 [32m200[39m 374ms
+2025-08-04 16:34:25 INFO: HTTP GET /api/admin/campaigns [32m200[39m 101ms
+2025-08-04 16:35:28 INFO: HTTP DELETE /api/admin/campaigns/2/products/3 [32m200[39m 102ms
+2025-08-04 16:35:37 INFO: HTTP GET /api/admin/campaigns/2 [32m200[39m 13ms
+2025-08-04 16:37:03 INFO: HTTP GET /api-docs/ [36m304[39m 6ms
+2025-08-04 16:37:03 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 6ms
+2025-08-04 16:37:03 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 5ms
+2025-08-04 16:37:03 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 6ms
+2025-08-04 16:37:03 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 2ms
+2025-08-04 16:38:57 INFO: HTTP POST /api/admin/campaigns/2/import-products [33m404[39m 69ms
+2025-08-04 16:40:21 INFO: HTTP POST /api/admin/campaigns/2/import-products [33m404[39m 228ms
+2025-08-04 16:40:32 INFO: HTTP POST /api/campaigns/2/import-products [33m404[39m 1ms
+2025-08-04 16:41:10 INFO: HTTP POST /api/admin/campaigns/3/import-products [33m404[39m 112ms
+2025-08-04 16:41:17 INFO: HTTP POST /api/admin/campaigns/2/import-products [33m404[39m 4ms
+2025-08-04 16:41:43 INFO: HTTP POST /api/admin//campaigns/2/import-products [33m404[39m 58ms
+2025-08-04 16:42:16 INFO: HTTP POST /api/admin/campaigns/2/import-products [33m404[39m 72ms
+2025-08-04 16:42:48 INFO: Server is running on port 3000
+2025-08-04 16:42:48 INFO: Environment: development
+2025-08-04 16:42:48 INFO: Database User: postgres
+2025-08-04 16:42:48 INFO: Database backup scheduler started.
+2025-08-04 16:42:48 INFO: Expired order cleanup scheduler started.
+2025-08-04 16:43:05 INFO: HTTP POST /api/admin/campaigns/2/import-products [33m404[39m 1290ms
+2025-08-04 16:46:57 INFO: HTTP POST /api/admin/campaigns/2/import-products [33m404[39m 71ms
+2025-08-04 16:47:05 INFO: HTTP GET /api/admin/campaigns [32m200[39m 36ms
+2025-08-04 16:47:17 INFO: HTTP GET /api/admin/campaigns/1/import-products [33m404[39m 64ms
+2025-08-04 16:47:25 INFO: HTTP POST /api/admin/campaigns/1/import-products [33m404[39m 6ms
+2025-08-04 16:53:07 INFO: Server is running on port 3000
+2025-08-04 16:53:07 INFO: Environment: development
+2025-08-04 16:53:07 INFO: Database User: postgres
+2025-08-04 16:53:07 INFO: Database backup scheduler started.
+2025-08-04 16:53:07 INFO: Expired order cleanup scheduler started.
+2025-08-04 16:53:24 INFO: HTTP POST /api/admin/campaigns/1/import-products [32m200[39m 392ms
+2025-08-04 16:53:32 INFO: HTTP GET /api/admin/campaigns/1 [32m200[39m 56ms

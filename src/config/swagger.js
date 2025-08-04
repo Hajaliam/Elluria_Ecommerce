@@ -870,23 +870,21 @@ const swaggerOptions = {
             cta_link: { type: 'string', format: 'url', description: 'Call to action link', example: '/products/summer-collection' },
             is_active: { type: 'boolean', description: 'Whether the campaign is currently active', example: true },
             createdAt: { type: 'string', format: 'date-time', description: 'Record creation timestamp', example: '2025-06-25T12:00:00Z' },
-            updatedAt: { type: 'string', format: 'date-time', description: 'Record last update timestamp', example: '2025-06-30T09:00:00Z' }
-          },
-          example: {
-            id: 1,
-            title: 'Summer Sale',
-            description: 'Big discounts for summer products.',
-            slug: 'summer-sale',
-            banner_image_url: '/banners/summer_sale.jpg',
-            campaign_type: 'seasonal',
-            start_date: '2025-07-01T00:00:00Z',
-            end_date: '2025-07-31T23:59:59Z',
-            show_countdown: true,
-            priority: 100,
-            cta_link: '/products/summer-collection',
-            is_active: true,
-            createdAt: '2025-06-25T12:00:00Z',
-            updatedAt: '2025-06-30T09:00:00Z'
+            updatedAt: { type: 'string', format: 'date-time', description: 'Record last update timestamp', example: '2025-06-30T09:00:00Z' },
+
+            // 👇 این قسمت اضافه می‌شود:
+            products: {
+              type: 'array',
+              description: 'List of products in this campaign',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'integer', example: 101 },
+                  name: { type: 'string', example: 'Sunscreen SPF50' },
+                  slug: { type: 'string', example: 'sunscreen-spf50' }
+                }
+              }
+            }
           }
         }
 

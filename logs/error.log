@@ -231,3 +231,7 @@ operable program or batch file.
 2025-07-27 13:29:18 ERROR: Unhandled error: Cannot read properties of null (reading 'id')
 2025-08-03 01:26:41 ERROR: HTTP Error POST /api/admin/campaigns 200 Cannot destructure property 'title' of 'req.body' as it is undefined.
 2025-08-03 01:26:41 ERROR: Unhandled error: Cannot destructure property 'title' of 'req.body' as it is undefined.
+2025-08-03 20:57:10 ERROR: Error creating campaign: products is not iterable
+2025-08-03 20:58:18 ERROR: Error creating campaign: products is not iterable
+2025-08-03 20:58:37 ERROR: Error creating campaign: products is not defined
+2025-08-03 20:59:58 ERROR: Error creating campaign: products is not defined

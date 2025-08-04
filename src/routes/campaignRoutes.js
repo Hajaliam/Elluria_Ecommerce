@@ -19,6 +19,7 @@ const router = express.Router();
  * /api/admin/campaigns:
  *   post:
  *     summary: Create a new campaign (Admin only)
+ *     description: Create a new promotional campaign with optional product assignments. You can either provide product list directly or later import products via file.
  *     tags: [Campaigns]
  *     security:
  *       - bearerAuth: []
@@ -35,46 +36,58 @@ const router = express.Router();
  *               - campaign_type
  *               - start_date
  *               - end_date
- *               - products
  *             properties:
  *               title:
  *                 type: string
+ *                 description: Campaign title
  *                 example: Summer Sale
  *               description:
  *                 type: string
+ *                 description: Optional campaign description
  *                 example: Big discounts for summer products.
  *               slug:
  *                 type: string
+ *                 description: Unique, URL-friendly identifier
  *                 example: summer-sale
  *               banner_image_url:
  *                 type: string
+ *                 format: uri
+ *                 description: URL of the campaign banner image
  *                 example: /banners/summer_sale.jpg
  *               campaign_type:
  *                 type: string
+ *                 description: Type of campaign (e.g. seasonal, clearance, bestsellers)
  *                 example: seasonal
  *               start_date:
  *                 type: string
  *                 format: date-time
+ *                 description: Campaign start date (you may also use JavaScript Date values like `new Date()` or `moment().subtract(1, 'days').toDate()`)
  *                 example: 2025-07-01T00:00:00Z
  *               end_date:
  *                 type: string
  *                 format: date-time
+ *                 description: Campaign end date (e.g., `moment().add(7, 'days').toDate()`)
  *                 example: 2025-07-31T23:59:59Z
  *               show_countdown:
  *                 type: boolean
+ *                 description: Whether to display countdown timer
  *                 example: true
  *               priority:
  *                 type: integer
+ *                 description: Display priority; lower values appear first
  *                 example: 100
  *               cta_link:
  *                 type: string
+ *                 format: uri
+ *                 description: Optional CTA link shown on banners or campaign section
  *                 example: /products/summer-collection
  *               is_active:
  *                 type: boolean
+ *                 description: Whether the campaign is active and visible
  *                 example: true
  *               products:
  *                 type: array
- *                 description: List of products with campaign pricing details
+ *                 description: Optional array of products with campaign pricing (if not provided, campaign will be created without products)
  *                 items:
  *                   type: object
  *                   required:
@@ -82,22 +95,25 @@ const router = express.Router();
  *                   properties:
  *                     product_id:
  *                       type: integer
+ *                       description: ID of the product to include in the campaign
  *                       example: 1
  *                     campaign_price:
  *                       type: number
+ *                       description: Special price during the campaign (must be ≤ original_price)
  *                       example: 19900
  *                     original_price:
  *                       type: number
+ *                       description: Optional reference price (defaults to product’s current price if not provided)
  *                       example: 25000
  *     responses:
  *       201:
  *         description: Campaign created successfully
  *       400:
- *         description: Bad Request (validation errors)
+ *         description: Bad Request (validation errors or logical issues like start_date > end_date)
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized (missing or invalid token)
  *       403:
- *         description: Forbidden
+ *         description: Forbidden (insufficient permissions)
  *       404:
  *         description: One or more products not found
  *       409:
@@ -112,6 +128,7 @@ router.post('/', authMiddleware.authenticateToken, authMiddleware.authorizeRoles
  * /api/admin/campaigns/{campaignId}/import-products:
  *   post:
  *     summary: Import products to a campaign from CSV or Excel file (Admin only)
+ *     description: Upload a CSV or Excel file to bulk-import campaign product assignments. Each row must include product_slug, campaign_price, and (optionally) original_price.
  *     tags: [Campaigns]
  *     security:
  *       - bearerAuth: []
@@ -136,11 +153,11 @@ router.post('/', authMiddleware.authenticateToken, authMiddleware.authorizeRoles
  *               file:
  *                 type: string
  *                 format: binary
- *                 description: CSV or Excel file containing campaign products data (product_slug, campaign_price, original_price)
+ *                 description: CSV or Excel file containing campaign products. Each row should include product_slug, campaign_price, and optionally original_price.
  *               format:
  *                 type: string
  *                 enum: [csv, excel]
- *                 description: Format of the uploaded file
+ *                 description: File format being uploaded (csv or excel)
  *                 example: csv
  *     responses:
  *       200:
@@ -152,31 +169,37 @@ router.post('/', authMiddleware.authenticateToken, authMiddleware.authorizeRoles
  *               properties:
  *                 message:
  *                   type: string
+ *                   example: Campaign products imported successfully!
  *                 importedCount:
  *                   type: integer
+ *                   example: 10
  *                 updatedCount:
  *                   type: integer
+ *                   example: 0
  *                 errors:
  *                   type: array
+ *                   description: Array of records with import errors
  *                   items:
  *                     type: object
  *                     properties:
  *                       record:
  *                         type: object
+ *                         description: The original record that failed
  *                       error:
  *                         type: string
+ *                         description: Error message for the failed record
  *       400:
- *         description: Bad Request (e.g., no file uploaded, invalid format, file parsing error)
+ *         description: Bad Request (e.g., missing file or format, invalid content)
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized (missing or invalid token)
  *       403:
- *         description: Forbidden (unauthorized role or CSRF)
+ *         description: Forbidden (e.g., role not allowed or CSRF token missing)
  *       404:
- *         description: Campaign or Product not found
+ *         description: Campaign not found or one of the product slugs is invalid
  *       500:
- *         description: Server error
+ *         description: Server error (e.g., database error, file parsing failure)
  */
-router.post('/campaigns/:campaignId/import-products', campaignController.uploadImport.single('file'), campaignController.importCampaignProducts);
+router.post('/:campaignId/import-products', campaignController.uploadImport.single('file'), campaignController.importCampaignProducts);
 
 /**
  * @swagger

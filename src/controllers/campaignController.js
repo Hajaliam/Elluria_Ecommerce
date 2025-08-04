@@ -54,24 +54,50 @@ exports.createCampaign = async (req, res) => {
             await t.rollback();
             return res.status(400).json({ message: 'Start date cannot be after end date.' });
         }
-        // برسی منطق قیمت برای کمتر بودن قیمت کمپین
-        for (const p of products) {
-            const product = await Product.findByPk(p.product_id, { transaction: t });
-            if (!product) {
-                await t.rollback();
-                return res.status(404).json({ message: `Product with ID ${p.product_id} not found.` });
-            }
+        //  بررسی منطق قیمت برای کمتر بودن قیمت کمپین و یکپارچگی قیمت
+        if (products && products.length > 0) {
+            for (const p of products) {
+                const product = await Product.findByPk(p.product_id, { transaction: t });
+                if (!product) {
+                    await t.rollback();
+                    return res.status(404).json({ message: `Product with ID ${p.product_id} not found.` });
+                }
 
-            const originalPrice = p.original_price !== undefined ? p.original_price : product.price;
+                // ۱. بررسی اینکه قیمت کمپین از قیمت اصلی بیشتر نباشد (این منطق از قبل بود و عالی است)
+                const originalPrice = p.original_price !== undefined ? p.original_price : product.price;
+                if (p.campaign_price > originalPrice) {
+                    await t.rollback();
+                    return res.status(400).json({
+                        message: `قیمت کمپین نباید بیشتر از قیمت اصلی باشد. محصول ID: ${p.product_id}`,
+                    });
+                }
 
-            if (p.campaign_price > originalPrice) {
-                await t.rollback();
-                return res.status(400).json({
-                    message: `قیمت کمپین نباید بیشتر از قیمت اصلی باشد. محصول ID: ${p.product_id}`,
+                // ۲. بررسی وجود محصول در کمپین‌های فعال دیگر
+                const existingActiveCampaignProduct = await CampaignProduct.findOne({
+                    where: { product_id: p.product_id },
+                    include: [{
+                        model: Campaign,
+                        as: 'campaign',
+                        where: {
+                            is_active: true,
+                            end_date: { [Sequelize.Op.gte]: new Date() } // کمپین هنوز تمام نشده باشد
+                        },
+                        required: true
+                    }],
+                    transaction: t
                 });
+
+                // ۳. اگر محصول در کمپین فعال دیگری بود و قیمت جدید با قیمت فعلی آن مغایرت داشت، خطا بده
+                if (existingActiveCampaignProduct && p.campaign_price !== undefined &&
+                    parseFloat(existingActiveCampaignProduct.campaign_price) !== parseFloat(p.campaign_price)) {
+
+                    await t.rollback();
+                    return res.status(409).json({ // 409 Conflict
+                        message: `محصول با ID ${p.product_id} در حال حاضر در کمپین فعال دیگری ('${existingActiveCampaignProduct.campaign.title}') با قیمت ${existingActiveCampaignProduct.campaign_price} حضور دارد. برای حفظ یکپارچگی، قیمت کمپین باید یکسان باشد.`,
+                    });
+                }
             }
         }
-
         // ایجاد کمپین
         const newCampaign = await Campaign.create({
             title,
@@ -201,6 +227,30 @@ exports.importCampaignProducts = async (req, res) => {
                     errors.push({ record: record, error: `Product with slug '${sanitizedProductSlug}' not found.` });
                     continue;
                 }
+                //اعتبارسنجی قیمت هنگام ایمپورت
+                const existingActiveCampaignProduct = await CampaignProduct.findOne({
+                    where: {
+                        product_id: product.id,
+                        campaign_id: { [Sequelize.Op.ne]: campaignId } // 💎 مهم: کمپین فعلی را نادیده بگیر
+                    },
+                    include: [{
+                            model: Campaign,
+                            as: 'campaign',
+                            where: {
+                                is_active: true,
+                                end_date: { [Sequelize.Op.gte]: new Date() }
+                            },
+                            required: true
+                        }],
+                    transaction: t
+                });
+
+                if (existingActiveCampaignProduct && campaign_price !== undefined &&
+                    parseFloat(existingActiveCampaignProduct.campaign_price) !== parseFloat(campaign_price)) {
+
+                    errors.push({ record, error: `Product is in another active campaign ('${existingActiveCampaignProduct.campaign.title}') with a different price (${existingActiveCampaignProduct.campaign_price}). Price must be the same.` });
+                    continue; // برو به رکورد بعدی
+                }
 
                 const originalProductPrice = original_price ? parseFloat(original_price) : parseFloat(product.price);
                 const campaignPriceFloat = parseFloat(campaign_price);
@@ -293,6 +343,100 @@ exports.updateCampaign = async (req, res) => {
             return res.status(400).json({ message: 'Start date cannot be after end date.' });
         }
 
+        //اعتبارسنجی یکپارچگی قیمت محصولات هنگام آپدی
+        if (products && products.length > 0) {
+            for (const p of products) {
+                // از آبجکت محصول، فلگ force_price_update را استخراج می‌کنیم
+                const { product_id, campaign_price, original_price, force_price_update = false } = p;
+
+                const product = await Product.findByPk(product_id, { transaction: t });
+                if (!product) {
+                    await t.rollback();
+                    return res.status(404).json({ message: `Product with ID ${product_id} not found.` });
+                }
+
+                // بررسی قیمت کمپین در برابر قیمت اصلی (بدون تغییر)
+                const effectiveOriginalPrice = original_price !== undefined ? original_price : product.price;
+                if (campaign_price > effectiveOriginalPrice) {
+                    await t.rollback();
+                    return res.status(400).json({ message: `قیمت کمپین برای محصول ID ${product_id} نمی‌تواند بیشتر از قیمت اصلی باشد.` });
+                }
+
+                // اگر force_price_update نبود، منطق قبلی را اجرا کن
+                if (!force_price_update) {
+                    const existingActiveCampaignProduct = await CampaignProduct.findOne({
+                        where: {
+                            product_id: product_id,
+                            campaign_id: { [Sequelize.Op.ne]: id }
+                        },
+                        include: [{
+                            model: Campaign,
+                            as: 'campaign',
+                            where: { is_active: true, end_date: { [Sequelize.Op.gte]: new Date() } },
+                            required: true
+                        }],
+                        transaction: t
+                    });
+
+                    if (existingActiveCampaignProduct && campaign_price !== undefined &&
+                        parseFloat(existingActiveCampaignProduct.campaign_price) !== parseFloat(campaign_price)) {
+                        await t.rollback();
+                        return res.status(409).json({ message: `محصول با ID ${product_id} در حال حاضر در کمپین فعال دیگری ('${existingActiveCampaignProduct.campaign.title}') با قیمت ${existingActiveCampaignProduct.campaign_price} حضور دارد. برای آپدیت سراسری قیمت، از فلگ force_price_update استفاده کنید.` });
+                    }
+                }
+
+                // به‌روزرسانی یا ایجاد محصول در کمپین فعلی
+                const [entry, created] = await CampaignProduct.findOrCreate({
+                    where: { campaign_id: id, product_id: product_id },
+                    defaults: { campaign_price, original_price: effectiveOriginalPrice },
+                    transaction: t
+                });
+
+                if (!created) {
+                    entry.campaign_price = campaign_price ?? entry.campaign_price;
+                    entry.original_price = original_price ?? entry.original_price ?? product.price;
+                    await entry.save({ transaction: t });
+                }
+
+                // اگر force_price_update بود، قیمت را در تمام کمپین‌های فعال دیگر نیز به‌روز کن
+                if (force_price_update) {
+                    // ۱. یافتن تمام کمپین‌های فعال دیگر که این محصول را دارند
+                    const otherCampaignProducts = await CampaignProduct.findAll({
+                        where: {
+                            product_id: product_id,
+                            campaign_id: { [Sequelize.Op.ne]: id }
+                        },
+                        include: [{
+                            model: Campaign,
+                            as: 'campaign',
+                            where: { is_active: true, end_date: { [Sequelize.Op.gte]: new Date() } },
+                            required: true
+                        }],
+                        transaction: t
+                    });
+
+                    const otherCampaignIds = otherCampaignProducts.map(cp => cp.campaign_id);
+
+                    // ۲. آپدیت قیمت در تمام آن‌ها
+                    if (otherCampaignIds.length > 0) {
+                        await CampaignProduct.update(
+                            { campaign_price: campaign_price },
+                            {
+                                where: {
+                                    product_id: product_id,
+                                    campaign_id: { [Sequelize.Op.in]: otherCampaignIds }
+                                },
+                                transaction: t
+                            }
+                        );
+                    }
+                }
+
+                // آپدیت product.campaign_id (بدون تغییر)
+                product.campaign_id = id;
+                await product.save({ transaction: t });
+            }
+        }
         // به‌روزرسانی فیلدهای کمپین
         Object.assign(campaign, {
             title: title ?? campaign.title,
@@ -359,7 +503,7 @@ exports.updateCampaign = async (req, res) => {
 exports.getAllCampaigns = async (req, res) => {
     try {
         const campaigns = await Campaign.findAll({
-            include: [{ model: Product, as: 'products', attributes: ['id', 'name', 'slug'] }], // شامل محصولات مرتبط
+            include: [{ model: Product, as: 'products', attributes: ['id', 'name', 'slug'] ,  through: { attributes: [] } }], // شامل محصولات مرتبط
             order: [['priority', 'ASC'], ['start_date', 'DESC']]
         });
         res.status(200).json({ campaigns: campaigns });
@@ -374,11 +518,18 @@ exports.getCampaignById = async (req, res) => {
     const { id } = req.params;
     try {
         const campaign = await Campaign.findByPk(id, {
-            include: [{ model: Product, as: 'products', attributes: ['id', 'name', 'slug'] }]
+            include: [{
+                model: Product,
+                as: 'products',
+                attributes: ['id', 'name', 'slug'],
+                through: { attributes: [] }
+            }]
         });
+
         if (!campaign) {
             return res.status(404).json({ message: 'Campaign not found.' });
         }
+
         res.status(200).json({ campaign: campaign });
     } catch (error) {
         logger.error(`Error fetching campaign ${id}: ${error.message}`, { stack: error.stack });
