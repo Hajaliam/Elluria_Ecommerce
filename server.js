@@ -36,6 +36,7 @@ const paymentRoutes = require('./src/routes/paymentRoutes');
 const shippingRoutes = require('./src/routes/shippingRoutes');
 const brandRoutes = require('./src/routes/brandRoutes');
 const campaignRoutes = require('./src/routes/campaignRoutes');
+const attributeRoutes = require('./src/routes/attributeRoutes')
 
 
 
@@ -149,6 +150,7 @@ app.use('/api/admin/brands', authMiddleware.authenticateToken, authMiddleware.au
 app.use('/api/brands', brandRoutes);
 app.use('/api/admin/campaigns', campaignRoutes); // برای مدیریت کمپین‌ها توسط ادمین
 app.use('/api/campaigns', campaignRoutes);
+app.use('/api/admin/attributes', attributeRoutes);
 
 // ** WebSocket (Socket.IO) Logic for Online Advice (AI Chat) **
 // Map برای ذخیره موقت تاریخچه مکالمه هر نشست (برای AI با حافظه کوتاه مدت)
