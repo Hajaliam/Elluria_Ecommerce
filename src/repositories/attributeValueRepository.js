@@ -37,6 +37,10 @@ class AttributeValueRepository {
     async delete(id, options = {}) {
         return await AttributeValue.destroy({ where: { id }, ...options });
     }
+
+    async save(instance, options = {}) {
+        return await instance.save(options);
+    }
 }
 
 module.exports = new AttributeValueRepository();

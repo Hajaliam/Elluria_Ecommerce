@@ -115,8 +115,8 @@ class ProductRepository {
         return await productInstance.save(options);
     }
 
-    async delete(productInstance) {
-        return await productInstance.destroy();
+    async delete(productInstance, options = {}) {
+        return await productInstance.destroy(options);
     }
 
     async countByBrandId(brandId) {

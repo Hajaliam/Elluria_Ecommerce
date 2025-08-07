@@ -1,7 +1,7 @@
 // src/controllers/attributeController.js
 
 const attributeService = require('../services/attributeService');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 
 exports.createAttribute = async (req, res) => {
     try {

@@ -1558,3 +1558,8 @@ notNull Violation: Coupon.discount_value cannot be null
 2025-08-06 17:00:00 INFO: Triggering expired order cleanup.
 2025-08-06 17:00:00 INFO: Running expired orders cleanup job...
 2025-08-06 17:00:00 INFO: No expired pending orders found.
+2025-08-07 20:30:36 INFO: Server is running on port 3000
+2025-08-07 20:30:36 INFO: Environment: development
+2025-08-07 20:30:36 INFO: Database User: postgres
+2025-08-07 20:30:36 INFO: Database backup scheduler started.
+2025-08-07 20:30:36 INFO: Expired order cleanup scheduler started.
