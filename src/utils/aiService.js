@@ -2,7 +2,7 @@
 
 // 👈 تغییر ایمپورت به GoogleGenerativeAI
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 const db = require('../../models');
 
 // دسترسی به API Key از متغیرهای محیطی

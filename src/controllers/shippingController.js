@@ -3,7 +3,7 @@
 const db = require('../../models');
 const Order = db.Order;
 const ShipmentTracking = db.ShipmentTracking;
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 const { sanitizeString } = require('../utils/sanitizer');
 
 // 👈 تابع برای ایجاد یک رکورد ردیابی ارسال جدید (POST)

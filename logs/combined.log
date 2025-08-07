@@ -1477,3 +1477,84 @@
 2025-08-05 16:00:00 INFO: Triggering expired order cleanup.
 2025-08-05 16:00:00 INFO: Running expired orders cleanup job...
 2025-08-05 16:00:00 INFO: No expired pending orders found.
+2025-08-05 20:19:30 INFO: Server is running on port 3000
+2025-08-05 20:19:30 INFO: Environment: development
+2025-08-05 20:19:30 INFO: Database User: postgres
+2025-08-05 20:19:30 INFO: Database backup scheduler started.
+2025-08-05 20:19:30 INFO: Expired order cleanup scheduler started.
+2025-08-05 20:20:02 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
+2025-08-05 20:20:02 ERROR: Unhandled error: invalid csrf token
+2025-08-05 20:20:02 INFO: HTTP POST /api/coupons [33m403[39m 23ms
+2025-08-05 20:20:07 INFO: HTTP GET /api/csrf-token [32m200[39m 1ms
+2025-08-05 20:20:21 INFO: HTTP POST /api/users/login [32m200[39m 312ms
+2025-08-05 20:20:34 INFO: HTTP POST /api/coupons [32m201[39m 328ms
+2025-08-05 20:25:25 ERROR: Error in CouponController createCoupon: Coupon with this code already exists.
+2025-08-05 20:25:25 INFO: HTTP POST /api/coupons [33m409[39m 541ms
+2025-08-05 20:25:33 INFO: HTTP POST /api/coupons [32m201[39m 188ms
+2025-08-05 20:29:56 INFO: Server is running on port 3000
+2025-08-05 20:29:56 INFO: Environment: development
+2025-08-05 20:29:56 INFO: Database User: postgres
+2025-08-05 20:29:56 INFO: Database backup scheduler started.
+2025-08-05 20:29:56 INFO: Expired order cleanup scheduler started.
+2025-08-05 20:30:03 ERROR: Error in CouponController createCoupon: Coupon with this code already exists.
+2025-08-05 20:30:03 INFO: HTTP POST /api/coupons [33m409[39m 292ms
+2025-08-05 20:30:29 ERROR: Error in CouponController createCoupon: notNull Violation: Coupon.code cannot be null,
+notNull Violation: Coupon.discount_type cannot be null,
+notNull Violation: Coupon.discount_value cannot be null
+2025-08-05 20:30:29 INFO: HTTP POST /api/coupons [31m500[39m 91ms
+2025-08-05 20:32:51 INFO: Server is running on port 3000
+2025-08-05 20:32:51 INFO: Environment: development
+2025-08-05 20:32:51 INFO: Database User: postgres
+2025-08-05 20:32:51 INFO: Database backup scheduler started.
+2025-08-05 20:32:51 INFO: Expired order cleanup scheduler started.
+2025-08-05 20:32:58 INFO: HTTP POST /api/coupons [32m201[39m 393ms
+2025-08-05 20:37:45 INFO: Server is running on port 3000
+2025-08-05 20:37:45 INFO: Environment: development
+2025-08-05 20:37:45 INFO: Database User: postgres
+2025-08-05 20:37:45 INFO: Database backup scheduler started.
+2025-08-05 20:37:45 INFO: Expired order cleanup scheduler started.
+2025-08-05 20:37:54 ERROR: Error in CouponController createCoupon: One or more brands not found.
+2025-08-05 20:37:54 INFO: HTTP POST /api/coupons [33m404[39m 331ms
+2025-08-05 20:42:44 INFO: HTTP POST /api/coupons [32m201[39m 524ms
+2025-08-05 23:29:59 INFO: Server is running on port 3000
+2025-08-05 23:29:59 INFO: Environment: development
+2025-08-05 23:29:59 INFO: Database User: postgres
+2025-08-05 23:29:59 INFO: Database backup scheduler started.
+2025-08-05 23:29:59 INFO: Expired order cleanup scheduler started.
+2025-08-05 23:29:59 INFO: HTTP GET /api-docs/ [32m200[39m 9ms
+2025-08-05 23:29:59 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-08-05 23:29:59 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 33ms
+2025-08-05 23:29:59 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 31ms
+2025-08-05 23:29:59 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 67ms
+2025-08-05 23:30:00 INFO: HTTP GET /api-docs/favicon-32x32.png [32m200[39m 3ms
+2025-08-06 16:05:52 INFO: Server is running on port 3000
+2025-08-06 16:05:52 INFO: Environment: development
+2025-08-06 16:05:52 INFO: Database User: postgres
+2025-08-06 16:05:52 INFO: Database backup scheduler started.
+2025-08-06 16:05:52 INFO: Expired order cleanup scheduler started.
+2025-08-06 16:06:06 INFO: HTTP POST /api/users/login [32m200[39m 323ms
+2025-08-06 16:37:02 INFO: Server is running on port 3000
+2025-08-06 16:37:02 INFO: Environment: development
+2025-08-06 16:37:02 INFO: Database User: postgres
+2025-08-06 16:37:02 INFO: Database backup scheduler started.
+2025-08-06 16:37:02 INFO: Expired order cleanup scheduler started.
+2025-08-06 16:37:45 INFO: HTTP GET /api-docs/ [36m304[39m 8ms
+2025-08-06 16:37:45 INFO: HTTP GET /api-docs/swagger-ui-init.js [36m304[39m 1ms
+2025-08-06 16:37:45 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 8ms
+2025-08-06 16:37:45 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 10ms
+2025-08-06 16:37:45 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 13ms
+2025-08-06 16:37:45 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-08-06 16:48:36 INFO: Server is running on port 3000
+2025-08-06 16:48:36 INFO: Environment: development
+2025-08-06 16:48:36 INFO: Database User: postgres
+2025-08-06 16:48:36 INFO: Database backup scheduler started.
+2025-08-06 16:48:36 INFO: Expired order cleanup scheduler started.
+2025-08-06 16:48:36 INFO: HTTP GET /api-docs/ [36m304[39m 32ms
+2025-08-06 16:48:36 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-08-06 16:48:36 INFO: HTTP GET /api-docs/swagger-ui.css [36m304[39m 21ms
+2025-08-06 16:48:36 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [36m304[39m 21ms
+2025-08-06 16:48:36 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [36m304[39m 28ms
+2025-08-06 16:48:37 INFO: HTTP GET /api-docs/favicon-32x32.png [36m304[39m 1ms
+2025-08-06 17:00:00 INFO: Triggering expired order cleanup.
+2025-08-06 17:00:00 INFO: Running expired orders cleanup job...
+2025-08-06 17:00:00 INFO: No expired pending orders found.

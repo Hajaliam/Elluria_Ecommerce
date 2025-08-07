@@ -131,6 +131,39 @@ router.get('/:id', categoryController.getCategoryById);
 
 /**
  * @swagger
+ * /api/categories/{id}/children:
+ *   get:
+ *     summary: Get children categories by parent category ID
+ *     tags: [Categories]
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Numeric ID of the parent category
+ *     responses:
+ *       200:
+ *         description: List of child categories
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 children:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Category'
+ *       404:
+ *         description: Parent category not found
+ *       500:
+ *         description: Server error
+ */
+router.get('/:id/children', categoryController.getChildrenById);
+
+/**
+ * @swagger
  * /api/categories/{id}:
  *   put:
  *     summary: Update a category by ID (Admin only)

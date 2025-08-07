@@ -3,58 +3,29 @@
 const { Brand } = require('../../models');
 
 class BrandRepository {
-    /**
-     * @description Create a new brand
-     * @param {object} data - Brand data (e.g., { name })
-     * @returns {Promise<Brand>}
-     */
-    async create(data) {
-        return await Brand.create(data);
+    async create(data, options = {}) {
+        return await Brand.create(data, options);
     }
 
-    /**
-     * @description Find all brands
-     * @returns {Promise<Brand[]>}
-     */
-    async findAll() {
-        return await Brand.findAll();
+
+    async findAll(options = {}) {
+        return await Brand.findAll(options);
     }
 
-    /**
-     * @description Find a brand by its ID
-     * @param {number} id
-     * @returns {Promise<Brand|null>}
-     */
-    async findById(id) {
-        return await Brand.findByPk(id);
+    async findById(id, options = {}) {
+        return await Brand.findByPk(id, options);
     }
 
-    /**
-     * @description Find a brand by its name
-     * @param {string} name
-     * @returns {Promise<Brand|null>}
-     */
-    async findByName(name) {
-        return await Brand.findOne({ where: { name } });
+    async findByName(name, options = {}) {
+        return await Brand.findOne({ where: { name }, ...options });
     }
 
-    /**
-     * @description Update a brand
-     * @param {number} id
-     * @param {object} data
-     * @returns {Promise<[number, Brand[]]>}
-     */
-    async update(id, data) {
-        return await Brand.update(data, { where: { id }, returning: true });
+    async save(instance, options = {}) {
+        return await instance.save(options);
     }
 
-    /**
-     * @description Delete a brand by its ID
-     * @param {number} id
-     * @returns {Promise<number>}
-     */
-    async delete(id) {
-        return await Brand.destroy({ where: { id } });
+    async delete(id, options = {}) {
+        return await Brand.destroy({ where: { id }, ...options });
     }
 }
 

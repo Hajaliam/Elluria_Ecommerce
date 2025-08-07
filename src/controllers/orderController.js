@@ -12,7 +12,7 @@ const Coupon = db.Coupon; // برای اعمال کوپن
 const Sequelize = db.Sequelize;
 const { Op } = require('sequelize');
 const { sanitizeString } = require('../utils/sanitizer');
-const logger = require('../config/logger');
+const { logger } = require('../config/logger');
 
 let oldStock
 

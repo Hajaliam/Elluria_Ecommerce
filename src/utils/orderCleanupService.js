@@ -2,7 +2,7 @@
 
 const cron = require('node-cron');
 const moment = require('moment');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 const db = require('../../models');
 
 // تابع برای پاکسازی سفارشات منقضی

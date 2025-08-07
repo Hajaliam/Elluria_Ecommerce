@@ -5,7 +5,7 @@ const { exec } = require('child_process'); // برای اجرای دستورات
 const moment = require('moment');
 const path = require('path');
 const fs = require('fs/promises'); // برای کار با فایل سیستم
-const logger = require('../config/logger'); // برای لاگ‌گیری
+const {logger} = require('../config/logger'); // برای لاگ‌گیری
 
 // دسترسی به متغیرهای محیطی
 const DB_HOST = process.env.DB_HOST;

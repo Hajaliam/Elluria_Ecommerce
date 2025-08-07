@@ -1,7 +1,7 @@
 // src/controllers/productController.js
 
 const productService = require('../services/productService');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 const multer = require('multer'); // Multer همچنان در کنترلر باقی می‌ماند
 
 

@@ -40,7 +40,7 @@ const campaignRoutes = require('./src/routes/campaignRoutes');
 
 
 // ایمپورت Logger (برای لاگ‌گیری)
-const logger = require('./src/config/logger');
+const {logger} = require('./src/config/logger');
 const expressWinston = require('express-winston');
 
 // ایمپورت مدل‌ها و ابزارهای مورد نیاز برای WebSocket و Gemini

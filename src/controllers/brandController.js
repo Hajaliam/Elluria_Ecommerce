@@ -1,7 +1,7 @@
 // src/controllers/brandController.js
 
 const brandService = require('../services/brandService');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 
 // کنترلر حالا فقط مسئول دریافت درخواست، فراخوانی سرویس و ارسال پاسخ است.
 

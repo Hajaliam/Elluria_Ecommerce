@@ -235,3 +235,11 @@ operable program or batch file.
 2025-08-03 20:58:18 ERROR: Error creating campaign: products is not iterable
 2025-08-03 20:58:37 ERROR: Error creating campaign: products is not defined
 2025-08-03 20:59:58 ERROR: Error creating campaign: products is not defined
+2025-08-05 20:20:02 ERROR: HTTP Error POST /api/coupons 200 invalid csrf token
+2025-08-05 20:20:02 ERROR: Unhandled error: invalid csrf token
+2025-08-05 20:25:25 ERROR: Error in CouponController createCoupon: Coupon with this code already exists.
+2025-08-05 20:30:03 ERROR: Error in CouponController createCoupon: Coupon with this code already exists.
+2025-08-05 20:30:29 ERROR: Error in CouponController createCoupon: notNull Violation: Coupon.code cannot be null,
+notNull Violation: Coupon.discount_type cannot be null,
+notNull Violation: Coupon.discount_value cannot be null
+2025-08-05 20:37:54 ERROR: Error in CouponController createCoupon: One or more brands not found.

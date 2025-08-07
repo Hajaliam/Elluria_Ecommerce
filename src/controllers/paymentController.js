@@ -2,7 +2,7 @@
 
 const db = require('../../models');
 const { Order, Payment, OrderItem, Product, Cart, CartItem, InventoryLog } = db;
-const logger = require('../config/logger'); // برای لاگ‌گیری
+const { logger } = require('../config/logger'); // برای لاگ‌گیری
 const { sanitizeString } = require('../utils/sanitizer');
 
 // تابع برای آغاز فرآیند پرداخت

@@ -3,7 +3,7 @@
 const db = require('../../models');
 const Sequelize = db.Sequelize;
 const { sanitizeString } = require('../utils/sanitizer');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 
 // تابع برای جستجوی عمومی
 exports.globalSearch = async (req, res) => {

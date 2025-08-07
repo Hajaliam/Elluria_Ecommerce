@@ -2,6 +2,7 @@
 
 const db = require('../../models');
 const User = db.User;
+const userService = require('../services/userService');
 const Role = db.Role;
 const bcrypt = require('bcrypt'); // برای به‌روزرسانی پسورد
 const Sequelize = db.Sequelize;
@@ -11,7 +12,7 @@ const path = require('path');
 const fs = require('fs/promises');
 const { parse } = require('csv-parse'); //  (برای واردات CSV)
 const multer = require('multer');
-const logger = require('../config/logger');
+const {logger} = require('../config/logger');
 const moment = require('moment');
 const { sanitizeString } = require('../utils/sanitizer');
 // تابع برای اعتبارسنجی تاریخ
@@ -37,168 +38,48 @@ const upload = multer({
 // تابع برای دریافت همه کاربران (فقط ادمین)
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll({
-      attributes: { exclude: ['password'] }, // پسورد را شامل نمی‌کنیم
-      include: [
-        {
-          model: Role,
-          as: 'role',
-          attributes: ['name'],
-        },
-      ],
-    });
-    res.status(200).json({ users: users });
+    const users = await userService.getAllUsers();
+    res.status(200).json({ users });
   } catch (error) {
-    console.error('Error fetching all users for admin:', error);
-    res
-      .status(500)
-      .json({ message: 'Server error fetching users', error: error.message });
+    logger.error(`Admin GetAllUsers Error: ${error.message}`);
+    res.status(500).json({ message: 'Server error fetching users', error: error.message });
   }
 };
-
 // تابع برای دریافت جزئیات یک کاربر بر اساس ID (فقط ادمین)
 exports.getUserById = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.findByPk(id, {
-      attributes: { exclude: ['password'] },
-      include: [
-        {
-          model: Role,
-          as: 'role',
-          attributes: ['name'],
-        },
-      ],
-    });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-    res.status(200).json({ user: user });
+    const user = await userService.getUserByIdForAdmin(req.params.id);
+    res.status(200).json({ user });
   } catch (error) {
-    console.error('Error fetching user by ID for admin:', error);
-    res
-      .status(500)
-      .json({ message: 'Server error fetching user', error: error.message });
+    logger.error(`Admin GetUserById Error: ${error.message}`);
+    res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
-
 // تابع برای به‌روزرسانی اطلاعات کاربر (توسط ادمین)
 exports.updateUser = async (req, res) => {
-  const { id } = req.params;
-  const {
-    username,
-    email,
-    password,
-    first_name,
-    last_name,
-    phone_number,
-    role_id,
-  } = req.body;
   try {
-    const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
-    // بررسی نام کاربری یا ایمیل تکراری (اگر تغییر کنند)
-    if (
-      (username && username !== user.username) ||
-      (email && email !== user.email)
-    ) {
-      const existingUser = await User.findOne({
-        where: {
-          [Sequelize.Op.or]: [
-            { username: username || user.username },
-            { email: email || user.email },
-          ],
-          id: { [Sequelize.Op.ne]: id }, // به جز خود کاربر فعلی
-        },
-      });
-      if (existingUser) {
-        return res
-          .status(409)
-          .json({
-            message: 'Username or email already exists for another user.',
-          });
-      }
-    }
-
-    // اگر پسورد ارسال شد، آن را هش کن
-    if (password) {
-      user.password = await bcrypt.hash(password, 10);
-    }
-    user.username = username || user.username;
-    user.email = email || user.email;
-    user.first_name = first_name || user.first_name;
-    user.last_name = last_name || user.last_name;
-    user.phone_number = phone_number || user.phone_number;
-
-    // اگر role_id ارسال شد، مطمئن شویم نقش معتبر است
-    if (role_id) {
-      const role = await Role.findByPk(role_id);
-      if (!role) {
-        return res.status(400).json({ message: 'Invalid role ID provided.' });
-      }
-      user.role_id = role_id;
-    }
-
-    await user.save();
-    // پسورد را در پاسخ برنمی‌گردانیم
-    const userResponse = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      phone_number: user.phone_number,
-      role_id: user.role_id,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    };
-    res
-      .status(200)
-      .json({ message: 'User updated successfully!', user: userResponse });
+    const updatedUser = await userService.updateUserByAdmin(req.params.id, req.body);
+    const { password, ...userResponse } = updatedUser.get({ plain: true });
+    res.status(200).json({ message: 'User updated successfully!', user: userResponse });
   } catch (error) {
-    console.error('Error updating user by admin:', error);
-    res
-      .status(500)
-      .json({ message: 'Server error updating user', error: error.message });
+    logger.error(`Admin UpdateUser Error: ${error.message}`);
+    res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
-
 // تابع برای حذف یک کاربر (توسط ادمین)
 exports.deleteUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
-    // نکته: اگر onDelete: 'RESTRICT' برای FKها در Migrationها تعیین شده باشد،
-    // نمی‌توانید کاربری را حذف کنید که سفارش، آدرس، سبد خرید، بررسی یا تاریخچه سفارش دارد.
-    // اگر onDelete: 'CASCADE' باشد، همه اطلاعات مرتبط هم حذف می‌شوند.
-    // در Migration User ما از CASCADE برای Address و Cart و Review و Advice استفاده کردیم.
-    // برای Order و OrderHistory از RESTRICT استفاده شده (چون نباید با حذف کاربر سفارشاتش هم حذف شوند)
-    // این یعنی اگر کاربری سفارش یا تاریخچه سفارش داشته باشد، نمی‌توانید آن را حذف کنید.
-    await user.destroy();
+    await userService.deleteUserById(req.params.id);
     res.status(200).json({ message: 'User deleted successfully!' });
   } catch (error) {
-    console.error('Error deleting user by admin:', error);
-    // اگر خطا به دلیل RESTRICT باشد، پیام خطا را واضح‌تر می‌کنیم
+    logger.error(`Admin DeleteUser Error: ${error.message}`);
     if (error.name === 'SequelizeForeignKeyConstraintError') {
-      return res
-        .status(400)
-        .json({
-          message:
-            'Cannot delete user: Associated data (orders/history) exists.',
-        });
+      return res.status(400).json({ message: 'Cannot delete user: Associated data exists.' });
     }
-    res
-      .status(500)
-      .json({ message: 'Server error deleting user', error: error.message });
+    res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
 // تابع برای دریافت گزارش فروش (مثلاً بر اساس بازه زمانی)
 exports.getSalesReport = async (req, res) => {
   const { startDate, endDate } = req.query; // تاریخ شروع و پایان از کوئری پارامتر

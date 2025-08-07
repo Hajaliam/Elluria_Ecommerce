@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'brand_id',
         as: 'products',
       });
+      Brand.belongsToMany(models.Coupon, {
+        through: models.CouponBrand, // 👈 به مدل اشاره می‌کند
+        foreignKey: 'brand_id',
+        otherKey: 'coupon_id',
+        as: 'coupons'
+      });
     }
   }
   Brand.init(

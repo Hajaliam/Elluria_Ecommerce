@@ -34,5 +34,17 @@ const logger = winston.createLogger({
     }),
   ],
 });
-
-module.exports = logger;
+// Logger جدا برای لاگ‌های ورود و ارسال (ایمیل، اس‌ام‌اس و ...)
+const sendLoginLogger = winston.createLogger({
+  level: 'info',
+  format: logFormat,
+  transports: [
+    new winston.transports.File({
+      filename: path.join(__dirname, '..', '..', 'logs', 'send-login.log'),
+    }),
+  ],
+});
+module.exports = {
+  logger,
+  sendLoginLogger,
+};
