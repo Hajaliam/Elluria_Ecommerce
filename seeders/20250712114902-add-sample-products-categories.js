@@ -157,7 +157,9 @@ module.exports = {
       ],
       {},
     );
+
   },
+
 
   async down(queryInterface, Sequelize) {
     // حذف تمام محصولات و دسته‌بندی‌ها

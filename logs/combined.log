@@ -1563,3 +1563,94 @@ notNull Violation: Coupon.discount_value cannot be null
 2025-08-07 20:30:36 INFO: Database User: postgres
 2025-08-07 20:30:36 INFO: Database backup scheduler started.
 2025-08-07 20:30:36 INFO: Expired order cleanup scheduler started.
+2025-08-07 20:52:58 INFO: Server is running on port 3000
+2025-08-07 20:52:58 INFO: Environment: development
+2025-08-07 20:52:58 INFO: Database User: postgres
+2025-08-07 20:52:58 INFO: Database backup scheduler started.
+2025-08-07 20:52:58 INFO: Expired order cleanup scheduler started.
+2025-08-09 19:59:31 INFO: Server is running on port 3000
+2025-08-09 19:59:31 INFO: Environment: development
+2025-08-09 19:59:31 INFO: Database User: postgres
+2025-08-09 19:59:31 INFO: Database backup scheduler started.
+2025-08-09 19:59:31 INFO: Expired order cleanup scheduler started.
+2025-08-09 20:00:00 INFO: Triggering expired order cleanup.
+2025-08-09 20:00:00 INFO: Running expired orders cleanup job...
+2025-08-09 20:00:00 INFO: No expired pending orders found.
+2025-08-09 20:09:17 INFO: Server is running on port 3000
+2025-08-09 20:09:17 INFO: Environment: development
+2025-08-09 20:09:17 INFO: Database User: postgres
+2025-08-09 20:09:17 INFO: Database backup scheduler started.
+2025-08-09 20:09:17 INFO: Expired order cleanup scheduler started.
+2025-08-09 20:09:21 INFO: New session_id generated and set: 680d74dd-b196-450d-9dc1-d9ccaa396b19
+2025-08-09 20:09:21 INFO: HTTP GET /api/csrf-token [32m200[39m 4ms
+2025-08-09 20:09:36 INFO: HTTP POST /api/users/login [32m200[39m 309ms
+2025-08-09 20:10:46 INFO: New session_id generated and set: e0e97d52-4b7c-461b-9067-20a2f9ae2b26
+2025-08-09 20:10:46 INFO: HTTP GET /api-docs/ [32m200[39m 4ms
+2025-08-09 20:10:46 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 17ms
+2025-08-09 20:10:46 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 19ms
+2025-08-09 20:10:46 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 2ms
+2025-08-09 20:10:46 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 52ms
+2025-08-09 20:11:09 INFO: HTTP POST /api/admin/attributes [32m201[39m 128ms
+2025-08-09 20:12:07 INFO: HTTP POST /api/admin/attributes/1/values [32m201[39m 113ms
+2025-08-09 20:13:30 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:13:30 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:13:30 INFO: HTTP POST /api/admin/products/4/variants [31m500[39m 112ms
+2025-08-09 20:16:10 INFO: Server is running on port 3000
+2025-08-09 20:16:10 INFO: Environment: development
+2025-08-09 20:16:10 INFO: Database User: postgres
+2025-08-09 20:16:10 INFO: Database backup scheduler started.
+2025-08-09 20:16:10 INFO: Expired order cleanup scheduler started.
+2025-08-09 20:16:13 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:16:13 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:16:13 INFO: HTTP POST /api/admin/products/4/variants [31m500[39m 470ms
+2025-08-09 20:17:38 INFO: Server is running on port 3000
+2025-08-09 20:17:38 INFO: Environment: development
+2025-08-09 20:17:38 INFO: Database User: postgres
+2025-08-09 20:17:38 INFO: Database backup scheduler started.
+2025-08-09 20:17:39 INFO: Expired order cleanup scheduler started.
+2025-08-09 20:17:42 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:17:42 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:17:42 INFO: HTTP POST /api/admin/products/4/variants [31m500[39m 333ms
+2025-08-09 20:20:51 INFO: Server is running on port 3000
+2025-08-09 20:20:51 INFO: Environment: development
+2025-08-09 20:20:51 INFO: Database User: postgres
+2025-08-09 20:20:51 INFO: Database backup scheduler started.
+2025-08-09 20:20:51 INFO: Expired order cleanup scheduler started.
+2025-08-09 20:20:55 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:20:55 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:20:55 INFO: HTTP POST /api/admin/products/4/variants [31m500[39m 308ms
+2025-08-09 20:22:09 INFO: Server is running on port 3000
+2025-08-09 20:22:09 INFO: Environment: development
+2025-08-09 20:22:09 INFO: Database User: postgres
+2025-08-09 20:22:10 INFO: Database backup scheduler started.
+2025-08-09 20:22:10 INFO: Expired order cleanup scheduler started.
+2025-08-09 20:22:15 INFO: HTTP POST /api/admin/products/4/variants [32m201[39m 404ms
+2025-08-09 21:00:00 INFO: Triggering expired order cleanup.
+2025-08-09 21:00:00 INFO: Running expired orders cleanup job...
+2025-08-09 21:00:00 INFO: No expired pending orders found.
+2025-08-09 22:00:00 INFO: Triggering expired order cleanup.
+2025-08-09 22:00:00 INFO: Running expired orders cleanup job...
+2025-08-09 22:00:00 INFO: No expired pending orders found.
+2025-08-09 23:00:00 INFO: Triggering expired order cleanup.
+2025-08-09 23:00:00 INFO: Running expired orders cleanup job...
+2025-08-09 23:00:00 INFO: No expired pending orders found.
+2025-08-10 00:00:00 INFO: Running daily database backup...
+2025-08-10 00:00:00 INFO: Triggering expired order cleanup.
+2025-08-10 00:00:00 INFO: Running expired orders cleanup job...
+2025-08-10 00:00:00 INFO: No expired pending orders found.
+2025-08-10 00:00:01 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\elluria_20250810_000000.sql
+2025-08-10 12:00:00 INFO: Triggering expired order cleanup.
+2025-08-10 12:00:00 INFO: Running expired orders cleanup job...
+2025-08-10 12:00:00 INFO: No expired pending orders found.
+2025-08-10 13:00:00 INFO: Triggering expired order cleanup.
+2025-08-10 13:00:00 INFO: Running expired orders cleanup job...
+2025-08-10 13:00:00 INFO: No expired pending orders found.
+2025-08-10 14:00:00 INFO: Triggering expired order cleanup.
+2025-08-10 14:00:00 INFO: Running expired orders cleanup job...
+2025-08-10 14:00:00 INFO: No expired pending orders found.
+2025-08-10 15:00:00 INFO: Triggering expired order cleanup.
+2025-08-10 15:00:00 INFO: Running expired orders cleanup job...
+2025-08-10 15:00:00 INFO: No expired pending orders found.
+2025-08-10 16:00:00 INFO: Triggering expired order cleanup.
+2025-08-10 16:00:00 INFO: Running expired orders cleanup job...
+2025-08-10 16:00:00 INFO: No expired pending orders found.

@@ -243,3 +243,11 @@ operable program or batch file.
 notNull Violation: Coupon.discount_type cannot be null,
 notNull Violation: Coupon.discount_value cannot be null
 2025-08-05 20:37:54 ERROR: Error in CouponController createCoupon: One or more brands not found.
+2025-08-09 20:13:30 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:13:30 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:16:13 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:16:13 ERROR: CreateVariant Error: this.attributeValueRepository.findAll is not a function
+2025-08-09 20:17:42 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:17:42 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:20:55 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-09 20:20:55 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"

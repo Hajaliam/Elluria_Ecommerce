@@ -13,6 +13,13 @@ class AttributeValueRepository {
             ...options
         });
     }
+    async findAllByIds(ids, options = {}) {
+        return await AttributeValue.findAll({
+            where: { id: ids },
+            ...options
+        });
+    }
+
 
     async findById(id, options = {}) {
         return await AttributeValue.findByPk(id, options);
