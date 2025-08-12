@@ -64,6 +64,93 @@ ALTER SEQUENCE public."Addresses_id_seq" OWNED BY public."Addresses".id;
 
 
 --
+-- Name: AttributeValues; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."AttributeValues" (
+    id integer NOT NULL,
+    attribute_id integer NOT NULL,
+    value character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."AttributeValues" OWNER TO postgres;
+
+--
+-- Name: COLUMN "AttributeValues".value; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."AttributeValues".value IS 'e.g., Red, 30ml, Matte';
+
+
+--
+-- Name: AttributeValues_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."AttributeValues_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."AttributeValues_id_seq" OWNER TO postgres;
+
+--
+-- Name: AttributeValues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."AttributeValues_id_seq" OWNED BY public."AttributeValues".id;
+
+
+--
+-- Name: Attributes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Attributes" (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."Attributes" OWNER TO postgres;
+
+--
+-- Name: COLUMN "Attributes".name; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Attributes".name IS 'e.g., Color, Size, Finish';
+
+
+--
+-- Name: Attributes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Attributes_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."Attributes_id_seq" OWNER TO postgres;
+
+--
+-- Name: Attributes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Attributes_id_seq" OWNED BY public."Attributes".id;
+
+
+--
 -- Name: Brands; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -205,10 +292,10 @@ ALTER SEQUENCE public."Campaigns_id_seq" OWNED BY public."Campaigns".id;
 CREATE TABLE public."CartItems" (
     id integer NOT NULL,
     cart_id integer NOT NULL,
-    product_id integer NOT NULL,
     quantity integer NOT NULL,
     "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    variant_id integer NOT NULL
 );
 
 
@@ -310,6 +397,43 @@ ALTER SEQUENCE public."Categories_id_seq" OWNER TO postgres;
 --
 
 ALTER SEQUENCE public."Categories_id_seq" OWNED BY public."Categories".id;
+
+
+--
+-- Name: CouponBrands; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."CouponBrands" (
+    id integer NOT NULL,
+    coupon_id integer NOT NULL,
+    brand_id integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."CouponBrands" OWNER TO postgres;
+
+--
+-- Name: CouponBrands_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."CouponBrands_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."CouponBrands_id_seq" OWNER TO postgres;
+
+--
+-- Name: CouponBrands_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."CouponBrands_id_seq" OWNED BY public."CouponBrands".id;
 
 
 --
@@ -720,6 +844,46 @@ ALTER SEQUENCE public."Payments_id_seq" OWNED BY public."Payments".id;
 
 
 --
+-- Name: ProductVariants; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."ProductVariants" (
+    id integer NOT NULL,
+    product_id integer NOT NULL,
+    price numeric(10,2),
+    stock_quantity integer DEFAULT 0 NOT NULL,
+    sku character varying(255),
+    image_url character varying(255),
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."ProductVariants" OWNER TO postgres;
+
+--
+-- Name: ProductVariants_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."ProductVariants_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."ProductVariants_id_seq" OWNER TO postgres;
+
+--
+-- Name: ProductVariants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."ProductVariants_id_seq" OWNED BY public."ProductVariants".id;
+
+
+--
 -- Name: Products; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1073,10 +1237,61 @@ ALTER SEQUENCE public."Users_id_seq" OWNED BY public."Users".id;
 
 
 --
+-- Name: VariantValues; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."VariantValues" (
+    id integer NOT NULL,
+    variant_id integer NOT NULL,
+    attribute_value_id integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."VariantValues" OWNER TO postgres;
+
+--
+-- Name: VariantValues_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."VariantValues_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."VariantValues_id_seq" OWNER TO postgres;
+
+--
+-- Name: VariantValues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."VariantValues_id_seq" OWNED BY public."VariantValues".id;
+
+
+--
 -- Name: Addresses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Addresses" ALTER COLUMN id SET DEFAULT nextval('public."Addresses_id_seq"'::regclass);
+
+
+--
+-- Name: AttributeValues id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."AttributeValues" ALTER COLUMN id SET DEFAULT nextval('public."AttributeValues_id_seq"'::regclass);
+
+
+--
+-- Name: Attributes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Attributes" ALTER COLUMN id SET DEFAULT nextval('public."Attributes_id_seq"'::regclass);
 
 
 --
@@ -1119,6 +1334,13 @@ ALTER TABLE ONLY public."Carts" ALTER COLUMN id SET DEFAULT nextval('public."Car
 --
 
 ALTER TABLE ONLY public."Categories" ALTER COLUMN id SET DEFAULT nextval('public."Categories_id_seq"'::regclass);
+
+
+--
+-- Name: CouponBrands id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."CouponBrands" ALTER COLUMN id SET DEFAULT nextval('public."CouponBrands_id_seq"'::regclass);
 
 
 --
@@ -1192,6 +1414,13 @@ ALTER TABLE ONLY public."Payments" ALTER COLUMN id SET DEFAULT nextval('public."
 
 
 --
+-- Name: ProductVariants id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProductVariants" ALTER COLUMN id SET DEFAULT nextval('public."ProductVariants_id_seq"'::regclass);
+
+
+--
 -- Name: Products id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1248,11 +1477,36 @@ ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Use
 
 
 --
+-- Name: VariantValues id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."VariantValues" ALTER COLUMN id SET DEFAULT nextval('public."VariantValues_id_seq"'::regclass);
+
+
+--
 -- Data for Name: Addresses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public."Addresses" (id, user_id, street, city, state, zip_code, country, is_default, "createdAt", "updatedAt") FROM stdin;
 1	1	123 Test Street	Tehran	Tehran	12345	Iran	t	2025-07-21 14:52:07.047+03:30	2025-07-21 14:52:07.047+03:30
+\.
+
+
+--
+-- Data for Name: AttributeValues; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."AttributeValues" (id, attribute_id, value, "createdAt", "updatedAt") FROM stdin;
+1	1	قرمز	2025-08-09 20:12:07.351+03:30	2025-08-09 20:12:07.351+03:30
+\.
+
+
+--
+-- Data for Name: Attributes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Attributes" (id, name, "createdAt", "updatedAt") FROM stdin;
+1	رنگ	2025-08-09 20:11:09.398+03:30	2025-08-09 20:11:09.398+03:30
 \.
 
 
@@ -1270,7 +1524,9 @@ COPY public."Brands" (id, name, "createdAt", "updatedAt") FROM stdin;
 --
 
 COPY public."CampaignProducts" (id, campaign_id, product_id, "createdAt", "updatedAt", campaign_price, original_price) FROM stdin;
-4	2	3	2025-08-02 19:24:23.875+03:30	2025-08-02 20:12:10.673+03:30	15.99	19.99
+5	3	1	2025-08-03 21:00:26.756+03:30	2025-08-04 16:17:22.192+03:30	600.00	799.99
+8	1	2	2025-08-04 16:53:24.063+03:30	2025-08-04 16:53:24.063+03:30	1150.00	1299.99
+9	1	3	2025-08-04 16:53:24.116+03:30	2025-08-04 16:53:24.116+03:30	15.00	19.99
 \.
 
 
@@ -1281,6 +1537,7 @@ COPY public."CampaignProducts" (id, campaign_id, product_id, "createdAt", "updat
 COPY public."Campaigns" (id, title, description, slug, banner_image_url, campaign_type, start_date, end_date, show_countdown, priority, cta_link, is_active, "createdAt", "updatedAt") FROM stdin;
 1	Summer Final Sale	Last chance for summer discounts!	summer-flash-sale	/banners/summer_flash.jpg	seasonal	2025-08-01 03:30:00+03:30	2025-09-01 03:29:59+03:30	t	10	/products?campaign=summer-flash-sale	t	2025-08-02 15:33:01.265+03:30	2025-08-02 15:34:58.245+03:30
 2	Read More	Big discounts for summer products.	read-more	/banners/read_more.jpg	seasonal	2025-08-01 03:30:00+03:30	2025-11-01 03:29:59+03:30	t	100	/products/summer-collection	t	2025-08-02 19:24:23.834+03:30	2025-08-02 20:01:22.077+03:30
+3	Summer Flash Sale	Get amazing discounts on summer products for a limited time!	summer-flash-sale-test	/banners/summer_sale.jpg	flash_sale	2025-08-01 03:30:00+03:30	2025-08-08 03:29:59+03:30	t	10	/products?campaign=summer-flash-sale	t	2025-08-03 21:00:26.721+03:30	2025-08-03 21:00:26.721+03:30
 \.
 
 
@@ -1288,9 +1545,9 @@ COPY public."Campaigns" (id, title, description, slug, banner_image_url, campaig
 -- Data for Name: CartItems; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."CartItems" (id, cart_id, product_id, quantity, "createdAt", "updatedAt") FROM stdin;
-15	1	2	1	2025-07-21 21:46:57.953+03:30	2025-07-21 21:46:57.953+03:30
-16	1	1	1	2025-07-21 21:57:09.611+03:30	2025-07-21 21:57:09.611+03:30
+COPY public."CartItems" (id, cart_id, quantity, "createdAt", "updatedAt", variant_id) FROM stdin;
+23	3	2	2025-08-11 19:28:07.485+03:30	2025-08-11 19:28:07.485+03:30	1
+24	4	13	2025-08-11 19:34:50.344+03:30	2025-08-11 19:43:21.103+03:30	1
 \.
 
 
@@ -1301,6 +1558,8 @@ COPY public."CartItems" (id, cart_id, product_id, quantity, "createdAt", "update
 COPY public."Carts" (id, user_id, session_id, expires_at, "createdAt", "updatedAt") FROM stdin;
 1	4	\N	2025-07-28 21:57:09.617+03:30	2025-07-21 15:12:18.317+03:30	2025-07-21 21:57:09.617+03:30
 2	3	\N	2025-08-03 13:09:16.198+03:30	2025-07-21 22:10:16.985+03:30	2025-07-27 13:09:16.199+03:30
+4	2	ef21f5ea-ced8-4c9e-bcba-f8a649ee9748	2025-08-18 19:43:21.093+03:30	2025-08-11 19:32:45.626+03:30	2025-08-11 19:43:21.098+03:30
+3	\N	ef21f5ea-ced8-4c9e-bcba-f8a649ee9748	2025-08-18 19:43:34.018+03:30	2025-08-11 19:11:25.471+03:30	2025-08-11 19:43:34.093+03:30
 \.
 
 
@@ -1312,6 +1571,18 @@ COPY public."Categories" (id, name, description, "createdAt", "updatedAt", paren
 1	Electronics	Smartphones, laptops, and gadgets.	2025-07-21 14:52:07.032+03:30	2025-07-21 14:52:07.032+03:30	\N
 2	Books	Fiction, non-fiction, and educational books.	2025-07-21 14:52:07.032+03:30	2025-07-21 14:52:07.032+03:30	\N
 3	Clothing	Apparel for men and women.	2025-07-21 14:52:07.032+03:30	2025-07-21 14:52:07.032+03:30	\N
+\.
+
+
+--
+-- Data for Name: CouponBrands; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."CouponBrands" (id, coupon_id, brand_id, "createdAt", "updatedAt") FROM stdin;
+1	14	2	2025-08-05 20:20:34.23+03:30	2025-08-05 20:20:34.23+03:30
+2	15	2	2025-08-05 20:25:33.946+03:30	2025-08-05 20:25:33.946+03:30
+3	16	2	2025-08-05 20:32:57.974+03:30	2025-08-05 20:32:57.974+03:30
+4	18	2	2025-08-05 20:42:44.715+03:30	2025-08-05 20:42:44.715+03:30
 \.
 
 
@@ -1355,6 +1626,10 @@ COPY public."Coupons" (id, code, discount_type, discount_value, min_amount, usag
 10	FREESHIP	free_shipping	0.00	0.00	\N	0	2025-12-31	t	2025-07-21 22:11:26.491+03:30	2025-07-21 22:11:26.491+03:30	f	f	\N	\N	\N
 11	PERCENT20CAP50	percentage	20.00	0.00	\N	-1	2025-12-31	t	2025-07-23 21:53:09.337+03:30	2025-07-23 21:56:32.278+03:30	f	f	\N	\N	50.00
 13	CATSPECIFIC	percentage	15.00	0.00	\N	0	2025-12-31	t	2025-07-23 22:04:44.747+03:30	2025-07-23 22:04:44.747+03:30	f	f	\N	\N	\N
+14	BRAND-SALE-FINAL	percentage	15.00	0.00	\N	0	\N	t	2025-08-05 20:20:34.036+03:30	2025-08-05 20:20:34.036+03:30	f	f	\N	\N	\N
+15	BRAND-ALE-FINAL	percentage	15.00	0.00	\N	0	\N	t	2025-08-05 20:25:33.805+03:30	2025-08-05 20:25:33.805+03:30	f	f	\N	\N	\N
+16	BRAND-SALE-FINAL-DEBUG	percentage	15.00	0.00	\N	0	\N	t	2025-08-05 20:32:57.874+03:30	2025-08-05 20:32:57.874+03:30	f	f	\N	\N	\N
+18	BRAND-SALE-FINAL-DEBUG-2	percentage	15.00	0.00	\N	0	\N	t	2025-08-05 20:42:44.528+03:30	2025-08-05 20:42:44.528+03:30	f	f	\N	\N	\N
 \.
 
 
@@ -1487,15 +1762,24 @@ COPY public."Payments" (id, order_id, transaction_id, amount, method, status, pa
 
 
 --
+-- Data for Name: ProductVariants; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."ProductVariants" (id, product_id, price, stock_quantity, sku, image_url, "createdAt", "updatedAt") FROM stdin;
+1	4	19.50	50	RLM-312-RED	\N	2025-08-09 20:22:15.144+03:30	2025-08-09 20:22:15.144+03:30
+\.
+
+
+--
 -- Data for Name: Products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public."Products" (id, name, description, price, stock_quantity, image_url, category_id, views_count, sold_count, slug, "createdAt", "updatedAt", brand_id, buy_price, campaign_id) FROM stdin;
 5	Limited Edition Headphone	Premium headphones with noise cancellation.	350.00	2	/uploads/products/default_headphone.jpg	1	120	1	limited-edition-headphone	2025-07-21 14:52:07.038+03:30	2025-07-21 14:52:07.038+03:30	\N	0.00	\N
+1	Smartphone X	Latest model smartphone with advanced features and camera.	799.99	27	/uploads/products/default_smartphone.jpg	1	104	14	smartphone-x	2025-07-21 14:52:07.038+03:30	2025-08-04 16:29:59.759+03:30	\N	770.00	\N
+2	Laptop Pro	High-performance laptop for professionals.	1299.99	8	/uploads/products/default_laptop.jpg	1	80	7	laptop-pro	2025-07-21 14:52:07.038+03:30	2025-08-04 16:53:24.072+03:30	\N	0.00	1
+3	The Great Novel	A captivating story that will keep you hooked.	19.99	198	/uploads/products/default_book.jpg	2	202	27	the-great-novel	2025-07-21 14:52:07.038+03:30	2025-08-04 16:53:24.119+03:30	\N	15.00	1
 4	T-Shirt Casual	Comfortable cotton t-shirt for everyday wear.	25.00	270	/uploads/products/default_tshirt.jpg	3	51	41	t-shirt-casual	2025-07-21 14:52:07.038+03:30	2025-07-27 13:11:49.954+03:30	\N	20.00	\N
-1	Smartphone X	Latest model smartphone with advanced features and camera.	799.99	27	/uploads/products/default_smartphone.jpg	1	102	14	smartphone-x	2025-07-21 14:52:07.038+03:30	2025-08-02 15:34:58.251+03:30	\N	770.00	\N
-2	Laptop Pro	High-performance laptop for professionals.	1299.99	8	/uploads/products/default_laptop.jpg	1	80	7	laptop-pro	2025-07-21 14:52:07.038+03:30	2025-08-02 15:34:58.251+03:30	\N	0.00	\N
-3	The Great Novel	A captivating story that will keep you hooked.	19.99	198	/uploads/products/default_book.jpg	2	202	27	the-great-novel	2025-07-21 14:52:07.038+03:30	2025-08-02 20:04:41.579+03:30	\N	15.00	2
 \.
 
 
@@ -1565,6 +1849,12 @@ COPY public."SequelizeMeta" (name) FROM stdin;
 20250727130443-create-campaign-system.js
 20250802121238-add-campaign-price-to-campaignProduct.js
 20250802122125-add-original-price-to-campainProduct.js
+20250805161700-create-coupon-brands.js
+20250807125425-create-attributes-table.js
+20250807125516-create-attribute-values-table.js
+20250807125633-create-product-variants-table.js
+20250807125853-create-variant-values-table.js
+20250811150056-modify-cart-items-for-variants.js
 \.
 
 
@@ -1617,10 +1907,33 @@ COPY public."Users" (id, username, email, password, first_name, last_name, phone
 
 
 --
+-- Data for Name: VariantValues; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."VariantValues" (id, variant_id, attribute_value_id, "createdAt", "updatedAt") FROM stdin;
+1	1	1	2025-08-09 20:22:15.16+03:30	2025-08-09 20:22:15.16+03:30
+\.
+
+
+--
 -- Name: Addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public."Addresses_id_seq"', 1, true);
+
+
+--
+-- Name: AttributeValues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."AttributeValues_id_seq"', 1, true);
+
+
+--
+-- Name: Attributes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Attributes_id_seq"', 1, true);
 
 
 --
@@ -1634,35 +1947,42 @@ SELECT pg_catalog.setval('public."Brands_id_seq"', 2, true);
 -- Name: CampaignProducts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."CampaignProducts_id_seq"', 4, true);
+SELECT pg_catalog.setval('public."CampaignProducts_id_seq"', 9, true);
 
 
 --
 -- Name: Campaigns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Campaigns_id_seq"', 2, true);
+SELECT pg_catalog.setval('public."Campaigns_id_seq"', 4, true);
 
 
 --
 -- Name: CartItems_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."CartItems_id_seq"', 22, true);
+SELECT pg_catalog.setval('public."CartItems_id_seq"', 24, true);
 
 
 --
 -- Name: Carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Carts_id_seq"', 2, true);
+SELECT pg_catalog.setval('public."Carts_id_seq"', 4, true);
 
 
 --
 -- Name: Categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Categories_id_seq"', 3, true);
+SELECT pg_catalog.setval('public."Categories_id_seq"', 4, true);
+
+
+--
+-- Name: CouponBrands_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."CouponBrands_id_seq"', 4, true);
 
 
 --
@@ -1690,7 +2010,7 @@ SELECT pg_catalog.setval('public."CouponProducts_id_seq"', 1, true);
 -- Name: Coupons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Coupons_id_seq"', 13, true);
+SELECT pg_catalog.setval('public."Coupons_id_seq"', 18, true);
 
 
 --
@@ -1733,6 +2053,13 @@ SELECT pg_catalog.setval('public."Orders_id_seq"', 25, true);
 --
 
 SELECT pg_catalog.setval('public."Payments_id_seq"', 14, true);
+
+
+--
+-- Name: ProductVariants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."ProductVariants_id_seq"', 1, true);
 
 
 --
@@ -1792,11 +2119,42 @@ SELECT pg_catalog.setval('public."Users_id_seq"', 5, true);
 
 
 --
+-- Name: VariantValues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."VariantValues_id_seq"', 1, true);
+
+
+--
 -- Name: Addresses Addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Addresses"
     ADD CONSTRAINT "Addresses_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: AttributeValues AttributeValues_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."AttributeValues"
+    ADD CONSTRAINT "AttributeValues_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Attributes Attributes_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Attributes"
+    ADD CONSTRAINT "Attributes_name_key" UNIQUE (name);
+
+
+--
+-- Name: Attributes Attributes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Attributes"
+    ADD CONSTRAINT "Attributes_pkey" PRIMARY KEY (id);
 
 
 --
@@ -1869,6 +2227,14 @@ ALTER TABLE ONLY public."Categories"
 
 ALTER TABLE ONLY public."Categories"
     ADD CONSTRAINT "Categories_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: CouponBrands CouponBrands_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."CouponBrands"
+    ADD CONSTRAINT "CouponBrands_pkey" PRIMARY KEY (id);
 
 
 --
@@ -1981,6 +2347,22 @@ ALTER TABLE ONLY public."Payments"
 
 ALTER TABLE ONLY public."Payments"
     ADD CONSTRAINT "Payments_transaction_id_key" UNIQUE (transaction_id);
+
+
+--
+-- Name: ProductVariants ProductVariants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProductVariants"
+    ADD CONSTRAINT "ProductVariants_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: ProductVariants ProductVariants_sku_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProductVariants"
+    ADD CONSTRAINT "ProductVariants_sku_key" UNIQUE (sku);
 
 
 --
@@ -2120,11 +2502,35 @@ ALTER TABLE ONLY public."Users"
 
 
 --
+-- Name: VariantValues VariantValues_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."VariantValues"
+    ADD CONSTRAINT "VariantValues_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: AttributeValues unique_attribute_value_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."AttributeValues"
+    ADD CONSTRAINT unique_attribute_value_constraint UNIQUE (attribute_id, value);
+
+
+--
 -- Name: CampaignProducts unique_campaign_product_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."CampaignProducts"
     ADD CONSTRAINT unique_campaign_product_constraint UNIQUE (campaign_id, product_id);
+
+
+--
+-- Name: CouponBrands unique_coupon_brand_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."CouponBrands"
+    ADD CONSTRAINT unique_coupon_brand_constraint UNIQUE (coupon_id, brand_id);
 
 
 --
@@ -2168,11 +2574,27 @@ ALTER TABLE ONLY public."Reviews"
 
 
 --
+-- Name: VariantValues unique_variant_attribute_value_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."VariantValues"
+    ADD CONSTRAINT unique_variant_attribute_value_constraint UNIQUE (variant_id, attribute_value_id);
+
+
+--
 -- Name: Addresses Addresses_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Addresses"
     ADD CONSTRAINT "Addresses_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public."Users"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: AttributeValues AttributeValues_attribute_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."AttributeValues"
+    ADD CONSTRAINT "AttributeValues_attribute_id_fkey" FOREIGN KEY (attribute_id) REFERENCES public."Attributes"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -2200,11 +2622,11 @@ ALTER TABLE ONLY public."CartItems"
 
 
 --
--- Name: CartItems CartItems_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: CartItems CartItems_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."CartItems"
-    ADD CONSTRAINT "CartItems_product_id_fkey" FOREIGN KEY (product_id) REFERENCES public."Products"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT "CartItems_variant_id_fkey" FOREIGN KEY (variant_id) REFERENCES public."ProductVariants"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -2221,6 +2643,22 @@ ALTER TABLE ONLY public."Carts"
 
 ALTER TABLE ONLY public."Categories"
     ADD CONSTRAINT "Categories_parent_id_fkey" FOREIGN KEY (parent_id) REFERENCES public."Categories"(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: CouponBrands CouponBrands_brand_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."CouponBrands"
+    ADD CONSTRAINT "CouponBrands_brand_id_fkey" FOREIGN KEY (brand_id) REFERENCES public."Brands"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: CouponBrands CouponBrands_coupon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."CouponBrands"
+    ADD CONSTRAINT "CouponBrands_coupon_id_fkey" FOREIGN KEY (coupon_id) REFERENCES public."Coupons"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -2360,6 +2798,14 @@ ALTER TABLE ONLY public."Payments"
 
 
 --
+-- Name: ProductVariants ProductVariants_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProductVariants"
+    ADD CONSTRAINT "ProductVariants_product_id_fkey" FOREIGN KEY (product_id) REFERENCES public."Products"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: Products Products_brand_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2469,6 +2915,22 @@ ALTER TABLE ONLY public."UserCoupons"
 
 ALTER TABLE ONLY public."Users"
     ADD CONSTRAINT "Users_role_id_fkey" FOREIGN KEY (role_id) REFERENCES public."Roles"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: VariantValues VariantValues_attribute_value_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."VariantValues"
+    ADD CONSTRAINT "VariantValues_attribute_value_id_fkey" FOREIGN KEY (attribute_value_id) REFERENCES public."AttributeValues"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: VariantValues VariantValues_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."VariantValues"
+    ADD CONSTRAINT "VariantValues_variant_id_fkey" FOREIGN KEY (variant_id) REFERENCES public."ProductVariants"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

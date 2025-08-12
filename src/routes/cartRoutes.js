@@ -3,55 +3,45 @@
 const express = require('express');
 const cartController = require('../controllers/cartController');
 const authMiddleware = require('../middlewares/authMiddleware');
-
 const router = express.Router();
 
 /**
  * @swagger
  * tags:
  *   - name: Cart
- *     description: Shopping cart management operations for both logged-in and guest users
- *
+ *     description: Shopping cart management for logged-in and guest users
+ */
+
+/**
+ * @swagger
  * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *     sessionId:
- *       type: apiKey
- *       in: cookie
- *       name: sessionId
- *     csrfToken:
- *       type: apiKey
- *       in: header
- *       name: X-CSRF-Token
- *
  *   schemas:
  *     CartItemInput:
  *       type: object
  *       required:
- *         - productId
+ *         - variantId
  *         - quantity
  *       properties:
- *         productId:
+ *         variantId:
  *           type: integer
- *           description: The ID of the product to add to the cart
+ *           description: ID of the product variant to add
  *           example: 1
  *         quantity:
  *           type: integer
- *           description: The quantity of the product
- *           example: 1
- *
+ *           description: Quantity of the variant
+ *           example: 2
  *     CartItem:
  *       type: object
  *       properties:
  *         cartItemId:
  *           type: integer
  *           example: 1
- *         productId:
+ *         variantId:
  *           type: integer
  *           example: 1
+ *         productId:
+ *           type: integer
+ *           example: 10
  *         name:
  *           type: string
  *           example: Smartphone X
@@ -62,33 +52,18 @@ const router = express.Router();
  *           type: number
  *           format: float
  *           example: 799.99
- *         image_url:
+ *         imageUrl:
  *           type: string
  *           example: "/uploads/products/123.jpg"
- *         stock_available:
+ *         stockAvailable:
  *           type: integer
  *           example: 48
- *         status:
- *           type: string
- *           example: available
- *
  *     CartDetails:
  *       type: object
  *       properties:
  *         cartId:
  *           type: integer
  *           example: 1
- *         userId:
- *           type: integer
- *           nullable: true
- *           example: 101
- *         sessionId:
- *           type: string
- *           nullable: true
- *           example: "guest_session_12345"
- *         expiresAt:
- *           type: string
- *           format: date-time
  *         totalItems:
  *           type: integer
  *           example: 2
@@ -106,12 +81,10 @@ const router = express.Router();
  * @swagger
  * /api/cart/add:
  *   post:
- *     summary: Add a product to the cart
+ *     summary: Add a product variant to the cart
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
- *       - sessionId: []
- *       - csrfToken: []
  *     requestBody:
  *       required: true
  *       content:
@@ -131,16 +104,10 @@ const router = express.Router();
  *                   example: Item added to cart successfully!
  *                 cartItem:
  *                   $ref: '#/components/schemas/CartItem'
- *                 sessionId:
- *                   type: string
- *                   nullable: true
- *                   description: New session ID if generated
  *       400:
- *         description: Bad Request
- *       403:
- *         description: Forbidden
+ *         description: Not enough stock
  *       404:
- *         description: Product not found
+ *         description: Product variant not found
  *       500:
  *         description: Server error
  */
@@ -158,18 +125,13 @@ router.post(
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
- *       - sessionId: []
  *     responses:
  *       200:
- *         description: Cart contents retrieved successfully
+ *         description: Cart details retrieved successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/CartDetails'
- *       400:
- *         description: Bad Request
- *       403:
- *         description: Forbidden
  *       500:
  *         description: Server error
  */
@@ -183,8 +145,6 @@ router.get('/', authMiddleware.authenticateToken, cartController.getCart);
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
- *       - sessionId: []
- *       - csrfToken: []
  *     parameters:
  *       - in: path
  *         name: cartItemId
@@ -218,19 +178,15 @@ router.get('/', authMiddleware.authenticateToken, cartController.getCart);
  *                 cartItem:
  *                   $ref: '#/components/schemas/CartItem'
  *       400:
- *         description: Bad Request
- *       403:
- *         description: Forbidden
+ *         description: Bad Request (e.g. quantity <= 0 or not enough stock)
  *       404:
  *         description: Cart item not found
  *       500:
  *         description: Server error
  */
-router.put(
-  '/:cartItemId',
-  authMiddleware.authenticateToken,
-  cartController.updateCartItemQuantity,
-);
+router.put('/:cartItemId',
+    authMiddleware.authenticateToken,
+    cartController.updateCartItemQuantity);
 
 /**
  * @swagger
@@ -240,8 +196,6 @@ router.put(
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
- *       - sessionId: []
- *       - csrfToken: []
  *     parameters:
  *       - in: path
  *         name: cartItemId
@@ -260,8 +214,6 @@ router.put(
  *                 message:
  *                   type: string
  *                   example: Item removed from cart successfully!
- *       403:
- *         description: Forbidden
  *       404:
  *         description: Cart item not found
  *       500:
@@ -281,8 +233,6 @@ router.delete(
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
- *       - sessionId: []
- *       - csrfToken: []
  *     responses:
  *       200:
  *         description: Cart cleared successfully
@@ -294,8 +244,6 @@ router.delete(
  *                 message:
  *                   type: string
  *                   example: Cart cleared successfully!
- *       403:
- *         description: Forbidden
  *       500:
  *         description: Server error
  */

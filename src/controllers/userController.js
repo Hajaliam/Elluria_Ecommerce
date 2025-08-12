@@ -15,13 +15,25 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const result = await userService.login(username, password);
+    const sessionId = req.cookies.session_id || null;
+
+    const result = await userService.login(username, password, sessionId);
+
+    if (sessionId) {
+      res.clearCookie('session_id', {
+        httpOnly: true,
+        sameSite: 'Lax',
+        // secure: process.env.NODE_ENV === 'production',
+      });
+    }
+
     res.status(200).json({ message: 'Logged in successfully!', ...result });
   } catch (error) {
     logger.error(`Login Error: ${error.message}`);
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
 
 // Profile
 exports.getUserProfile = async (req, res) => {

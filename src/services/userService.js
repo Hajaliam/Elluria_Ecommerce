@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const moment = require('moment');
 const userRepository = require('../repositories/userRepository');
 const roleRepository = require('../repositories/roleRepository');
+const cartRepository = require('../repositories/cartRepository');
 const addressRepository = require('../repositories/addressRepository');
 const { sanitizeString } = require('../utils/sanitizer');
 const { logger, sendLoginLogger } = require('../config/logger');
@@ -61,7 +62,7 @@ class UserService {
 
     }
 
-    async login(username, password) {
+    async login(username, password, sessionId = null) {
         const user = await this.userRepository.findByUsername(username);
         if (!user || !(await user.isValidPassword(password))) {
             const error = new Error('Invalid credentials.');
@@ -69,6 +70,10 @@ class UserService {
             throw error;
         }
 
+        // اگر sessionId مهمان وجود داشت، سبد مهمان را به کاربر وصل کن
+        if (sessionId) {
+            await cartRepository.associateGuestCartToUser(sessionId, user.id);
+        }
 
         const accessToken = jwt.sign(
             { id: user.id, role_id: user.role_id, username: user.username },

@@ -1654,3 +1654,187 @@ notNull Violation: Coupon.discount_value cannot be null
 2025-08-10 16:00:00 INFO: Triggering expired order cleanup.
 2025-08-10 16:00:00 INFO: Running expired orders cleanup job...
 2025-08-10 16:00:00 INFO: No expired pending orders found.
+2025-08-11 19:03:21 INFO: Server is running on port 3000
+2025-08-11 19:03:21 INFO: Environment: development
+2025-08-11 19:03:21 INFO: Database User: postgres
+2025-08-11 19:03:21 INFO: Database backup scheduler started.
+2025-08-11 19:03:21 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:03:23 INFO: HTTP GET /api/csrf-token [32m200[39m 6ms
+2025-08-11 19:05:23 INFO: HTTP POST /api/users/login [32m200[39m 400ms
+2025-08-11 19:11:22 INFO: Server is running on port 3000
+2025-08-11 19:11:22 INFO: Environment: development
+2025-08-11 19:11:22 INFO: Database User: postgres
+2025-08-11 19:11:22 INFO: Database backup scheduler started.
+2025-08-11 19:11:22 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:11:25 INFO: New session_id generated and set: ef21f5ea-ced8-4c9e-bcba-f8a649ee9748
+2025-08-11 19:11:25 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:11:25 INFO: HTTP POST /api/cart/add [31m500[39m 267ms
+2025-08-11 19:17:38 INFO: Server is running on port 3000
+2025-08-11 19:17:38 INFO: Environment: development
+2025-08-11 19:17:38 INFO: Database User: postgres
+2025-08-11 19:17:38 INFO: Database backup scheduler started.
+2025-08-11 19:17:38 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:17:45 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:17:45 INFO: HTTP POST /api/cart/add [31m500[39m 660ms
+2025-08-11 19:21:50 INFO: Server is running on port 3000
+2025-08-11 19:21:50 INFO: Environment: development
+2025-08-11 19:21:50 INFO: Database User: postgres
+2025-08-11 19:21:50 INFO: Database backup scheduler started.
+2025-08-11 19:21:50 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:22:02 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:22:02 INFO: HTTP POST /api/cart/add [31m500[39m 226ms
+2025-08-11 19:23:54 INFO: Server is running on port 3000
+2025-08-11 19:23:54 INFO: Environment: development
+2025-08-11 19:23:54 INFO: Database User: postgres
+2025-08-11 19:23:54 INFO: Database backup scheduler started.
+2025-08-11 19:23:54 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:24:10 INFO: Server is running on port 3000
+2025-08-11 19:24:10 INFO: Environment: development
+2025-08-11 19:24:10 INFO: Database User: postgres
+2025-08-11 19:24:10 INFO: Database backup scheduler started.
+2025-08-11 19:24:10 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:24:12 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:24:12 INFO: HTTP POST /api/cart/add [31m500[39m 254ms
+2025-08-11 19:24:40 INFO: Server is running on port 3000
+2025-08-11 19:24:40 INFO: Environment: development
+2025-08-11 19:24:40 INFO: Database User: postgres
+2025-08-11 19:24:40 INFO: Database backup scheduler started.
+2025-08-11 19:24:40 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:28:01 INFO: Server is running on port 3000
+2025-08-11 19:28:01 INFO: Environment: development
+2025-08-11 19:28:01 INFO: Database User: postgres
+2025-08-11 19:28:01 INFO: Database backup scheduler started.
+2025-08-11 19:28:01 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:28:07 INFO: HTTP POST /api/cart/add [32m200[39m 267ms
+2025-08-11 19:28:23 INFO: HTTP GET /api/cart/add [33m404[39m 2ms
+2025-08-11 19:28:30 ERROR: GetCart Error: Cannot read properties of undefined (reading 'map')
+2025-08-11 19:28:30 INFO: HTTP GET /api/cart [31m500[39m 118ms
+2025-08-11 19:31:46 INFO: Server is running on port 3000
+2025-08-11 19:31:46 INFO: Environment: development
+2025-08-11 19:31:46 INFO: Database User: postgres
+2025-08-11 19:31:46 INFO: Database backup scheduler started.
+2025-08-11 19:31:46 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:31:50 ERROR: GetCart Error: Cannot read properties of undefined (reading 'map')
+2025-08-11 19:31:50 INFO: HTTP GET /api/cart [31m500[39m 247ms
+2025-08-11 19:32:45 INFO: HTTP GET /api/cart [32m200[39m 177ms
+2025-08-11 19:32:54 ERROR: GetCart Error: Cannot read properties of undefined (reading 'map')
+2025-08-11 19:32:54 INFO: HTTP GET /api/cart [31m500[39m 15ms
+2025-08-11 19:34:45 INFO: Server is running on port 3000
+2025-08-11 19:34:45 INFO: Environment: development
+2025-08-11 19:34:45 INFO: Database User: postgres
+2025-08-11 19:34:45 INFO: Database backup scheduler started.
+2025-08-11 19:34:45 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:34:50 INFO: HTTP POST /api/cart/add [32m200[39m 1245ms
+2025-08-11 19:37:58 INFO: Server is running on port 3000
+2025-08-11 19:37:58 INFO: Environment: development
+2025-08-11 19:37:58 INFO: Database User: postgres
+2025-08-11 19:37:58 INFO: Database backup scheduler started.
+2025-08-11 19:37:58 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:38:05 ERROR: GetCart Error: Cannot read properties of undefined (reading 'AttributeValue')
+2025-08-11 19:38:05 INFO: HTTP GET /api/cart [31m500[39m 271ms
+2025-08-11 19:38:09 ERROR: GetCart Error: Cannot read properties of undefined (reading 'AttributeValue')
+2025-08-11 19:38:09 INFO: HTTP GET /api/cart [31m500[39m 10ms
+2025-08-11 19:41:32 INFO: Server is running on port 3000
+2025-08-11 19:41:32 INFO: Environment: development
+2025-08-11 19:41:32 INFO: Database User: postgres
+2025-08-11 19:41:32 INFO: Database backup scheduler started.
+2025-08-11 19:41:32 INFO: Expired order cleanup scheduler started.
+2025-08-11 19:41:42 INFO: HTTP GET /api/cart [32m200[39m 459ms
+2025-08-11 19:42:39 INFO: HTTP POST /api/cart/add [32m200[39m 141ms
+2025-08-11 19:42:49 INFO: HTTP GET /api/cart [32m200[39m 110ms
+2025-08-11 19:43:21 INFO: HTTP POST /api/cart/add [32m200[39m 80ms
+2025-08-11 19:43:34 INFO: HTTP GET /api/cart [32m200[39m 97ms
+2025-08-11 20:00:00 INFO: Triggering expired order cleanup.
+2025-08-11 20:00:00 INFO: Running expired orders cleanup job...
+2025-08-11 20:00:00 INFO: No expired pending orders found.
+2025-08-11 21:00:00 INFO: Triggering expired order cleanup.
+2025-08-11 21:00:00 INFO: Running expired orders cleanup job...
+2025-08-11 21:00:00 INFO: No expired pending orders found.
+2025-08-11 22:00:00 INFO: Triggering expired order cleanup.
+2025-08-11 22:00:00 INFO: Running expired orders cleanup job...
+2025-08-11 22:00:00 INFO: No expired pending orders found.
+2025-08-11 23:00:00 INFO: Triggering expired order cleanup.
+2025-08-11 23:00:00 INFO: Running expired orders cleanup job...
+2025-08-11 23:00:00 INFO: No expired pending orders found.
+2025-08-12 00:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 00:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 00:00:00 INFO: Running daily database backup...
+2025-08-12 00:00:00 INFO: Deleted old backup file: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\elluria_20250803_000000.sql
+2025-08-12 00:00:00 INFO: No expired pending orders found.
+2025-08-12 00:00:00 INFO: Backup successful: C:\Users\Alireza\Desktop\Server_programming\Elluria_project\backups\elluria_20250812_000000.sql
+2025-08-12 01:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 01:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 01:00:00 INFO: No expired pending orders found.
+2025-08-12 02:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 02:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 02:00:00 INFO: No expired pending orders found.
+2025-08-12 03:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 03:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 03:00:00 INFO: No expired pending orders found.
+2025-08-12 04:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 04:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 04:00:00 INFO: No expired pending orders found.
+2025-08-12 05:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 05:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 05:00:00 INFO: No expired pending orders found.
+2025-08-12 06:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 06:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 06:00:00 INFO: No expired pending orders found.
+2025-08-12 07:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 07:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 07:00:00 INFO: No expired pending orders found.
+2025-08-12 08:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 08:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 08:00:00 INFO: No expired pending orders found.
+2025-08-12 09:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 09:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 09:00:00 INFO: No expired pending orders found.
+2025-08-12 10:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 10:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 10:00:00 INFO: No expired pending orders found.
+2025-08-12 11:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 11:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 11:00:00 INFO: No expired pending orders found.
+2025-08-12 18:38:04 INFO: Server is running on port 3000
+2025-08-12 18:38:04 INFO: Environment: development
+2025-08-12 18:38:04 INFO: Database User: postgres
+2025-08-12 18:38:04 INFO: Database backup scheduler started.
+2025-08-12 18:38:04 INFO: Expired order cleanup scheduler started.
+2025-08-12 18:38:35 INFO: HTTP GET /api/csrf-token [32m200[39m 6ms
+2025-08-12 18:39:07 INFO: HTTP GET /api/cart [32m200[39m 403ms
+2025-08-12 18:39:28 INFO: HTTP POST /api/cart/add [32m200[39m 81ms
+2025-08-12 18:39:52 INFO: HTTP GET /api/cart [32m200[39m 70ms
+2025-08-12 18:40:11 INFO: HTTP POST /api/cart/add [32m200[39m 112ms
+2025-08-12 18:40:19 INFO: HTTP GET /api/cart [32m200[39m 11ms
+2025-08-12 18:41:45 INFO: HTTP POST /api/cart [33m404[39m 2ms
+2025-08-12 18:41:50 INFO: HTTP PUT /api/cart [33m404[39m 2ms
+2025-08-12 18:41:56 INFO: HTTP GET /api-docs/ [32m200[39m 4ms
+2025-08-12 18:41:57 INFO: HTTP GET /api-docs/swagger-ui.css [32m200[39m 14ms
+2025-08-12 18:41:57 INFO: HTTP GET /api-docs/swagger-ui-standalone-preset.js [32m200[39m 19ms
+2025-08-12 18:41:57 INFO: HTTP GET /api-docs/swagger-ui-init.js [32m200[39m 3ms
+2025-08-12 18:41:57 INFO: HTTP GET /api-docs/swagger-ui-bundle.js [32m200[39m 37ms
+2025-08-12 18:42:18 INFO: HTTP GET /api/cart [32m200[39m 81ms
+2025-08-12 18:42:31 ERROR: UpdateCartItemQuantity Error: this.cartRepository.findOrCreateCart is not a function
+2025-08-12 18:42:31 INFO: HTTP PUT /api/cart/25 [31m500[39m 3ms
+2025-08-12 18:48:16 INFO: Server is running on port 3000
+2025-08-12 18:48:16 INFO: Environment: development
+2025-08-12 18:48:16 INFO: Database User: postgres
+2025-08-12 18:48:16 INFO: Database backup scheduler started.
+2025-08-12 18:48:16 INFO: Expired order cleanup scheduler started.
+2025-08-12 18:48:18 INFO: HTTP PUT /api/cart/25 [32m200[39m 228ms
+2025-08-12 18:56:52 INFO: HTTP GET /api/cart [32m200[39m 83ms
+2025-08-12 18:57:16 ERROR: UpdateCartItemQuantity Error: Not enough stock for this variant. Available: 50
+2025-08-12 18:57:16 INFO: HTTP PUT /api/cart/25 [33m400[39m 72ms
+2025-08-12 18:57:32 INFO: HTTP DELETE /api/cart/25 [32m200[39m 69ms
+2025-08-12 18:57:44 INFO: HTTP GET /api/cart [32m200[39m 78ms
+2025-08-12 18:57:48 INFO: HTTP GET /api/cart [32m200[39m 13ms
+2025-08-12 18:57:53 INFO: HTTP GET /api/cart [32m200[39m 10ms
+2025-08-12 18:57:56 INFO: HTTP GET /api/cart [32m200[39m 11ms
+2025-08-12 18:58:57 INFO: HTTP GET /api/cart [32m200[39m 68ms
+2025-08-12 18:59:00 INFO: HTTP GET /api/cart [32m200[39m 13ms
+2025-08-12 18:59:04 INFO: HTTP GET /api/cart [32m200[39m 10ms
+2025-08-12 19:00:00 INFO: Triggering expired order cleanup.
+2025-08-12 19:00:00 INFO: Running expired orders cleanup job...
+2025-08-12 19:00:00 INFO: No expired pending orders found.
+2025-08-12 19:04:02 INFO: HTTP DELETE /api/cart [32m200[39m 154ms
+2025-08-12 19:04:07 INFO: HTTP GET /api/cart [32m200[39m 14ms

@@ -8,25 +8,25 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'order_id',
         as: 'order',
       });
-      OrderItem.belongsTo(models.Product, {
-        foreignKey: 'product_id',
-        as: 'product',
+      OrderItem.belongsTo(models.ProductVariant, {
+        foreignKey: 'variant_id',
+        as: 'variant',
       });
     }
   }
   OrderItem.init(
-    {
-      order_id: { type: DataTypes.INTEGER, allowNull: false },
-      product_id: { type: DataTypes.INTEGER, allowNull: false },
-      quantity: { type: DataTypes.INTEGER, allowNull: false },
-      price_at_purchase: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-    },
-    {
-      sequelize,
-      modelName: 'OrderItem',
-      tableName: 'OrderItems',
-      timestamps: true,
-    },
+      {
+        order_id: { type: DataTypes.INTEGER, allowNull: false },
+        variant_id: { type: DataTypes.INTEGER, allowNull: false },
+        quantity: { type: DataTypes.INTEGER, allowNull: false },
+        price_at_purchase: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+      },
+      {
+        sequelize,
+        modelName: 'OrderItem',
+        tableName: 'OrderItems',
+        timestamps: true,
+      },
   );
   return OrderItem;
 };

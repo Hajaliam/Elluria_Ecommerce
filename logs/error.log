@@ -251,3 +251,14 @@ notNull Violation: Coupon.discount_value cannot be null
 2025-08-09 20:17:42 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
 2025-08-09 20:20:55 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
 2025-08-09 20:20:55 ERROR: CreateVariant Error: invalid input syntax for type integer: "[object Object]"
+2025-08-11 19:11:25 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:17:45 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:22:02 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:24:12 ERROR: AddItemToCart Error: column "product_id" does not exist
+2025-08-11 19:28:30 ERROR: GetCart Error: Cannot read properties of undefined (reading 'map')
+2025-08-11 19:31:50 ERROR: GetCart Error: Cannot read properties of undefined (reading 'map')
+2025-08-11 19:32:54 ERROR: GetCart Error: Cannot read properties of undefined (reading 'map')
+2025-08-11 19:38:05 ERROR: GetCart Error: Cannot read properties of undefined (reading 'AttributeValue')
+2025-08-11 19:38:09 ERROR: GetCart Error: Cannot read properties of undefined (reading 'AttributeValue')
+2025-08-12 18:42:31 ERROR: UpdateCartItemQuantity Error: this.cartRepository.findOrCreateCart is not a function
+2025-08-12 18:57:16 ERROR: UpdateCartItemQuantity Error: Not enough stock for this variant. Available: 50
