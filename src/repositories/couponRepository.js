@@ -37,6 +37,26 @@ class CouponRepository {
     }
 
     /**
+     * @description Find a coupon by its unique code with all associations.
+     * @param {string} code
+     * @param {object} options - Sequelize options, e.g., { transaction: t }
+     * @returns {Promise<Coupon|null>}
+     */
+    async findByCodeWithRelations(code, options = {}) {
+        return await Coupon.findOne({
+            where: { code },
+            include: [
+                { association: 'products' },
+                { association: 'categories' },
+                { association: 'users' },
+                { association: 'usages' },
+            ],
+            ...options,
+        });
+    }
+
+
+    /**
      * @description Find all coupons.
      * @returns {Promise<Coupon[]>}
      */
