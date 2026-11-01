@@ -1,0 +1,25 @@
+name: elluria-runtime-test
+
+services:
+  elluria-postgres-test:
+    image: postgres:16.6-alpine
+    container_name: elluria-postgres-test
+    environment:
+      POSTGRES_DB: elluria_test
+      POSTGRES_USER: elluria_test_user
+      POSTGRES_PASSWORD: elluria_test_only_password
+    ports:
+      - '127.0.0.1:55432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U elluria_test_user -d elluria_test']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    volumes:
+      - elluria-postgres-test-data:/var/lib/postgresql/data
+    restart: 'no'
+
+volumes:
+  elluria-postgres-test-data:
+    name: elluria-runtime-test-postgres-data

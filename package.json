@@ -4,6 +4,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:db:guard": "node scripts/test-db-guard.js",
+    "test:db:migrate": "node scripts/test-migration-baseline.js up",
+    "test:db:status": "node scripts/test-migration-baseline.js status",
+    "test:db:schema": "node scripts/test-schema-snapshot.js",
+    "test:db:audit-static": "node scripts/static-schema-audit.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write ."
