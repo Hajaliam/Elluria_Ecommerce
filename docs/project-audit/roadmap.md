@@ -4,15 +4,30 @@
 
 ## مرحله 0 — محیط و baseline (اولویت P0)
 
-مالکیت: platform/testing. یک PostgreSQL تست disposable، env نمونه بدون secret و adapterهای fake برای Gemini/SMTP/SMS/payment/backup بسازید. Migrationها را روی DB خالی اجرا و schema را snapshot کنید.
+پیش‌نیاز: تصمیم معماری `ADR-001-product-variant-as-sellable-unit` باید Accepted و مبنای قرارداد تست باشد. مالکیت: platform/testing. یک PostgreSQL تست disposable، env نمونه بدون secret و adapterهای fake برای Gemini/SMTP/SMS/payment/backup بسازید. Migrationها را روی DB خالی اجرا و schema را snapshot کنید.
 
-معیار پذیرش: همهٔ Migrationها روی DB خالی بالا/پایین می‌روند؛ server با fakeها boot می‌شود؛ هیچ اتصال production ممکن نیست. مسیر بازگشت: فقط فایل‌های test/config جدا، بدون تغییر production behavior.
+معیار پذیرش:
 
-## مرحله 1 — تست‌های ثبت رفتار فعلی (P0)
+- تمام Migrationهای up به‌ترتیب روی PostgreSQL تستی خالی اجرا می‌شوند.
+- schema نهایی snapshot و با مدل‌ها تطبیق داده می‌شود.
+- Migrationهای down جداگانه ممیزی می‌شوند.
+- downهای مخرب، ناقص یا غیرقابل اجرا مستند می‌شوند و تا طراحی جایگزین ایمن، شرط baseline نیستند.
+- server فقط با fake adapterها و بدون امکان اتصال production boot می‌شود.
 
-برای route mount/auth/CSRF، register/login/OTP، product/variant، guest/user cart، place order/cancel/expiry، coupon matrix، campaign public/admin، payment callback و shipping تست integration بنویسید. ابتدا تست‌هایی که شکست فعلی را مستند می‌کنند با نام `known-broken` جدا شوند.
+مسیر بازگشت: فقط فایل‌های test/config جدا، بدون تغییر production behavior.
 
-معیار: هر `F-001` تا `F-019` حداقل یک بازتولید خودکار دارد. rollback: حذف صرف testها.
+## مرحله 1 — Test harness و قرارداد Regression (P0)
+
+ابتدا runner، DB lifecycle، fixture/factory، fake adapterها و smoke tests ساخته شوند و suite اصلی سبز باشد. برای رفتارهای فعلی سالم، passing characterization tests نوشته شود. برای `F-001` تا `F-019` یک ماتریس Test Case و رفتار صحیح مورد انتظار تهیه شود. هنگام اصلاح هر یافته، ابتدا regression test رفتار صحیح نوشته و شکست آن مشاهده و ثبت شود؛ سپس در همان گام کوچک production code اصلاح شود تا تست و کل suite سبز شوند. تست قرمز دائمی، `known-broken` baseline یا exclude پنهان از CI مجاز نیست. اگر اصلاح یک یافته هنوز شروع نشده، Test Case آن در ماتریس ثبت می‌شود، اما تست اجرایی قرمز وارد suite اصلی نمی‌شود.
+
+معیار پذیرش:
+
+- Test harness قابل اجرا و سبز است.
+- `F-001` تا `F-019` همگی Test Case تعریف‌شده و قابل ردیابی دارند.
+- هر اصلاح بعدی شواهد red-before/green-after دارد.
+- هیچ تست عمداً failing در suite اصلی باقی نمی‌ماند.
+
+rollback: حذف صرف testها.
 
 ## مرحله 2 — اصلاحات امنیتی مستقل (P0، تغییر رفتار)
 
@@ -27,7 +42,7 @@
 
 ## مرحله 3 — تثبیت مدل Variant و موجودی (P0، تغییر رفتار/داده)
 
-مالکیت داده: Catalog owns Product/Variant/Attribute؛ Inventory owns stock و InventoryLog. تصمیم بگیرید stock سطح Product حذف/derived است یا مستقل. `InventoryLog.variant_id` را متناسب با تصمیم nullable/required کنید. payment، expiry، seed و report را variant-aware کنید. migration مخرب قدیمی را برای deployment جدید annotate/جایگزین کنید.
+پیش‌نیاز: `ADR-001-product-variant-as-sellable-unit` باید Accepted باشد و قراردادهای ADR-001، ماتریس تست و regression testهای مرتبط با هر تغییر، مبنای اجرا باشند. مالکیت داده: Catalog owns Product/Variant/Attribute؛ Inventory owns stock و InventoryLog. مطابق ADR-001، Product مادر کاتالوگ، ProductVariant تنها واحد قابل فروش و `ProductVariant.stock_quantity` تنها منبع حقیقت موجودی فروش است؛ `Product.stock_quantity` تا حذف پس از expand/backfill/verify فقط legacy read-only است. payment، expiry، seed و report را variant-aware کنید و migration مخرب قدیمی را برای deployment جدید annotate/جایگزین کنید.
 
 معیار: یک order با دو variant رزرو، پرداخت/انقضا/لغو و audit متوازن دارد؛ هیچ مسیر `CartItem.product_id` یا `OrderItem.product_id` باقی نمی‌ماند. rollback: migration دو مرحله‌ای expand/contract.
 
