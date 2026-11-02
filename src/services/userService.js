@@ -11,20 +11,24 @@ const addressRepository = require('../repositories/addressRepository');
 const { sanitizeString } = require('../utils/sanitizer');
 const { logger, sendLoginLogger } = require('../config/logger');
 
-const smsService = require('../utils/smsService');
-const EmailService = require('../utils/emailService')
-
-
 class UserService {
     constructor() {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.addressRepository = addressRepository;
-        // پیکربندی سرویس‌های خارجی
-        this.smsService = smsService;
-        this.EmailService = EmailService;
+        // External transports are supplied only by the composition root.
+        this.smsService = null;
+        this.EmailService = null;
         this.logger = logger ;
         this.sendLoginLogger = sendLoginLogger;
+    }
+
+    configureExternalAdapters({ email, sms }) {
+        if (!email || !sms) {
+            throw new Error('Email and SMS adapters are required.');
+        }
+        this.EmailService = email;
+        this.smsService = sms;
     }
 
     // --- User Self-Service Methods ---

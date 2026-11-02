@@ -50,6 +50,7 @@
 - [یافته‌ها و ریسک‌ها](./findings.md)
 - [نقشهٔ راه](./roadmap.md)
 - [بازیابی قصد تاریخی و نقشهٔ تکمیل مهاجرت ProductVariant](./history-recovery.md)
+- [Baseline مرحلهٔ 0B: Test Harness و Smoke Boot ایزوله](./test-harness-baseline.md)
 
 ## پوشش
 

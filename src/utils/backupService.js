@@ -15,6 +15,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_NAME = process.env.DB_NAME_DEV; // استفاده از دیتابیس توسعه برای بکاپ
 const BACKUP_PATH = path.join(__dirname, '..', '..', process.env.DB_BACKUP_PATH || 'backups/');
 const RETENTION_DAYS = parseInt(process.env.DB_BACKUP_RETENTION_DAYS || '7', 10);
+let backupExecutionAdapter = null;
 
 // تابع برای اجرای بکاپ
 const runBackup = async () => {
@@ -70,13 +71,25 @@ const cleanOldBackups = async () => {
     }
 };
 
+const runBackupAndCleanup = async () => {
+    await runBackup();
+    await cleanOldBackups();
+};
+
+exports.runBackupAndCleanup = runBackupAndCleanup;
+exports.configureBackupExecution = (adapter) => {
+    if (!adapter || typeof adapter.execute !== 'function') {
+        throw new Error('Backup execution adapter must provide execute().');
+    }
+    backupExecutionAdapter = adapter;
+};
+
 // راه‌اندازی زمان‌بندی برای بکاپ‌گیری (هر 24 ساعت / 0 0 * * *)
 exports.startBackupScheduler = () => {
     // زمان‌بندی برای ساعت 00:00 هر روز
     cron.schedule('0 0 * * *', async () => {
         logger.info('Running daily database backup...');
-        await runBackup();
-        await cleanOldBackups();
+        await runBackupAndCleanup();
     });
 
     // 👈 برای تست، می‌توانید آن را هر 1 دقیقه تنظیم کنید (بعداً به '0 0 * * *' تغییر دهید)
@@ -93,8 +106,10 @@ exports.startBackupScheduler = () => {
 exports.manualBackup = async (req, res) => {
     try {
         logger.info('Manual database backup initiated via API.');
-        await runBackup();
-        await cleanOldBackups();
+        if (!backupExecutionAdapter) {
+            throw new Error('Backup execution adapter has not been configured.');
+        }
+        await backupExecutionAdapter.execute();
         res.status(200).json({ message: 'Manual backup initiated. Check logs for status.' });
     } catch (error) {
         logger.error(`Manual backup API failed: ${error.message}`, { stack: error.stack });
