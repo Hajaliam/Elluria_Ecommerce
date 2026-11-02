@@ -19,6 +19,14 @@ class CartItemRepository {
         return await CartItem.findByPk(id, options);
     }
 
+    async findAllByCartId(cartId, options = {}) {
+        return await CartItem.findAll({
+            where: { cart_id: cartId },
+            order: [['id', 'ASC']],
+            ...options
+        });
+    }
+
     async delete(instance, options = {}) {
         return await instance.destroy(options);
     }

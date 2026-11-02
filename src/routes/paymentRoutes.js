@@ -127,8 +127,8 @@ router.post('/initiate', authMiddleware.authenticateForPayments,rateLimiter.paym
  *         name: orderId
  *         schema:
  *           type: integer
- *         required: true
- *         description: Your internal Order ID
+ *         required: false
+ *         description: Optional consistency check; the registered Payment Authority determines the Order
  *         example: 1
  *     responses:
  *       200:
@@ -145,9 +145,11 @@ router.post('/initiate', authMiddleware.authenticateForPayments,rateLimiter.paym
  *                 paymentId:
  *                   type: integer
  *       400:
- *         description: Payment failed or cancelled, or invalid status
- *       404:
- *         description: Order not found
+ *         description: Invalid callback, binding/amount mismatch, or failed provider verification
+ *       502:
+ *         description: Payment provider verification failed unexpectedly
+ *       503:
+ *         description: Payment provider adapter is unavailable
  *       500:
  *         description: Server error
  */

@@ -1,6 +1,7 @@
 // src/repositories/productVariantRepository.js
 
-const { ProductVariant, AttributeValue, Attribute } = require('../../models');
+const { Op } = require('sequelize');
+const { ProductVariant, Product, AttributeValue, Attribute } = require('../../models');
 
 class ProductVariantRepository {
     async create(data, options = {}) {
@@ -42,6 +43,29 @@ class ProductVariantRepository {
                     through: { attributes: [] }
                 }
             ]
+        });
+    }
+
+    async findAllByIdsForUpdate(ids, options = {}) {
+        const { transaction } = options;
+        if (!transaction) {
+            throw new Error('A caller transaction is required to lock product variants.');
+        }
+
+        return await ProductVariant.findAll({
+            where: { id: { [Op.in]: ids } },
+            include: [{
+                model: Product,
+                as: 'product',
+                attributes: ['id', 'price'],
+                required: true
+            }],
+            transaction,
+            lock: {
+                level: transaction.LOCK.UPDATE,
+                of: ProductVariant
+            },
+            order: [['id', 'ASC']]
         });
     }
 

@@ -1,9 +1,20 @@
 // src/controllers/paymentController.js
 
 const db = require('../../models');
-const { Order, Payment, OrderItem, Product, Cart, CartItem, InventoryLog } = db;
+const { Order } = db;
 const { logger } = require('../config/logger'); // برای لاگ‌گیری
-const { sanitizeString } = require('../utils/sanitizer');
+const paymentService = require('../services/paymentService');
+
+function redactCallbackRequestFromLogging(req) {
+    const callbackPath = `${req.baseUrl || ''}${req.path}`;
+    req.originalUrl = callbackPath;
+    req.url = req.path;
+    Object.defineProperty(req, 'query', {
+        value: Object.freeze({}),
+        configurable: true,
+        enumerable: true,
+    });
+}
 
 // تابع برای آغاز فرآیند پرداخت
 // این تابع در واقع یک شبیه‌سازی برای هدایت به درگاه پرداخت است
@@ -54,165 +65,43 @@ exports.initiatePayment = async (req, res) => {
 // این روت توسط درگاه پرداخت (مثلاً زرین‌پال) فراخوانی می‌شود
 exports.verifyPayment = async (req, res) => {
     const { Authority, Status, orderId } = req.query;
+    redactCallbackRequestFromLogging(req);
     if (Status !== 'OK') {
-        logger.warn(`Payment verification failed for Order ID: ${orderId}. Status: ${Status}`);
+        logger.warn('Payment callback rejected.', {
+            error: { code: 'CALLBACK_STATUS_REJECTED' },
+            statusCode: 400,
+        });
         return res.status(400).json({ message: 'Payment failed or cancelled by user.' });
     }
 
-    const t = await db.sequelize.transaction();
-
     try {
-        const order = await Order.findByPk(orderId, { transaction: t });
-
-        if (!order) {
-            await t.rollback();
-            return res.status(404).json({ message: 'Order not found.' });
-        }
-
-        if (order.payment_status === 'paid') {
-            await t.rollback();
-            return res.status(200).json({ message: 'Order already paid.', orderId: order.id });
-        }
-
-        // 1. به‌روزرسانی وضعیت سفارش
-        order.payment_status = 'paid';
-        order.status = 'processing';
-        await order.save({ transaction: t });
-        //ثبت لاگ سوابق خرید
-
-        await db.OrderHistory.create(
-            {
-                order_id: order.id,
-                status: 'paid', // 👈 این هم باید پاکسازی شود (اگر از ورودی کاربر می‌آید)
-                changed_by: order.user_id,
-                changed_at: new Date(),
-            },
-            { transaction: t },
-        );
-
-        // 2. ثبت پرداخت
-        const payment = await Payment.create({
-            order_id: order.id,
-            transaction_id: Authority,
-            amount: order.total_amount,
-            method: 'Zarinpal',
-            status: 'success',
-            payment_date: new Date(),
-            refunded: false,
-            refund_reason: null
-        }, { transaction: t });
-
-        // 3. دریافت آیتم‌های سبد خرید هنگام سفارش
-        const cart = await Cart.findOne({
-            where: { user_id: order.user_id },
-            include: {
-                model: CartItem,
-                as: 'cartItems',
-                include: ['product']
-            },
-            transaction: t
+        const result = await paymentService.verifyAndFinalize({
+            database: req.app.locals.database,
+            paymentAdapter: req.app.locals.adapters && req.app.locals.adapters.payment,
+            authority: Authority,
+            callbackOrderId: orderId,
         });
-
-        if (!cart || cart.cartItems.length === 0) {
-            await t.rollback();
-            return res.status(400).json({ message: 'No cart items found for this user.' });
-        }
-
-        // 4. ثبت OrderItems و افزایش sold_count
-        for (const item of cart.cartItems) {
-            const product = await Product.findByPk(item.product_id, { transaction: t });
-
-            if (!product) {
-                await t.rollback();
-                return res.status(404).json({ message: `Product with ID ${item.product_id} not found.` });
-            }
-
-            // افزایش sold_count
-            await product.increment('sold_count', { by: item.quantity, transaction: t });
-
-            // ثبت لاگ فروش در موجودی
-            await InventoryLog.create({
-                product_id: product.id,
-                change_type: 'sold',
-                quantity_change: -item.quantity,
-                old_stock_quantity: product.stock_quantity + item.quantity, // چون توی placeOrder کم شده
-                new_stock_quantity: product.stock_quantity,
-                changed_by_user_id: order.user_id,
-                description: `Sold ${item.quantity} units for order ${order.id}`
-            }, { transaction: t });
-
-
-            const itemSellPrice = parseFloat(item.product.price);
-            const itemBuyPrice = parseFloat(item.product.buy_price || 0); // 👈 قیمت خرید محصول
-            const itemProfit = (itemSellPrice - itemBuyPrice) * item.quantity;
-            const existingProfitLog = await db.ProfitLog.findOne({
-                where: {
-                    order_id : order.id ,
-                    order_item_id: item.id,
-                    product_id: item.product.id,
-                },
-                transaction: t
-            });
-            if(!existingProfitLog) {
-                await db.ProfitLog.create({
-                    order_id: order.id,
-                    order_item_id: item.id, // ID آیتم سفارش (اگر نیاز به لینک مستقیم بود)
-                    product_id: item.product.id,
-                    item_quantity: item.quantity,
-                    sell_price_at_purchase: itemSellPrice,
-                    buy_price_at_purchase: itemBuyPrice,
-                    profit_per_item: itemSellPrice - itemBuyPrice,
-                    total_profit_amount: itemProfit,
-                    transaction_date: new Date(),
-                    createdAt: new Date(),
-                    updatedAt: new Date()
-                }, { transaction: t });
-            }
-
-        }
-
-        ///خالی کردن سبد خرید
-
-        await CartItem.destroy({
-            where: {cart_id : cart.id},
-            transaction: t
-        })
-
-        //5. به روزرسانی تعداد استفاده از کوپن در صورت وجود
-        if (order.coupon_id) {
-            const coupon = await db.Coupon.findByPk(order.coupon_id , { transaction: t });
-            if (coupon && coupon.max_usage_per_user !== null) {
-                const [userUsage, created] = await db.UserCouponUsage.findOrCreate({
-                    where: { user_id: order.user_id, coupon_id: coupon.id },
-                    defaults: { usage_count: 1 },
-                    transaction: t
-                });
-
-                if (!created) {
-                    await userUsage.increment('usage_count', { by: 1, transaction: t });
-                }
-            }
-            // کاهش محدودیت کلی کوپن (نه کاربر)
-            if (coupon.usage_limit !== null) {
-                coupon.usage_limit -= 1;
-                await coupon.save({ transaction: t });
-            }
-        }
-
-        // TODO: ایمیل یا پیامک تایید برای کاربر
-
-        await t.commit();
-
-        logger.info(` Payment verified and order finalized. Order ID: ${order.id}, Tx ID: ${Authority}`);
+        const { order, payment, alreadyFinalized } = result;
+        logger.info('Payment callback completed.', {
+            paymentId: payment.id,
+            orderId: order.id,
+            alreadyFinalized,
+        });
         res.status(200).json({
-            message: 'Payment verified and order finalized.',
+            message: alreadyFinalized ? 'Order already paid.' : 'Payment verified and order finalized.',
             orderId: order.id,
             paymentId: payment.id
         });
 
     } catch (error) {
-        await t.rollback();
-        logger.error(`Error verifying payment for order ${orderId}: ${error.message}`, { stack: error.stack });
-        res.status(500).json({ message: 'Server error verifying payment', error: error.message });
+        if (error instanceof paymentService.PaymentCallbackError) {
+            logger.warn('Payment callback rejected.', {
+                error: { code: error.code },
+                statusCode: error.statusCode,
+            });
+            return res.status(error.statusCode).json({ message: error.message });
+        }
+        logger.error('Unexpected payment callback error.', { stack: error.stack });
+        res.status(500).json({ message: 'Server error verifying payment.' });
     }
 };

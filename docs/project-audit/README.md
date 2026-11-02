@@ -51,6 +51,7 @@
 - [نقشهٔ راه](./roadmap.md)
 - [بازیابی قصد تاریخی و نقشهٔ تکمیل مهاجرت ProductVariant](./history-recovery.md)
 - [Baseline مرحلهٔ 0B: Test Harness و Smoke Boot ایزوله](./test-harness-baseline.md)
+- [Phase 1A: Payment/ProductVariant Red Regression Baseline](./payment-variant-red-baseline.md)
 
 ## پوشش
 

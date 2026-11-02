@@ -16,26 +16,31 @@ class CartService {
     /**
      * @description Gets or creates a cart, handling guest-to-user merging.
      */
-    async _getOrCreateCart(userId, sessionId) {
+    async _getOrCreateCart(userId, sessionId, options = {}) {
         let userCart = null;
         let guestCart = null;
 
         if (userId) {
-            userCart = await this.cartRepository.findByUserId(userId);
+            userCart = await this.cartRepository.findByUserId(userId, options);
         }
         if (sessionId) {
-            guestCart = await this.cartRepository.findBySessionId(sessionId);
+            guestCart = await this.cartRepository.findBySessionId(sessionId, options);
         }
 
         // سناریو ۱: کاربر لاگین کرده و سبد خرید دارد
         if (userCart) {
             // اگر سبد مهمان هم وجود داشت، آیتم‌ها را ادغام کن
             if (guestCart) {
-                const guestItems = await guestCart.getCartItems();
+                const guestItems = await guestCart.getCartItems(options);
                 for (const item of guestItems) {
-                    await this.addItemToCart(userId, null, { variantId: item.variant_id, quantity: item.quantity });
+                    await this.addItemToCart(
+                        userId,
+                        null,
+                        { variantId: item.variant_id, quantity: item.quantity },
+                        options
+                    );
                 }
-                await this.cartRepository.deleteCart(guestCart.id);
+                await this.cartRepository.deleteCart(guestCart.id, options);
             }
             return userCart;
         }
@@ -44,7 +49,7 @@ class CartService {
         if (userId && guestCart) {
             guestCart.user_id = userId;
             guestCart.session_id = null; // این سبد دیگر برای کاربر است
-            await guestCart.save();
+            await guestCart.save(options);
             return guestCart;
         }
 
@@ -60,13 +65,13 @@ class CartService {
             user_id: userId,
             session_id: userId ? null : sessionId,
             expires_at: expiresAt
-        });
+        }, options);
     }
 
-    async addItemToCart(userId, sessionId, itemData) {
+    async addItemToCart(userId, sessionId, itemData, options = {}) {
         const { variantId, quantity } = itemData;
 
-        const variant = await this.productVariantRepository.findById(variantId);
+        const variant = await this.productVariantRepository.findById(variantId, options);
         if (!variant) {
             const error = new Error('Product variant not found.');
             error.statusCode = 404;
@@ -78,27 +83,27 @@ class CartService {
             throw error;
         }
 
-        const cart = await this._getOrCreateCart(userId, sessionId);
+        const cart = await this._getOrCreateCart(userId, sessionId, options);
 
-        let cartItem = await this.cartItemRepository.findItemInCart(cart.id, variantId);
+        let cartItem = await this.cartItemRepository.findItemInCart(cart.id, variantId, options);
         if (cartItem) {
             cartItem.quantity += quantity;
-            await this.cartItemRepository.save(cartItem);
+            await this.cartItemRepository.save(cartItem, options);
         } else {
             cartItem = await this.cartItemRepository.create({
                 cart_id: cart.id,
                 variant_id: variantId,
                 quantity: quantity,
-            });
+            }, options);
         }
         return cartItem;
     }
 
-    async getCart(userId, sessionId) {
-        const cart = await this._getOrCreateCart(userId, sessionId);
+    async getCart(userId, sessionId, options = {}) {
+        const cart = await this._getOrCreateCart(userId, sessionId, options);
         if (!cart) return { cartId: null, totalAmount: "0.00", totalItems: 0, items: [] };
 
-        const cartDetails = await this.cartRepository.getCartDetails(cart.id);
+        const cartDetails = await this.cartRepository.getCartDetails(cart.id, options);
         if (!cartDetails) return { cartId: cart.id, totalAmount: "0.00", totalItems: 0, items: [] };
 
         let totalAmount = 0;
@@ -110,7 +115,7 @@ class CartService {
                 return null;
             }
 
-            const price = item.variant.price || item.variant.product.price;
+            const price = item.variant.price ?? item.variant.product.price;
             totalAmount += item.quantity * parseFloat(price);
 
             // 💎 تغییر: مقدار پیش‌فرض برای values
@@ -136,6 +141,31 @@ class CartService {
             totalItems: items.length,
             items: items
         };
+    }
+
+    async getCartForOrderFinalization(userId, sessionId, { transaction } = {}) {
+        if (!transaction) {
+            throw new Error('A caller transaction is required to finalize a cart.');
+        }
+
+        const cart = userId
+            ? await this.cartRepository.findByUserId(userId, {
+                transaction,
+                lock: transaction.LOCK.UPDATE
+            })
+            : await this.cartRepository.findBySessionId(sessionId, {
+                transaction,
+                lock: transaction.LOCK.UPDATE
+            });
+
+        if (!cart) return null;
+
+        const items = await this.cartItemRepository.findAllByCartId(cart.id, {
+            transaction,
+            lock: transaction.LOCK.UPDATE
+        });
+
+        return { cart, items };
     }
 
     async updateItemQuantity(userId, sessionId, cartItemId, quantity) {
@@ -190,12 +220,12 @@ class CartService {
         await cart.save();
     }
 
-    async clearCart(userId, sessionId) {
-        const cart = await this._getOrCreateCart(userId, sessionId);
-        await this.cartItemRepository.deleteAllFromCart(cart.id);
+    async clearCart(userId, sessionId, options = {}) {
+        const cart = await this._getOrCreateCart(userId, sessionId, options);
+        await this.cartItemRepository.deleteAllFromCart(cart.id, options);
 
         cart.expires_at = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-        await cart.save();
+        await cart.save(options);
     }
 
 }

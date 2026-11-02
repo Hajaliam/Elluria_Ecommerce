@@ -6,6 +6,7 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "node --test --test-concurrency=1 test/unit/*.test.js",
     "test:integration": "node scripts/run-integration-tests.js",
+    "test:integration:payment-variant-red": "node scripts/run-payment-variant-red-tests.js",
     "test:integration:node": "node --test --test-concurrency=1 test/integration/*.test.js",
     "test:db:guard": "node scripts/test-db-guard.js",
     "test:db:migrate": "node scripts/test-migration-baseline.js up",

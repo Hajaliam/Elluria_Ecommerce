@@ -28,7 +28,7 @@ class CartRepository {
                         {
                             model: Product,
                             as: 'product',
-                            attributes: ['id', 'name', 'slug']
+                            attributes: ['id', 'name', 'slug', 'price']
                         },
                         {
 
